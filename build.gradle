@@ -293,7 +293,7 @@ subprojects { Project subproj ->
         }
 
         licensing {
-            enabled = isCoreProject || isGradlePlugin
+            enabled = false // isCoreProject || isGradlePlugin
         }
 
         stats {
@@ -327,6 +327,7 @@ subprojects { Project subproj ->
 
         dependencies {
             compileOnly config.dependencyManagement.gav('jipsy')
+            api "javax.annotation:javax.annotation-api:1.3.2"
             annotationProcessor config.dependencyManagement.gav('jipsy')
 
             testImplementation config.dependencyManagement.gav('junit5', 'junit-jupiter-api')
