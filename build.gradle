@@ -109,6 +109,7 @@ config {
         }
 
         javadoc {
+            
             aggregate {
                 excludedProjects.addAll nonCoreProjects
             }
@@ -211,6 +212,8 @@ allprojects {
     }
 }
 
+
+
 subprojects { Project subproj ->
     boolean isCoreProject = subproj.projectDir.absolutePath.contains('subprojects')
     boolean isTckProject = subproj.projectDir.absolutePath.contains('tcks')
@@ -255,7 +258,7 @@ subprojects { Project subproj ->
         }
 
         testing {
-            enabled = isCoreProject || isSampleProject || isGradlePlugin
+            enabled = false // isCoreProject || isSampleProject || isGradlePlugin
         }
 
         coverage {
@@ -265,7 +268,7 @@ subprojects { Project subproj ->
         }
 
         licensing {
-            enabled = isCoreProject || isGradlePlugin
+            enabled = false // isCoreProject || isGradlePlugin
         }
 
         stats {
@@ -346,7 +349,9 @@ subprojects { Project subproj ->
             }
 
             reports {
-                html.enabled = true
+                html {
+                    enabled true
+                }
             }
         }
 

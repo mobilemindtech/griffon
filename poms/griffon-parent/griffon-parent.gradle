@@ -55,11 +55,14 @@ publishing {
     publications {
         main(MavenPublication) {
             artifacts = []
+
             pom.withXml {
                 def root = asNode()
                 root.children().clear()
-                def parsedPom = new XmlParser().parse(file("${project.buildDir}/pom/${project.pomFile}"))
-                parsedPom.children().each { childNode -> root.append(childNode) }
+                def parsedPom = new groovy.xml.XmlParser().parse(file("${project.buildDir}/pom/${project.pomFile}"))
+                parsedPom.children().each { childNode ->
+                    root.append(childNode)
+                }
             }
         }
     }

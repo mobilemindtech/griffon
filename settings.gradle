@@ -43,7 +43,7 @@ projects {
 
     includeProjects('subprojects')
     includeProjects('tcks')
-    // includeProjects('plugins')
+    includeProjects('plugins')
     includeProjects('samples').includeIf(fullBuild)
     includeProjects('poms').includeIf(fullBuild)
     // includeProjects('docs').includeIf(fullBuild)
@@ -69,12 +69,12 @@ projects {
             excludeDir('archetypes')
             id 'java-library'
         }
-        /*dir('plugins') {
+        dir('plugins') {
             id 'java-library'
             id 'groovy'
             id 'org.kordamp.gradle.groovy-project'
             id 'org.kordamp.gradle.plugin'
-        }*/
+        }
         dir('samples') {
             id 'java-library'
             id 'application'
