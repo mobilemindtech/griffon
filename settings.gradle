@@ -44,7 +44,7 @@ projects {
     includeProjects('subprojects')
     includeProjects('tcks')
     includeProjects('plugins')
-    //includeProjects('samples').includeIf(fullBuild)
+    includeProjects('samples').includeIf(fullBuild)
     includeProjects('poms').includeIf(fullBuild)
     // includeProjects('docs').includeIf(fullBuild)
     includeProjects('archetypes').includeIf(fullBuild)
