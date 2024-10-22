@@ -20,12 +20,18 @@ dependencies {
     api project(":griffon-converter-impl")
     api 'mrj:MRJToolkitStubs:1.0'
     api "com.google.code.findbugs:jsr305:$jsr305Version"
-    api config.dependencyManagement.gav('jipsy', 'jipsy-util')
+    api(config.dependencyManagement.gav('jipsy', 'jipsy-util')) {
+        exclude group: 'org.slf4j', module: 'slf4j-api'
+    }
     api "jakarta.annotation:jakarta.annotation-api:$annotationsVersion"
 
     testImplementation project(':griffon-tck')
     testRuntimeOnly config.dependencyManagement.gav('slf4j', 'slf4j-simple')
 
-    testAnnotationProcessor config.dependencyManagement.gav('jipsy')
-    testCompileOnly config.dependencyManagement.gav('jipsy')
+    testAnnotationProcessor(config.dependencyManagement.gav('jipsy')) {
+        exclude group: 'org.slf4j', module: 'slf4j-api'
+    }
+    testCompileOnly(config.dependencyManagement.gav('jipsy')) {
+        exclude group: 'org.slf4j', module: 'slf4j-api'
+    }
 }

@@ -8,7 +8,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'org.codehaus.griffon:gradle-griffon-plugin:${griffonVersion}'
+        classpath 'org.codehaus.griffon:griffon-gradle-plugin:${griffonVersion}'
         classpath 'gradle.plugin.com.hierynomus.gradle.plugins:license-gradle-plugin:0.15.0'
         classpath 'com.github.ben-manes:gradle-versions-plugin:0.39.0'
         classpath 'gradle.plugin.net.nemerosa:versioning:2.15.1'
@@ -16,7 +16,7 @@ buildscript {
 }
 
 apply plugin: 'groovy'
-apply plugin: 'org.codehaus.griffon.griffon'
+apply plugin: 'org.codehaus.griffon.project'
 apply plugin: 'net.nemerosa.versioning'
 
 Date buildTimeAndDate = new Date()
@@ -69,3 +69,24 @@ if (hasProperty('debugRun') && ((project.debugRun as boolean))) {
         jvmArgs '-Xdebug', '-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005'
     }
 }
+
+config {
+    info {
+        vendor = 'Griffon'
+        organization.url = "com.codehaus.griffon"
+        scm {
+            url = "https://github.com/griffon/griffon"
+        }
+
+    }
+    licensing {
+        licenses {
+            license {
+                id = 'Apache-2.0'
+            }
+        }
+    }
+}
+
+processResources {
+   duplicatesStrategy(DuplicatesStrategy.EXCLUDE)

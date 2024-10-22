@@ -44,7 +44,7 @@ projects {
     includeProjects('subprojects')
     includeProjects('tcks')
     includeProjects('plugins')
-    includeProjects('samples').includeIf(fullBuild)
+    //includeProjects('samples').includeIf(fullBuild)
     includeProjects('poms').includeIf(fullBuild)
     // includeProjects('docs').includeIf(fullBuild)
     includeProjects('archetypes').includeIf(fullBuild)
@@ -140,7 +140,7 @@ enforce {
             "org.apache.maven:maven-settings:$mavenVersion",
             "org.apiguardian:apiguardian-api:$apiguardianVersion",
             "org.asciidoctor:asciidoctorj:$asciidoctorjVersion",
-            "org.codehau.groovy:groovy-all:$groovyVersion",
+            "org.apache.groovy:groovy-all:$groovyVersion",
             "org.codehaus.groovy.modules.http-builder:http-builder:0.7.2",
             "org.apache.groovy:groovy-json:$groovyVersion",
             "org.apache.groovy:groovy-macro:$groovyVersion",

@@ -301,8 +301,12 @@ subprojects { Project subproj ->
         }
 
         dependencies {
-            compileOnly config.dependencyManagement.gav('jipsy')
-            annotationProcessor config.dependencyManagement.gav('jipsy')
+            compileOnly(config.dependencyManagement.gav('jipsy')) {
+                exclude group: 'org.slf4j', module: 'slf4j-api'
+            }
+            annotationProcessor(config.dependencyManagement.gav('jipsy')) {
+                exclude group:'org.slf4j', module: 'slf4j-api'
+            }
 
             testImplementation config.dependencyManagement.gav('junit5', 'junit-jupiter-api')
             testImplementation config.dependencyManagement.gav('junit5', 'junit-jupiter-params')
@@ -441,15 +445,18 @@ project.gradle.addBuildListener(new BuildAdapter() {
                     into task.destinationDir
                     from rootProject.file('src/javadoc/resources/img/griffon.ico'),
                         rootProject.file('src/javadoc/resources/css/stylesheet.css')
+                    duplicatesStrategy DuplicatesStrategy.EXCLUDE
                 }
                 copy {
                     into file("${task.destinationDir}/resources")
                     from rootProject.file('src/javadoc/resources/img/')
+                    duplicatesStrategy DuplicatesStrategy.EXCLUDE
                 }
                 copy {
                     into file("${task.destinationDir}/images/")
                     from rootProject.file('src/media/banners/medium.png')
                     rename '.*', 'griffon-banner-medium.png'
+                    duplicatesStrategy DuplicatesStrategy.EXCLUDE
                 }
             }
         }
