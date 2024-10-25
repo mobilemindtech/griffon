@@ -45,7 +45,7 @@ dependencies {
     compileOnly 'com.github.jengelman.gradle.plugins:shadow:6.1.0'
 
     testImplementation("org.spockframework:spock-core:$spockVersion") {
-        exclude group: 'org.codehaus.groovy', module: 'groovy-all'
+        exclude group: 'org.apache.groovy', module: 'groovy'
     }
 }
 

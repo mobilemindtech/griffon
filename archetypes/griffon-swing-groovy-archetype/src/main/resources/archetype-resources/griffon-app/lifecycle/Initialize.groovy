@@ -4,7 +4,7 @@ import org.codehaus.griffon.runtime.core.AbstractLifecycleHandler
 import griffon.annotations.core.Nonnull
 import javax.inject.Inject
 
-import static griffon.util.GriffonApplicationUtils.isMacOSX
+import static griffon.core.util.GriffonApplicationUtils.isMacOSX
 import static groovy.swing.SwingBuilder.lookAndFeel
 
 class Initialize extends AbstractLifecycleHandler {

@@ -6,7 +6,7 @@ import javax.inject.Inject;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-import static griffon.util.GriffonApplicationUtils.isMacOSX;
+import static griffon.core.util.GriffonApplicationUtils.isMacOSX;
 
 public class Initialize extends AbstractLifecycleHandler {
     @Inject

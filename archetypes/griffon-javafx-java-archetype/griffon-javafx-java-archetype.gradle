@@ -16,3 +16,4 @@
  * limitations under the License.
  */
 apply from: rootProject.file('archetypes/shared-files/archetypes-common.gradle')
+

@@ -266,7 +266,7 @@ public interface Configuration {
      * Convenience method to use in Groovy aware environments.
      *
      * @param key the key to search
-     * @return the value associated with the key or <tt>null<</tt> if not found.
+     * @return the value associated with the key or <tt>null</tt> if not found.
      */
     @Nullable
     <T> T getAt(@Nonnull String key);

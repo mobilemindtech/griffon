@@ -73,7 +73,7 @@ if (hasProperty('debugRun') && ((project.debugRun as boolean))) {
 config {
     info {
         vendor = 'Griffon'
-        organization.url = "com.codehaus.griffon"
+        organization.url = "com.codehause.griffon"
         scm {
             url = "https://github.com/griffon/griffon"
         }
@@ -87,6 +87,3 @@ config {
         }
     }
 }
-
-processResources {
-   duplicatesStrategy(DuplicatesStrategy.EXCLUDE)

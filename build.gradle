@@ -258,7 +258,7 @@ subprojects { Project subproj ->
         }
 
         testing {
-            enabled = false // isCoreProject || isSampleProject || isGradlePlugin
+            enabled = isCoreProject || isSampleProject || isGradlePlugin
         }
 
         coverage {
@@ -268,7 +268,7 @@ subprojects { Project subproj ->
         }
 
         licensing {
-            enabled = false // isCoreProject || isGradlePlugin
+            enabled = false //isCoreProject || isGradlePlugin
         }
 
         stats {
@@ -328,7 +328,9 @@ subprojects { Project subproj ->
             }
             if (!subproj.name.endsWith('-gradle-plugin')) {
                 testImplementation "org.apache.groovy:groovy-all:$groovyVersion"
-                testImplementation "org.spockframework:spock-core:$spockVersion"
+                testImplementation("org.spockframework:spock-core:$spockVersion"){
+                    exclude group: 'org.apache.groovy', module: 'groovy'
+                }
                 testImplementation "org.mockito:mockito-core:$mockitoVersion"
             }
             testImplementation config.dependencyManagement.gav('slf4j', 'slf4j-simple')

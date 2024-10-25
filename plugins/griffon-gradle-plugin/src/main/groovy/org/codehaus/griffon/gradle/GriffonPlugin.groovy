@@ -83,7 +83,20 @@ class GriffonPlugin implements Plugin<Project> {
                 name          = project.findProperty('projectDescription') ?: project.name
                 description   = project.findProperty('projectDescription') ?: project.name
                 inceptionYear = new SimpleDateFormat('YYYY').format(new Date())
-
+                vendor = 'Griffon'
+                organization {
+                    url = "com.codehause.griffon"
+                }
+                scm {
+                    url = "https://github.com/griffon/griffon"
+                }
+                licensing {
+                    licenses {
+                        license {
+                            id = 'Apache-2.0'
+                        }
+                    }
+                }
                 repositories {
                     repository {
                         name = 'localRelease'
@@ -193,6 +206,7 @@ class GriffonPlugin implements Plugin<Project> {
                     'build_revision'     : config.buildInfo.buildRevision
                 ] + extension.applicationProperties.getOrElse([:]))
             }
+            duplicatesStrategy = org.gradle.api.file.DuplicatesStrategy.INCLUDE
         }
     }
 
@@ -361,7 +375,10 @@ class GriffonPlugin implements Plugin<Project> {
                                 jvmArgs << "-Dgriffon.env=${project.griffonEnv}"
                                 runTask.jvmArgs = jvmArgs
                             } else {
-                                runTask.jvmArgs << '-Dgriffon.env=dev'
+                                def jvmArgs = []
+                                jvmArgs.addAll(runTask.jvmArgs)
+                                jvmArgs << '-Dgriffon.env=dev'
+                                runTask.jvmArgs = jvmArgs
                             }
                         }
                     }

@@ -29,14 +29,17 @@ config {
     }
 }
 
-task copyArchetypeResources(type: Copy) {
+task copyArchetypeResources(type: Copy, dependsOn: 'jar') {
+    //dependsOn(Jar)
     destinationDir = project.file("${buildDir}/resources/main")
     from(rootProject.file('archetypes/shared-files/sources/archetype')) {
         into 'META-INF'
     }
+    duplicatesStrategy = DuplicatesStrategy.INHERIT
 }
 
-task copyProjectResources(type: Copy) {
+task copyProjectResources(type: Copy, dependsOn: 'jar') {
+    //dependsOn(Jar)
     destinationDir = project.file("${buildDir}/resources/main/archetype-resources")
     //from(rootProject.file('archetypes/shared-files/sources/project/.mvn')) {
     //    into '.mvn'
@@ -49,7 +52,9 @@ task copyProjectResources(type: Copy) {
     from(rootProject.file('src/javadoc')) {
         into 'src/javadoc'
     }
+
 }
 
 processResources.finalizedBy copyArchetypeResources
 processResources.finalizedBy copyProjectResources
+
