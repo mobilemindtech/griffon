@@ -31,7 +31,7 @@ import org.junit.Test;
 import rx.Observable;
 
 import griffon.annotations.core.Nonnull;
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 import java.util.List;
 
 import static java.util.Arrays.asList;

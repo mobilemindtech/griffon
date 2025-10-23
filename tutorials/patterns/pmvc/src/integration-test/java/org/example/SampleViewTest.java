@@ -29,7 +29,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import griffon.annotations.core.Nonnull;
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 import java.util.List;
 
 import static java.util.Arrays.asList;

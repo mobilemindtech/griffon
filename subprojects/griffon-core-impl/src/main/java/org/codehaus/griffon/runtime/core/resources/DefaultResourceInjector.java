@@ -22,7 +22,7 @@ import griffon.converter.ConverterRegistry;
 import griffon.core.resources.NoSuchResourceException;
 import griffon.core.resources.ResourceResolver;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 import java.util.Locale;
 
 import static java.util.Objects.requireNonNull;

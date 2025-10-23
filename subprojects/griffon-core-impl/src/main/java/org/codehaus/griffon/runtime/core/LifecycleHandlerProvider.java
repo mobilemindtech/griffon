@@ -23,8 +23,8 @@ import griffon.core.GriffonApplication;
 import griffon.core.LifecycleHandler;
 import griffon.exceptions.InstanceNotFoundException;
 
-import javax.inject.Inject;
-import javax.inject.Provider;
+import jakarta.inject.Inject;
+import jakarta.inject.Provider;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 

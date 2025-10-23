@@ -24,8 +24,8 @@ import griffon.core.ExecutorServiceManager;
 import griffon.core.threading.UIThreadManager;
 import griffon.exceptions.GriffonException;
 
-import javax.inject.Inject;
-import javax.inject.Named;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;

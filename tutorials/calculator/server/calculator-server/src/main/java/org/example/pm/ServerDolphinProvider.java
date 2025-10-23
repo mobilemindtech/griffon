@@ -21,8 +21,8 @@ import org.opendolphin.core.server.ServerConnector;
 import org.opendolphin.core.server.ServerDolphin;
 import org.opendolphin.core.server.ServerModelStore;
 
-import javax.inject.Inject;
-import javax.inject.Provider;
+import jakarta.inject.Inject;
+import jakarta.inject.Provider;
 
 public class ServerDolphinProvider implements Provider<ServerDolphin> {
     @Inject

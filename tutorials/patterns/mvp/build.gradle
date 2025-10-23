@@ -58,7 +58,9 @@ dependencies {
 
     testImplementation "org.codehaus.griffon:griffon-javafx-test:${griffon.version.get()}"
     testImplementation 'pl.pragmatists:JUnitParams:1.1.1'
-    testImplementation 'org.mockito:mockito-core:2.15.1'
+    testImplementation('org.mockito:mockito-core:2.15.1'){
+        exclude group: 'org.codehaus.groovy', module: 'groovy'
+    }
 }
 
 compileGroovy.enabled = false

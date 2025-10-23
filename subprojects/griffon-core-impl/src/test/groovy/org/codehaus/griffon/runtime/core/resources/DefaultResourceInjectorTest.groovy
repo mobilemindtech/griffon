@@ -42,10 +42,10 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.extension.ExtendWith
 import tck.griffon.core.resources.ResourceInjectorTest
 
-import javax.inject.Inject
-import javax.inject.Named
-import javax.inject.Provider
-import javax.inject.Singleton
+import jakarta.inject.Inject
+import jakarta.inject.Named
+import jakarta.inject.Provider
+import jakarta.inject.Singleton
 
 import static com.google.inject.util.Providers.guicify
 import static org.mockito.Mockito.mock

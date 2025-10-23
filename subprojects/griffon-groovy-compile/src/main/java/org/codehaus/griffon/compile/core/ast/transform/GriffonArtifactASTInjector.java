@@ -79,6 +79,8 @@ public class GriffonArtifactASTInjector extends AbstractASTInjector implements B
                 args(constx(loggerCategory)))
         );
 
+        System.out.println("loggerField" + loggerField);
+
         // Class getTypeClass()
         injectMethod(classNode, new MethodNode(
             "getTypeClass",

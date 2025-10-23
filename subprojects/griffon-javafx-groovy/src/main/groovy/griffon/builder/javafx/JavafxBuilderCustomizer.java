@@ -53,7 +53,7 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.control.Tooltip;
 import org.codehaus.griffon.runtime.groovy.view.AbstractBuilderCustomizer;
 
-import javax.inject.Named;
+import jakarta.inject.Named;
 import java.util.LinkedHashMap;
 import java.util.Map;
 

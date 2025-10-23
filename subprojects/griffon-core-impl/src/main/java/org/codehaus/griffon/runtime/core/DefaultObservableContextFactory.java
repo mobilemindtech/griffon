@@ -23,7 +23,7 @@ import griffon.converter.ConverterRegistry;
 import griffon.core.Context;
 import griffon.core.ContextFactory;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 /**
  * @author Andres Almiray

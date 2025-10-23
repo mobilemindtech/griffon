@@ -18,7 +18,7 @@ package org.example.calculator;
 import griffon.core.threading.UIThreadManager;
 import org.opendolphin.core.client.comm.UiThreadHandler;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 public class GriffonUiThreadHandler implements UiThreadHandler {
     @Inject

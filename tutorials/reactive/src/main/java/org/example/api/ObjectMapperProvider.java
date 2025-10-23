@@ -18,7 +18,7 @@ package org.example.api;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import griffon.util.ServiceLoaderUtils;
 
-import javax.inject.Provider;
+import jakarta.inject.Provider;
 
 public class ObjectMapperProvider implements Provider<ObjectMapper> {
     @Override

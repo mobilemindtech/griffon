@@ -28,7 +28,7 @@ class Point2DConverterSpec extends Specification {
     @Shared
     private Point2D point = new Point2D(10, 20)
 
-    void "Point2D format '#format' should be equal to #point"() {
+    void "Point2D format '#format' should be equal to #value"() {
         setup:
         Point2DConverter converter = new Point2DConverter()
 

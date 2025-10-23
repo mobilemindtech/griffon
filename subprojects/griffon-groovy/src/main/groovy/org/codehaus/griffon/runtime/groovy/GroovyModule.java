@@ -35,7 +35,7 @@ import org.codehaus.griffon.runtime.groovy.mvc.GroovyAwareMVCGroupManager;
 import org.codehaus.griffon.runtime.groovy.resources.GroovyAwareResourceResolverDecoratorFactory;
 import org.kordamp.jipsy.annotations.ServiceProviderFor;
 
-import javax.inject.Named;
+import jakarta.inject.Named;
 
 /**
  * @author Andres Almiray

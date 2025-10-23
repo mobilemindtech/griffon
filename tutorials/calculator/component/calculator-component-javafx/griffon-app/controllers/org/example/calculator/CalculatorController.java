@@ -20,7 +20,7 @@ import griffon.metadata.ArtifactProviderFor;
 import org.codehaus.griffon.runtime.core.artifact.AbstractGriffonController;
 import org.opendolphin.core.client.ClientDolphin;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import static org.example.calculator.CalculatorPM.COMMAND_DIV;
 import static org.example.calculator.CalculatorPM.COMMAND_MUL;

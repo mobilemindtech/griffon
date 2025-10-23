@@ -23,7 +23,7 @@ import griffon.core.GriffonApplication;
 import griffon.javafx.JavaFXWindowDisplayHandler;
 import org.codehaus.griffon.runtime.javafx.DefaultJavaFXWindowManager;
 
-import javax.inject.Named;
+import jakarta.inject.Named;
 
 import static griffon.test.javafx.TestContext.getTestContext;
 import static griffon.util.StringUtils.isNotBlank;

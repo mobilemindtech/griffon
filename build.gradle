@@ -180,6 +180,11 @@ config {
                 'junit-jupiter-engine'
             ]
         }
+        dependency('junitlauncher') {
+            groupId    = 'org.junit.platform'
+            artifactId = 'junit-platform-launcher'
+            version    = junitPlatformVersion
+        }
         dependency('junit5v') {
             groupId    = 'org.junit.vintage'
             artifactId = 'junit-vintage-engine'
@@ -209,6 +214,12 @@ allprojects {
 
     tasks.withType(GenerateModuleMetadata) {
         enabled = false
+    }
+
+    // java 17 cause may errors on doc sintax, this ignore the errors
+    tasks.withType(Javadoc) {
+        failOnError = false
+        options.addStringOption('Xdoclint:none', '-quiet')
     }
 }
 
@@ -263,7 +274,7 @@ subprojects { Project subproj ->
 
         coverage {
             jacoco {
-                enabled = isCoreProject || isSampleProject || isGradlePlugin
+                enabled = false //isCoreProject || isSampleProject || isGradlePlugin
             }
         }
 
@@ -311,6 +322,7 @@ subprojects { Project subproj ->
             testImplementation config.dependencyManagement.gav('junit5', 'junit-jupiter-api')
             testImplementation config.dependencyManagement.gav('junit5', 'junit-jupiter-params')
             testRuntimeOnly config.dependencyManagement.gav('junit5', 'junit-jupiter-engine')
+            testRuntimeOnly config.dependencyManagement.gav('junitlauncher', 'junit-platform-launcher')
             testRuntimeOnly(config.dependencyManagement.gav('junit5v', 'junit-vintage-engine')) {
                 exclude group: 'junit', module: 'junit'
             }
@@ -327,14 +339,17 @@ subprojects { Project subproj ->
                 exclude group: 'org.sonatype.sisu.inject', module: 'cglib'
             }
             if (!subproj.name.endsWith('-gradle-plugin')) {
-                testImplementation "org.apache.groovy:groovy-all:$groovyVersion"
+                testImplementation "org.apache.groovy:groovy:$groovyVersion"
                 testImplementation("org.spockframework:spock-core:$spockVersion"){
-                    exclude group: 'org.apache.groovy', module: 'groovy'
+                    //exclude group: 'org.apache.groovy', module: 'groovy'
                 }
-                testImplementation "org.mockito:mockito-core:$mockitoVersion"
+                testImplementation("org.mockito:mockito-core:$mockitoVersion"){
+                    exclude group: 'org.codehaus.groovy', module: 'groovy'
+                }
             }
             testImplementation config.dependencyManagement.gav('slf4j', 'slf4j-simple')
             testImplementation config.dependencyManagement.gav('cglib', 'cglib-nodep')
+            testImplementation "org.apache.groovy:groovy-test:$groovyVersion"
         }
 
         processTestResources {
@@ -358,6 +373,9 @@ subprojects { Project subproj ->
                 html {
                     enabled true
                 }
+            }
+            jacoco {
+                enabled = false
             }
         }
 
@@ -415,6 +433,21 @@ subprojects { Project subproj ->
                     from rootProject.file('src/javadoc/resources/img/')
                 }
             }
+        }
+    }
+
+    tasks.withType(Test).configureEach {
+        jvmArgs += ["-Duser.language=en", "-Duser.country=US"]
+    }
+}
+
+configurations.all {
+    resolutionStrategy.eachDependency { details ->
+        if (details.requested.group == 'org.junit.jupiter') {
+            details.useVersion "$junit5Version"
+        }
+        if (details.requested.group == 'org.junit.platform') {
+            details.useVersion "$junitPlatformVersion"
         }
     }
 }

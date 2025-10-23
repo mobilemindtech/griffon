@@ -23,6 +23,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Calendar;
 import java.util.stream.Stream;
 
@@ -46,7 +48,6 @@ public class CalendarFormatterTest extends ConversionSupport {
 
         Calendar v1 = null != value ? clearTime(value) : value;
         Calendar v2 = null != result ? clearTime(result) : result;
-
         // then:
         assertThat(str, equalTo(literal));
         assertThat(v1, equalTo(v2));
@@ -54,7 +55,7 @@ public class CalendarFormatterTest extends ConversionSupport {
 
     public static Stream<Arguments> where_value_literal() {
         return Stream.of(
-            Arguments.of(epochAsCalendar(), "1/1/70, 12:00 AM")
+            Arguments.of(epochAsCalendar(), new String("1/1/70, 12:00\u202FAM".getBytes(), StandardCharsets.UTF_8))
         );
     }
 

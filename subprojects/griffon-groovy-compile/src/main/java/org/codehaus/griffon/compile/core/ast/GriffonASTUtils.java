@@ -213,11 +213,12 @@ public class GriffonASTUtils {
     }
 
     public static FieldNode injectField(ClassNode classNode, String name, int modifiers, ClassNode type, Expression initialExpression, boolean deep) {
+        System.out.println("injectField: " + deep);
         if (deep) {
             if (!hasOrInheritsField(classNode, name, modifiers, type)) {
                 return getFurthestParent(classNode).addField(name, modifiers, type, initialExpression);
             } else {
-                getFieldDeep(classNode, name, modifiers, type);
+                return getFieldDeep(classNode, name, modifiers, type);
             }
         } else {
             if (!hasField(classNode, name, modifiers, type)) {
@@ -226,7 +227,7 @@ public class GriffonASTUtils {
                 return getField(classNode, name, modifiers, type);
             }
         }
-        return null;
+        //return null;
     }
 
     public static FieldNode getField(ClassNode classNode, String name, int modifiers, ClassNode type) {

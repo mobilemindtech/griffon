@@ -17,12 +17,18 @@
  */
 package org.codehaus.griffon.runtime.swing.groovy
 
+import griffon.core.GriffonApplication
 import griffon.core.view.WindowManager
+import griffon.swing.SwingWindowDisplayHandler
 import griffon.test.core.GriffonUnitRule
 import org.junit.Rule
+import org.junit.runners.model.FrameworkMethod
+import org.junit.runners.model.Statement
+import org.spockframework.runtime.model.MethodInfo
+import spock.lang.Shared
 import spock.lang.Specification
 
-import javax.inject.Inject
+import jakarta.inject.Inject
 import javax.swing.JFrame
 
 import static java.util.concurrent.TimeUnit.SECONDS
@@ -45,10 +51,22 @@ class GroovyAwareConfigurableSwingWindowDisplayHandlerSpec extends Specification
     public final GriffonUnitRule griffon = new GriffonUnitRule()
 
     @Inject
+    GriffonApplication griffonApplication
+    @Inject
     private WindowManager windowManager
 
+    def setup() {
+        griffon.initializeGriffon(this)
+    }
+
+    def cleanup(){
+        griffonApplication.shutdown()
+    }
+
     void 'Show a window using configured closures as handlers'() {
+
         given:
+
         JFrame window = new JFrame(MAIN_WINDOW)
         windowManager.attach(MAIN_WINDOW, window)
         assert !window.rootPane.getClientProperty(DISPLAYED)

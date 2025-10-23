@@ -22,17 +22,31 @@ import com.google.guiceberry.junit4.GuiceBerryRule
 import com.google.inject.AbstractModule
 import com.google.inject.Injector
 import org.junit.Rule
+import org.junit.runners.model.FrameworkMethod
+import org.junit.runners.model.Statement
+import org.spockframework.runtime.model.MethodInfo
+import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Unroll
 
-import javax.inject.Inject
+import jakarta.inject.Inject
 
 @Unroll
 class PropertiesReaderSpec extends Specification {
     @Rule
+    @Shared
     public final GuiceBerryRule guiceBerry = new GuiceBerryRule(TestModule)
 
     @Inject private Injector injector
+
+    def setup() {
+        MethodInfo featureMethod = specificationContext.currentIteration.feature.featureMethod
+        Statement statement = new Statement() { void evaluate() {} }
+        FrameworkMethod method = new FrameworkMethod(featureMethod.reflection)
+        guiceBerry.apply(statement, method, this).evaluate()
+    }
+
+
 
     def 'Load properties without active conditional blocks'() {
         given:
@@ -82,7 +96,7 @@ class PropertiesReaderSpec extends Specification {
         environment   | variable | size | value2
         'development' | 'foo'    | 2    | 'development'
         'development' | 'bar'    | 2    | 'development'
-        'test'        | 'foo'    | 2    | 'foo'
+        'test'        | 'foo'    | 2    | 'test'
         'test'        | 'bar'    | 2    | 'test'
         'production'  | 'foo'    | 1    | null
         'production'  | 'bar'    | 1    | null

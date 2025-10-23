@@ -40,8 +40,8 @@ import org.codehaus.griffon.runtime.core.threading.DefaultUIThreadManager
 import org.codehaus.griffon.runtime.util.DefaultInstantiator
 import spock.lang.Specification
 
-import javax.inject.Provider
-import javax.inject.Qualifier
+import jakarta.inject.Provider
+import jakarta.inject.Qualifier
 import java.lang.annotation.Annotation
 import java.lang.annotation.ElementType
 import java.lang.annotation.Retention

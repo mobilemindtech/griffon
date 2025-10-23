@@ -27,7 +27,7 @@ import org.codehaus.griffon.test.core.injection.AbstractTestingModule
 import org.junit.Rule
 import org.junit.Test
 
-import javax.inject.Inject
+import jakarta.inject.Inject
 
 import static java.util.concurrent.TimeUnit.SECONDS
 import static org.awaitility.Awaitility.await

@@ -20,7 +20,7 @@ package org.codehaus.griffon.runtime.core.event;
 import griffon.annotations.core.Nonnull;
 import griffon.core.threading.UIThreadManager;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import static java.util.Objects.requireNonNull;
 

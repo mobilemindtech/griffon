@@ -19,7 +19,7 @@ package griffon.core.injection;
 
 import griffon.annotations.core.Nonnull;
 
-import javax.inject.Provider;
+import jakarta.inject.Provider;
 
 /**
  * @author Andres Almiray

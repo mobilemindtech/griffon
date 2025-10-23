@@ -24,7 +24,7 @@ import javafx.embed.swing.JFXPanel;
 import org.junit.Rule;
 import org.junit.Test;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.awaitility.Awaitility.await;

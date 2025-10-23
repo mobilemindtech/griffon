@@ -25,10 +25,10 @@ import griffon.core.injection.TargetBinding
 import org.codehaus.griffon.runtime.core.injection.AbstractModule
 import spock.lang.Specification
 
-import javax.inject.Inject
-import javax.inject.Named
-import javax.inject.Provider
-import javax.inject.Qualifier
+import jakarta.inject.Inject
+import jakarta.inject.Named
+import jakarta.inject.Provider
+import jakarta.inject.Qualifier
 import java.lang.annotation.Retention
 
 import static griffon.util.AnnotationUtils.named

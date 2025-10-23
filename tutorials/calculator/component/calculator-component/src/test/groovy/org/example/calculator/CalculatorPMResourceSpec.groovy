@@ -38,7 +38,7 @@ import spock.lang.Specification
 import spock.lang.Stepwise
 import spock.lang.Unroll
 
-import javax.inject.Singleton
+import jakarta.inject.Singleton
 
 import static org.example.calculator.CalculatorPM.ATTR_ERROR
 import static org.example.calculator.CalculatorPM.ATTR_OP1

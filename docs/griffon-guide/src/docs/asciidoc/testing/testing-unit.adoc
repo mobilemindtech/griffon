@@ -41,7 +41,7 @@ import com.google.inject.Inject;
 import org.junit.Rule;
 import org.junit.Test;
 
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -141,7 +141,7 @@ import com.google.inject.Inject;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -279,10 +279,10 @@ import griffon.core.test.GriffonUnitRule;
 import org.junit.Rule;
 
 import griffon.inject.BindTo;
-import javax.inject.Inject;
-import javax.inject.Provider;
-import javax.inject.Named;
-import javax.inject.Singleton;
+import jakarta.inject.Inject;
+import jakarta.inject.Provider;
+import jakarta.inject.Named;
+import jakarta.inject.Singleton;
 
 import griffon.core.event.EventRouter;
 import griffon.core.Context;
@@ -318,10 +318,10 @@ import griffon.core.test.GriffonUnitRule;
 import org.junit.Rule;
 
 import griffon.inject.BindTo;
-import javax.inject.Inject;
-import javax.inject.Provider;
-import javax.inject.Named;
-import javax.inject.Singleton;
+import jakarta.inject.Inject;
+import jakarta.inject.Provider;
+import jakarta.inject.Named;
+import jakarta.inject.Singleton;
 
 import griffon.core.event.EventRouter;
 import griffon.core.Context;
@@ -442,7 +442,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import javax.annotation.Nonnull;
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 import java.util.List;
 
 import static java.util.Arrays.asList;

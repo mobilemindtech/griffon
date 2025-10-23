@@ -24,7 +24,7 @@ import griffon.core.artifact.GriffonController;
 import org.codehaus.griffon.runtime.core.artifact.AbstractGriffonController;
 import org.kordamp.jipsy.annotations.ServiceProviderFor;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 @ServiceProviderFor(GriffonController.class)
 public class SampleController extends AbstractGriffonController {

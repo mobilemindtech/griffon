@@ -29,7 +29,7 @@ class RectangleConverterSpec extends Specification {
     @Shared
     private Rectangle rectangle = new Rectangle(10, 20, 30, 40)
 
-    void "Rectangle format '#format' should be equal to #rectangle"() {
+    void "Rectangle format '#format' should be equal to #value"() {
         setup:
         def converter = new RectangleConverter()
 

@@ -24,8 +24,8 @@ import griffon.swing.SwingWindowDisplayHandler;
 import groovy.lang.Closure;
 import org.codehaus.griffon.runtime.swing.ConfigurableSwingWindowDisplayHandler;
 
-import javax.inject.Inject;
-import javax.inject.Named;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 import java.awt.*;
 
 /**

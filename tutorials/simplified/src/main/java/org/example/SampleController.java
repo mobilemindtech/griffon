@@ -22,7 +22,7 @@ import griffon.transform.Threading;
 import org.codehaus.griffon.runtime.core.artifact.AbstractGriffonController;
 
 import griffon.annotations.core.Nonnull;
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 public class SampleController extends AbstractGriffonController {
     private SampleModel model;

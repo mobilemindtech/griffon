@@ -22,8 +22,8 @@ import org.opendolphin.core.client.comm.HttpClientConnector;
 import org.opendolphin.core.client.comm.UiThreadHandler;
 import org.opendolphin.core.comm.Codec;
 
-import javax.inject.Inject;
-import javax.inject.Provider;
+import jakarta.inject.Inject;
+import jakarta.inject.Provider;
 
 public class ClientConnectorProvider implements Provider<ClientConnector> {
     @Inject

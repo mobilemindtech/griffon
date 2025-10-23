@@ -17,6 +17,7 @@
  */
 package sample.javafx.groovy
 
+import griffon.core.GriffonApplication
 import griffon.core.artifact.ArtifactManager
 import griffon.test.core.GriffonUnitRule
 import griffon.test.core.TestFor
@@ -24,7 +25,7 @@ import javafx.embed.swing.JFXPanel
 import org.junit.Rule
 import spock.lang.Specification
 
-import javax.inject.Inject
+import jakarta.inject.Inject
 
 import static java.util.concurrent.TimeUnit.SECONDS
 import static org.awaitility.Awaitility.await
@@ -40,8 +41,18 @@ class SampleControllerSpec extends Specification {
 
     @Inject
     private ArtifactManager artifactManager
+    @Inject
+    private GriffonApplication griffonApplication
 
     private SampleController controller
+
+    def setup() {
+        griffon.initializeGriffon(this)
+    }
+
+    def cleanup(){
+        griffonApplication.shutdown()
+    }
 
     @Rule
     public final GriffonUnitRule griffon = new GriffonUnitRule()

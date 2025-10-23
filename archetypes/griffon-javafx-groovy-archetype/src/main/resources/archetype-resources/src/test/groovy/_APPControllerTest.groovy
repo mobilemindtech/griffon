@@ -6,7 +6,7 @@ import griffon.test.core.TestFor
 import org.junit.Rule
 import org.junit.Test
 
-import javax.inject.Inject
+import jakarta.inject.Inject
 
 import static org.awaitility.Awaitility.await
 

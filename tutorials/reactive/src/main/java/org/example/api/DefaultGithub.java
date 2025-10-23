@@ -18,7 +18,7 @@ package org.example.api;
 import rx.Observable;
 
 import griffon.annotations.core.Nonnull;
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import static griffon.util.GriffonNameUtils.requireNonBlank;
 import static org.example.api.ObservableUtils.paginatedObservable;

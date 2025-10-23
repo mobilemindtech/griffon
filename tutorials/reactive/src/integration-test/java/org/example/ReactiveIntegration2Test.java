@@ -29,8 +29,8 @@ import org.junit.Test;
 import org.junit.runners.MethodSorters;
 import org.testfx.service.support.WaitUntilSupport;
 
-import javax.inject.Inject;
-import javax.inject.Named;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.Collection;

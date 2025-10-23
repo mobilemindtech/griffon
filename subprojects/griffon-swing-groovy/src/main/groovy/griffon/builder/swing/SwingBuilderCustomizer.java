@@ -23,7 +23,7 @@ import groovy.swing.SwingBuilder;
 import groovy.util.Factory;
 import org.codehaus.griffon.runtime.groovy.view.AbstractBuilderCustomizer;
 
-import javax.inject.Named;
+import jakarta.inject.Named;
 import java.util.LinkedHashMap;
 import java.util.Map;
 

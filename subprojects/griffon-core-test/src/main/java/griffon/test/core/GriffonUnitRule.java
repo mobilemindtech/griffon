@@ -97,12 +97,23 @@ public class GriffonUnitRule implements MethodRule {
         };
     }
 
+    public GriffonApplication initializeGriffon(final Object target) throws Exception {
+        GriffonApplication application = instantiateApplication();
+        ApplicationBootstrapper bootstrapper = instantiateApplicationBootstrapper(application, target);
+        bootstrapper.bootstrap();
+        application.initialize();
+        application.getInjector().injectMembers(target);
+        handleTestForAnnotation(application, target);
+        before(application, target);
+        return application;
+    }
+
     protected void before(@Nonnull GriffonApplication application, @Nonnull Object target) {
 
     }
 
     protected void after(@Nonnull GriffonApplication application, @Nonnull Object target) {
-        application.shutdown();
+        //application.shutdown();
     }
 
     @Nonnull

@@ -26,7 +26,7 @@ import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Unroll
 
-import javax.inject.Named
+import jakarta.inject.Named
 
 @Unroll
 class ContextSpec extends Specification {

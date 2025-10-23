@@ -25,7 +25,7 @@ import org.opendolphin.core.client.ClientDolphin;
 import org.opendolphin.core.client.ClientPresentationModel;
 
 import griffon.annotations.core.Nonnull;
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 import javax.swing.Action;
 import javax.swing.JButton;
 import javax.swing.JComponent;

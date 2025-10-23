@@ -26,8 +26,8 @@ import org.codehaus.griffon.runtime.core.view.ConfigurableWindowDisplayHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.inject.Inject;
-import javax.inject.Named;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 
 import static griffon.util.AnnotationUtils.named;
 

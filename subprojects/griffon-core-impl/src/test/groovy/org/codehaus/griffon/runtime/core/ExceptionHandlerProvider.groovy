@@ -20,7 +20,7 @@ package org.codehaus.griffon.runtime.core
 import griffon.core.ExceptionHandler
 import griffon.core.GriffonExceptionHandler
 
-import javax.inject.Provider
+import jakarta.inject.Provider
 
 /**
  * @author Andres Almiray

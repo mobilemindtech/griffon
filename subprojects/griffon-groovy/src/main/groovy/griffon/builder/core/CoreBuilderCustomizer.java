@@ -27,8 +27,8 @@ import org.codehaus.griffon.runtime.groovy.view.AbstractBuilderCustomizer;
 import org.codehaus.groovy.runtime.MethodClosure;
 
 import jakarta.annotation.PostConstruct;
-import javax.inject.Inject;
-import javax.inject.Named;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;

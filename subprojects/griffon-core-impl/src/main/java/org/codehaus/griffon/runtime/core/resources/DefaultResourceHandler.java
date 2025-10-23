@@ -20,7 +20,7 @@ package org.codehaus.griffon.runtime.core.resources;
 import griffon.annotations.core.Nonnull;
 import griffon.core.ApplicationClassLoader;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import static java.util.Objects.requireNonNull;
 

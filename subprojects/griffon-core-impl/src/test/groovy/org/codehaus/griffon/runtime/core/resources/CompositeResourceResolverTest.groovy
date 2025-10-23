@@ -38,10 +38,11 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
-import javax.inject.Inject
-import javax.inject.Named
-import javax.inject.Provider
-import javax.inject.Singleton
+import jakarta.inject.Inject
+import jakarta.inject.Named
+import jakarta.inject.Provider
+import jakarta.inject.Singleton
+import spock.lang.Shared
 
 import static com.google.inject.util.Providers.guicify
 import static org.mockito.Mockito.mock
@@ -49,6 +50,7 @@ import static org.mockito.Mockito.when
 
 class CompositeResourceResolverTest {
     @Rule
+    @Shared
     public final GuiceBerryRule guiceBerry = new GuiceBerryRule(TestModule)
 
     @Inject private CompositeResourceBundleBuilder bundleBuilder

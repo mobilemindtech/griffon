@@ -20,8 +20,8 @@ package org.codehaus.griffon.runtime.core;
 import griffon.core.Context;
 import griffon.core.ContextFactory;
 
-import javax.inject.Inject;
-import javax.inject.Provider;
+import jakarta.inject.Inject;
+import jakarta.inject.Provider;
 
 /**
  * @author Andres Almiray

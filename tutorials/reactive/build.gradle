@@ -85,7 +85,9 @@ dependencies {
     runtimeOnly "org.slf4j:slf4j-simple:${slf4jVersion}"
 
     testCompile "org.codehaus.griffon:griffon-javafx-test:${griffon.version.get()}"
-    testCompile  "org.mockito:mockito-core:$mockitoVersion"
+    testCompile ("org.mockito:mockito-core:$mockitoVersion"){
+        exclude group: 'org.codehaus.groovy', module: 'groovy'
+    }
 
     integrationTestCompile "org.awaitility:awaitility:$awaitilityVersion"
     integrationTestCompile "com.github.tomakehurst:wiremock:$wiremockVersion"

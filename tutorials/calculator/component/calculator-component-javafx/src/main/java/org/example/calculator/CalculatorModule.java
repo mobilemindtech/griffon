@@ -21,7 +21,7 @@ import griffon.inject.DependsOn;
 import org.codehaus.griffon.runtime.core.injection.AbstractModule;
 import org.kordamp.jipsy.annotations.ServiceProviderFor;
 
-import javax.inject.Named;
+import jakarta.inject.Named;
 
 @DependsOn("javafx")
 @Named("calculator")

@@ -24,7 +24,7 @@ import griffon.core.artifact.GriffonClass;
 import griffon.core.artifact.GriffonService;
 import griffon.core.artifact.GriffonServiceClass;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import static java.util.Objects.requireNonNull;
 

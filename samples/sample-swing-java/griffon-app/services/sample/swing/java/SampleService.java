@@ -25,7 +25,7 @@ import org.kordamp.jipsy.annotations.ServiceProviderFor;
 import static griffon.util.StringUtils.isBlank;
 import static java.util.Collections.singletonList;
 
-@javax.inject.Singleton
+@jakarta.inject.Singleton
 @ServiceProviderFor(GriffonService.class)
 public class SampleService extends AbstractGriffonService {
     public String sayHello(String input) {

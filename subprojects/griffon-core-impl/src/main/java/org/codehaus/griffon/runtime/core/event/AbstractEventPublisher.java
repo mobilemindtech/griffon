@@ -21,7 +21,7 @@ import griffon.annotations.core.Nonnull;
 import griffon.core.event.EventPublisher;
 import griffon.core.event.EventRouter;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import static java.util.Objects.requireNonNull;
 

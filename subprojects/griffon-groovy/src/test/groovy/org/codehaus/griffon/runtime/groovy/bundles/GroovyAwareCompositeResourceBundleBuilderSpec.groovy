@@ -39,12 +39,16 @@ import org.codehaus.griffon.runtime.core.env.EnvironmentProvider
 import org.codehaus.griffon.runtime.core.env.MetadataProvider
 import org.codehaus.griffon.runtime.core.resources.DefaultResourceHandler
 import org.junit.Rule
+import org.junit.runners.model.FrameworkMethod
+import org.junit.runners.model.Statement
+import org.spockframework.runtime.model.MethodInfo
+import spock.lang.Shared
 import spock.lang.Specification
 
-import javax.inject.Inject
-import javax.inject.Named
-import javax.inject.Provider
-import javax.inject.Singleton
+import jakarta.inject.Inject
+import jakarta.inject.Named
+import jakarta.inject.Provider
+import jakarta.inject.Singleton
 
 import static com.google.inject.util.Providers.guicify
 import static org.mockito.Mockito.mock
@@ -52,6 +56,7 @@ import static org.mockito.Mockito.when
 
 class GroovyAwareCompositeResourceBundleBuilderSpec extends Specification {
     @Rule
+    @Shared
     final GuiceBerryRule guiceBerry = new GuiceBerryRule(TestModule)
 
     @Inject private CompositeResourceBundleBuilder bundleBuilder
@@ -59,9 +64,13 @@ class GroovyAwareCompositeResourceBundleBuilderSpec extends Specification {
     @Inject @Named('groovy') private ResourceBundleLoader resourceBundleLoader1
     @Inject @Named('properties') private ResourceBundleLoader resourceBundleLoader2
 
-    void setupSpec() {
-        System.setProperty(Environment.KEY, 'dev')
+    def setup() {
+        MethodInfo featureMethod = specificationContext.currentIteration.feature.featureMethod
+        Statement statement = new Statement() { void evaluate() {} }
+        FrameworkMethod method = new FrameworkMethod(featureMethod.reflection)
+        guiceBerry.apply(statement, method, this).evaluate()
     }
+
 
     void cleanupSpec() {
         System.setProperty(Environment.KEY, 'dev')

@@ -22,7 +22,7 @@ import griffon.core.GriffonApplication;
 import griffon.util.CollectionUtils;
 import org.codehaus.griffon.runtime.core.addon.AbstractGriffonAddon;
 
-import javax.inject.Named;
+import jakarta.inject.Named;
 import java.util.Map;
 
 @Named("groups")

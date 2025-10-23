@@ -19,12 +19,17 @@ package griffon.builder.javafx.action
 
 import griffon.core.GriffonApplication
 import griffon.core.mvc.MVCGroupManager
+import griffon.core.view.WindowManager
 import griffon.test.core.GriffonUnitRule
 import javafx.embed.swing.JFXPanel
 import org.junit.Rule
+import org.junit.runners.model.FrameworkMethod
+import org.junit.runners.model.Statement
+import org.spockframework.runtime.model.MethodInfo
+import spock.lang.Shared
 import spock.lang.Specification
 
-import javax.inject.Inject
+import jakarta.inject.Inject
 
 class ActionSpec extends Specification {
     static {
@@ -34,6 +39,19 @@ class ActionSpec extends Specification {
 
     @Rule
     public final GriffonUnitRule griffon = new GriffonUnitRule()
+
+    @Inject
+    private WindowManager windowManager
+    @Inject
+    private GriffonApplication griffonApplication
+
+    def setup() {
+        griffon.initializeGriffon(this)
+    }
+
+    def cleanup(){
+        griffonApplication.shutdown()
+    }
 
     @Inject
     private GriffonApplication application

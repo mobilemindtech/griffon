@@ -22,7 +22,7 @@ import griffon.annotations.core.Nullable;
 import griffon.core.GriffonApplication;
 import griffon.core.LifecycleHandler;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.ExecutorService;

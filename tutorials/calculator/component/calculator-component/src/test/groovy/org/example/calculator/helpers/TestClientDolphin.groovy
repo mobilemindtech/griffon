@@ -20,7 +20,7 @@ import org.opendolphin.core.client.ClientModelStore
 import org.opendolphin.core.client.comm.ClientConnector
 import org.opendolphin.core.client.comm.WithPresentationModelHandler
 
-import javax.inject.Inject
+import jakarta.inject.Inject
 import java.util.concurrent.CountDownLatch
 
 class TestClientDolphin {

@@ -26,7 +26,7 @@ import griffon.core.util.GriffonApplicationUtils
 import griffon.util.CollectionUtils
 import org.codehaus.groovy.runtime.InvokerHelper
 
-import javax.inject.Inject
+import jakarta.inject.Inject
 
 import static griffon.util.StringUtils.isBlank
 import static griffon.util.StringUtils.isNotBlank
@@ -52,7 +52,7 @@ class ConfigReader {
     private final Map<String, String> conditionValues = [:]
     private final Stack<Map<String, ConfigObject>> conditionalBlocks = new Stack<Map<String, ConfigObject>>()
 
-    static class Provider implements javax.inject.Provider<ConfigReader> {
+    static class Provider implements jakarta.inject.Provider<ConfigReader> {
         @Inject private ApplicationClassLoader applicationClassLoader
         @Inject private Metadata metadata
         @Inject private Environment environment

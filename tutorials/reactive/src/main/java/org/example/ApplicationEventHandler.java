@@ -24,7 +24,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TitledPane;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 

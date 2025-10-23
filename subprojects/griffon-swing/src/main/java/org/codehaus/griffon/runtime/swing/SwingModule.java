@@ -29,7 +29,7 @@ import org.codehaus.griffon.runtime.swing.controller.SwingActionFactory;
 import org.codehaus.griffon.runtime.swing.controller.SwingActionManager;
 import org.kordamp.jipsy.annotations.ServiceProviderFor;
 
-import javax.inject.Named;
+import jakarta.inject.Named;
 
 import static griffon.util.AnnotationUtils.named;
 

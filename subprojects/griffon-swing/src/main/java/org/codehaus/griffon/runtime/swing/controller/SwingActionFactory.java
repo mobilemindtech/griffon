@@ -25,7 +25,7 @@ import griffon.core.controller.ActionManager;
 import griffon.core.controller.ActionMetadata;
 import griffon.core.threading.UIThreadManager;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 /**
  * @author Andres Almiray

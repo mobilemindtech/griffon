@@ -38,7 +38,7 @@ import griffon.exceptions.InstanceNotFoundException;
 import griffon.exceptions.MembersInjectionException;
 import griffon.util.AnnotationUtils;
 
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.Collection;

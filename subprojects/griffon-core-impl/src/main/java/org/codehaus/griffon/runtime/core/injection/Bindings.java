@@ -26,8 +26,8 @@ import griffon.core.injection.ProviderTypeBinding;
 import griffon.core.injection.TargetBinding;
 import griffon.util.AnnotationUtils;
 
-import javax.inject.Provider;
-import javax.inject.Qualifier;
+import jakarta.inject.Provider;
+import jakarta.inject.Qualifier;
 import java.lang.annotation.Annotation;
 import java.util.List;
 

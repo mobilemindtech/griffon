@@ -29,7 +29,7 @@ class PointConverterSpec extends Specification {
     @Shared
     private Point point = new Point(10, 20)
 
-    void "Point format '#format' should be equal to #point"() {
+    void "Point format '#format' should be equal to #value"() {
         setup:
         def converter = new PointConverter()
 

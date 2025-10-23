@@ -28,7 +28,7 @@ class Rectangle2DConverterSpec extends Specification {
     @Shared
     private Rectangle2D rectangle = new Rectangle2D(10, 20, 30, 40)
 
-    void "Rectangle2D format '#format' should be equal to #rectangle"() {
+    void "Rectangle2D format '#format' should be equal to #value"() {
         setup:
         Rectangle2DConverter converter = new Rectangle2DConverter()
 

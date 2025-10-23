@@ -19,7 +19,7 @@ import griffon.util.CollectionUtils;
 import org.codehaus.griffon.runtime.core.addon.AbstractGriffonAddon;
 
 import griffon.annotations.core.Nonnull;
-import javax.inject.Named;
+import jakarta.inject.Named;
 import java.util.Map;
 
 @Named("calculator")

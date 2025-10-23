@@ -31,7 +31,7 @@ import org.opendolphin.core.server.ServerDolphin;
 import org.opendolphin.core.server.ServerModelStore;
 import org.slf4j.bridge.SLF4JBridgeHandler;
 
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;

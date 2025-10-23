@@ -44,12 +44,15 @@ dependencies {
 
     if (project.name.contains('javafx')) {
         implementation "org.openjfx:javafx-base:${javafxVersion}:${javafxPlatform}"
+        implementation "org.openjfx:javafx-web:${javafxVersion}:${javafxPlatform}"
         implementation "org.openjfx:javafx-graphics:${javafxVersion}:${javafxPlatform}"
         implementation "org.openjfx:javafx-controls:${javafxVersion}:${javafxPlatform}"
         implementation "org.openjfx:javafx-fxml:${javafxVersion}:${javafxPlatform}"
         implementation "org.openjfx:javafx-swing:${javafxVersion}:${javafxPlatform}"
 
         testImplementation "org.openjfx:javafx-base:${javafxVersion}:${javafxPlatform}"
+        testImplementation "org.openjfx:javafx-web:${javafxVersion}:${javafxPlatform}"
+        testImplementation "org.openjfx:javafx-media:${javafxVersion}:${javafxPlatform}"
         testImplementation "org.openjfx:javafx-graphics:${javafxVersion}:${javafxPlatform}"
         testImplementation "org.openjfx:javafx-controls:${javafxVersion}:${javafxPlatform}"
         testImplementation "org.openjfx:javafx-fxml:${javafxVersion}:${javafxPlatform}"

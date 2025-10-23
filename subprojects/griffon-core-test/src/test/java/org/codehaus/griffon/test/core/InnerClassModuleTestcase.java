@@ -19,9 +19,9 @@ package org.codehaus.griffon.test.core;
 
 import griffon.annotations.inject.BindTo;
 
-import javax.inject.Named;
-import javax.inject.Provider;
-import javax.inject.Singleton;
+import jakarta.inject.Named;
+import jakarta.inject.Provider;
+import jakarta.inject.Singleton;
 
 public class InnerClassModuleTestcase {
     public static class Targets {

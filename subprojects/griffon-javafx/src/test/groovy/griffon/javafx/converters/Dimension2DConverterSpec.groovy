@@ -28,7 +28,7 @@ class Dimension2DConverterSpec extends Specification {
     @Shared
     private Dimension2D dimension = new Dimension2D(10, 20)
 
-    void "Dimension2D format '#format' should be equal to #dimension"() {
+    void "Dimension2D format '#format' should be equal to #value"() {
         setup:
         Dimension2DConverter converter = new Dimension2DConverter()
 

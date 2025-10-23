@@ -24,5 +24,7 @@ dependencies {
     compileOnly project(':griffon-core-compile')
     annotationProcessor project(':griffon-core-compile')
 
-    testImplementation "org.mockito:mockito-core:$mockitoVersion"
+    testImplementation("org.mockito:mockito-core:$mockitoVersion"){
+        exclude group: 'org.codehaus.groovy', module: 'groovy'
+    }
 }

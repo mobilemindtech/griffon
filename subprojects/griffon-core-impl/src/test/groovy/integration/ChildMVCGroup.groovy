@@ -21,7 +21,7 @@ import griffon.annotations.core.Nonnull
 import griffon.core.mvc.MVCGroup
 import org.codehaus.griffon.runtime.core.mvc.AbstractTypedMVCGroup
 
-import javax.inject.Named
+import jakarta.inject.Named
 
 @Named('child')
 class ChildMVCGroup extends AbstractTypedMVCGroup<ChildModel, ChildView, ChildController> {

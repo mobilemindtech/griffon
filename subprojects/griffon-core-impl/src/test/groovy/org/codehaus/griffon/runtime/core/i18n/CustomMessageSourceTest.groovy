@@ -21,14 +21,15 @@ import com.google.inject.AbstractModule
 import griffon.annotations.core.Nonnull
 import griffon.core.i18n.MessageSource
 import griffon.core.i18n.NoSuchMessageException
+import groovy.test.GroovyAssert
 import name.falgout.jeffrey.testing.junit.guice.GuiceExtension
 import name.falgout.jeffrey.testing.junit.guice.IncludeModule
 import org.codehaus.griffon.runtime.core.bundles.AbstractMapResourceBundle
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 
-import javax.inject.Inject
-import javax.inject.Singleton
+import jakarta.inject.Inject
+import jakarta.inject.Singleton
 
 import static org.junit.jupiter.api.Assertions.assertThrows
 

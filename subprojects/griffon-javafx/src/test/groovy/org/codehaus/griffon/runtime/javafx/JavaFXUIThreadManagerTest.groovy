@@ -32,8 +32,8 @@ import org.codehaus.griffon.runtime.core.threading.DefaultExecutorServiceProvide
 import org.junit.jupiter.api.extension.ExtendWith
 import tck.griffon.core.threading.ThreadingHandlerTest
 
-import javax.inject.Inject
-import javax.inject.Singleton
+import jakarta.inject.Inject
+import jakarta.inject.Singleton
 import java.util.concurrent.ExecutorService
 
 import static griffon.util.AnnotationUtils.named

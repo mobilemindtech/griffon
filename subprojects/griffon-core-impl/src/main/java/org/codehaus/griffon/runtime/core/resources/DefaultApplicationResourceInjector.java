@@ -21,8 +21,8 @@ import griffon.annotations.core.Nonnull;
 import griffon.converter.ConverterRegistry;
 import griffon.core.resources.ResourceResolver;
 
-import javax.inject.Inject;
-import javax.inject.Named;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 
 /**
  * @author Andres Almiray

@@ -22,8 +22,8 @@ import griffon.converter.ConverterRegistry;
 import griffon.core.bundles.CompositeResourceBundleBuilder;
 import griffon.core.resources.ResourceResolver;
 
-import javax.inject.Inject;
-import javax.inject.Provider;
+import jakarta.inject.Inject;
+import jakarta.inject.Provider;
 
 import static griffon.util.StringUtils.requireNonBlank;
 import static java.util.Objects.requireNonNull;

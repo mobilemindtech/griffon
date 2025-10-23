@@ -20,8 +20,8 @@ package org.codehaus.griffon.runtime.core.bundles;
 import griffon.annotations.core.Nonnull;
 import griffon.core.bundles.CompositeResourceBundleBuilder;
 
-import javax.inject.Inject;
-import javax.inject.Provider;
+import jakarta.inject.Inject;
+import jakarta.inject.Provider;
 import java.util.ResourceBundle;
 
 import static griffon.util.StringUtils.requireNonBlank;

@@ -23,6 +23,8 @@ import griffon.core.ExecutorServiceManager
 import griffon.core.GriffonExceptionHandler
 import griffon.core.threading.ThreadingHandler
 import griffon.core.threading.UIThreadManager
+import jakarta.inject.Inject
+import jakarta.inject.Singleton
 import name.falgout.jeffrey.testing.junit.guice.GuiceExtension
 import name.falgout.jeffrey.testing.junit.guice.IncludeModule
 import org.codehaus.griffon.runtime.core.DefaultExecutorServiceManager
@@ -30,8 +32,6 @@ import org.codehaus.griffon.runtime.core.threading.DefaultExecutorServiceProvide
 import org.junit.jupiter.api.extension.ExtendWith
 import tck.griffon.core.threading.ThreadingHandlerTest
 
-import javax.inject.Inject
-import javax.inject.Singleton
 import javax.swing.*
 import java.util.concurrent.ExecutorService
 

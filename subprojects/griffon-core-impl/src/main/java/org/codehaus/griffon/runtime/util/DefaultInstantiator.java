@@ -23,8 +23,8 @@ import griffon.core.injection.Injector;
 import griffon.exceptions.InstanceNotFoundException;
 
 import jakarta.annotation.PostConstruct;
-import javax.inject.Inject;
-import javax.inject.Provider;
+import jakarta.inject.Inject;
+import jakarta.inject.Provider;
 
 import static griffon.core.util.GriffonClassUtils.invokeAnnotatedMethod;
 import static java.util.Objects.requireNonNull;

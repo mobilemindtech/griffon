@@ -23,6 +23,10 @@ import com.google.inject.AbstractModule
 import com.google.inject.Inject
 import griffon.core.ExecutorServiceManager
 import org.junit.Rule
+import org.junit.runners.model.FrameworkMethod
+import org.junit.runners.model.Statement
+import org.spockframework.runtime.model.MethodInfo
+import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Unroll
 
@@ -32,10 +36,19 @@ import java.util.concurrent.Executors
 @Unroll
 class ExecutorServiceManagerSpec extends Specification {
     @Rule
+    @Shared
     public final GuiceBerryRule guiceBerry = new GuiceBerryRule(TestModule)
 
     @Inject
     private ExecutorServiceManager executorServiceManager
+
+    def setup() {
+        MethodInfo featureMethod = specificationContext.currentIteration.feature.featureMethod
+        Statement statement = new Statement() { void evaluate() {} }
+        FrameworkMethod method = new FrameworkMethod(featureMethod.reflection)
+        guiceBerry.apply(statement, method, this).evaluate()
+    }
+
 
     def 'Excercise API'() {
         given:

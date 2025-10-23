@@ -20,7 +20,7 @@ package griffon.core.injection
 import griffon.util.AnnotationUtils
 import spock.lang.Specification
 
-import javax.inject.Named
+import jakarta.inject.Named
 
 class QualifierSpec extends Specification {
     @SuppressWarnings('ComparisonWithSelf')

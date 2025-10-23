@@ -27,7 +27,7 @@ import org.opendolphin.core.client.ClientDolphin;
 import org.opendolphin.core.client.ClientPresentationModel;
 
 import griffon.annotations.core.Nonnull;
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import static org.example.calculator.CalculatorPM.ATTR_ERROR;
 import static org.example.calculator.CalculatorPM.ATTR_OP1;

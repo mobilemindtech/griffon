@@ -20,8 +20,8 @@ package org.codehaus.griffon.runtime.core.bundles;
 import griffon.annotations.core.Nonnull;
 import griffon.core.resources.ResourceHandler;
 
-import javax.inject.Inject;
-import javax.inject.Named;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;

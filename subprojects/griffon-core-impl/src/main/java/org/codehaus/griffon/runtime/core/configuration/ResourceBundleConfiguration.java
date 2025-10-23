@@ -21,7 +21,7 @@ import griffon.annotations.core.Nonnull;
 import griffon.annotations.core.Nullable;
 import griffon.converter.ConverterRegistry;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 import java.util.Enumeration;
 import java.util.LinkedHashMap;
 import java.util.Map;

@@ -29,7 +29,7 @@ class InsetsConverterSpec extends Specification {
     @Shared
     private Insets insets = new Insets(1, 2, 3, 4)
 
-    void "Insets format '#format' should be equal to #insets"() {
+    void "Insets format '#format' should be equal to #value"() {
         setup:
         def converter = new InsetsConverter()
 

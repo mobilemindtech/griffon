@@ -41,7 +41,7 @@ import org.apache.shiro.authc.UsernamePasswordToken
 impprt org.apache.shiro.subject.Subject
 import javax.swing.JOptionPane
 
-import javax.inject.Inject
+import jakarta.inject.Inject
 
 @ArtifactProviderFor(GriffonController)
 class StrutsController {
@@ -90,7 +90,7 @@ import griffon.core.controller.Action
 import griffon.core.controller.ActionExecutionStatus
 import org.codehaus.griffon.runtime.core.controller.AbstractActionHandler
 
-import javax.inject.Named
+import jakarta.inject.Named
 
 @Named('tracer')
 class TracerActionHandler extends AbstractActionHandler {
@@ -153,7 +153,7 @@ import griffon.core.controller.ActionHandler
 import org.codehaus.griffon.runtime.core.injection.AbstractModule
 import org.kordamp.jipsy.ServiceProviderFor
 
-import javax.inject.Named
+import jakarta.inject.Named
 
 @ServiceProviderFor(Module)
 @Named('application')

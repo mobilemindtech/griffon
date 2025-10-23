@@ -21,8 +21,8 @@ import org.apache.shiro.authc.UsernamePasswordToken
 impprt org.apache.shiro.subject.Subject
 import javax.swing.JOptionPane
 
-import javax.inject.Inject
-import javax.inject.Named
+import jakarta.inject.Inject
+import jakarta.inject.Named
 import griffon.inject.Contextual
 
 @ArtifactProviderFor(GriffonController)

@@ -30,7 +30,7 @@ import griffon.core.mvc.MVCHandler;
 import griffon.core.mvc.TypedMVCGroup;
 import griffon.core.mvc.TypedMVCGroupConsumer;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 import java.util.List;
 import java.util.Map;
 

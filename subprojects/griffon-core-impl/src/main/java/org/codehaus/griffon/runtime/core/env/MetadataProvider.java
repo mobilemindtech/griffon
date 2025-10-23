@@ -19,7 +19,7 @@ package org.codehaus.griffon.runtime.core.env;
 
 import griffon.core.env.Metadata;
 
-import javax.inject.Provider;
+import jakarta.inject.Provider;
 
 /**
  * @author Andres Almiray

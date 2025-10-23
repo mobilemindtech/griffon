@@ -20,9 +20,9 @@ package org.codehaus.griffon.runtime.core.configuration;
 import griffon.converter.ConverterRegistry;
 import griffon.core.Configuration;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.inject.Provider;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import jakarta.inject.Provider;
 import java.util.ResourceBundle;
 
 import static java.util.Objects.requireNonNull;

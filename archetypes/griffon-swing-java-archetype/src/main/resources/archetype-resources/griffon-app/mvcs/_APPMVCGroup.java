@@ -1,6 +1,6 @@
 package ${package};
 
-import javax.inject.Named;
+import jakarta.inject.Named;
 import griffon.core.mvc.MVCGroup;
 import org.codehaus.griffon.runtime.core.mvc.AbstractTypedMVCGroup;
 import griffon.annotations.core.Nonnull;

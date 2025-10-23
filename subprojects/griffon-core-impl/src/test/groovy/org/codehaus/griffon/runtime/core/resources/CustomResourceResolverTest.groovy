@@ -22,6 +22,7 @@ import griffon.annotations.core.Nonnull
 import griffon.converter.ConverterRegistry
 import griffon.core.resources.NoSuchResourceException
 import griffon.core.resources.ResourceResolver
+import groovy.test.GroovyAssert
 import name.falgout.jeffrey.testing.junit.guice.GuiceExtension
 import name.falgout.jeffrey.testing.junit.guice.IncludeModule
 import org.codehaus.griffon.converter.DefaultConverterRegistry
@@ -30,8 +31,8 @@ import org.codehaus.griffon.runtime.core.bundles.AbstractMapResourceBundle
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 
-import javax.inject.Inject
-import javax.inject.Singleton
+import jakarta.inject.Inject
+import jakarta.inject.Singleton
 
 @ExtendWith(GuiceExtension)
 @IncludeModule(TestModule)

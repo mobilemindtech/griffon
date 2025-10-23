@@ -24,6 +24,7 @@ dependencies {
         exclude group: 'org.slf4j', module: 'slf4j-api'
     }
     api "jakarta.annotation:jakarta.annotation-api:$annotationsVersion"
+    api "jakarta.inject:jakarta.inject-api:$injectApiVerson"
 
     testImplementation project(':griffon-tck')
     testRuntimeOnly config.dependencyManagement.gav('slf4j', 'slf4j-simple')

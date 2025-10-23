@@ -34,7 +34,7 @@ import griffon.inject.DependsOn;
 import org.codehaus.griffon.runtime.core.injection.AbstractModule;
 import org.kordamp.jipsy.ServiceProviderFor;
 
-import javax.inject.Named;
+import jakarta.inject.Named;
 
 @Named("foo")
 @ServiceProviderFor(Module.class)
@@ -56,7 +56,7 @@ import griffon.inject.Evicts;
 import org.codehaus.griffon.runtime.core.injection.AbstractModule;
 import org.kordamp.jipsy.ServiceProviderFor;
 
-import javax.inject.Named;
+import jakarta.inject.Named;
 
 @Named("foo")
 @Evicts("foo")

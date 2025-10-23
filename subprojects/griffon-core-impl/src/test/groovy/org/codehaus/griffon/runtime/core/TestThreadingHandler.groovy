@@ -21,7 +21,7 @@ import griffon.annotations.core.Nonnull
 import griffon.core.threading.UIThreadManager
 import org.codehaus.griffon.runtime.core.threading.AbstractThreadingHandler
 
-import javax.inject.Inject
+import jakarta.inject.Inject
 
 /**
  * @author Andres Almiray

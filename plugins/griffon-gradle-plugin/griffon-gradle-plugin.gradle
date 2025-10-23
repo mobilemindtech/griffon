@@ -41,11 +41,14 @@ config {
 dependencies {
     compileOnly gradleApi()
 
-    api "org.kordamp.gradle:java-project-gradle-plugin:$kordampPluginVersion"
+    api ("org.kordamp.gradle:java-project-gradle-plugin:$kordampPluginVersion"){
+        exclude group: 'com.google.inject', module: 'guice'
+        exclude group: 'org.codehaus.groovy', module: 'groovy'
+    }
     compileOnly 'com.github.jengelman.gradle.plugins:shadow:6.1.0'
 
     testImplementation("org.spockframework:spock-core:$spockVersion") {
-        exclude group: 'org.apache.groovy', module: 'groovy'
+        //exclude group: 'org.apache.groovy', module: 'groovy'
     }
 }
 
@@ -62,4 +65,18 @@ processResources {
         jipsyVersion         : jipsyVersion,
         awaitilityVersion    : awaitilityVersion,
     )
+}
+
+// resolve conflict with gradle groovy 3 and project groogy 4
+tasks.withType(GroovyCompile).configureEach {
+    if (name == "compileTestGroovy") {
+        groovyOptions.forkOptions.jvmArgs += [
+            "--add-opens", "java.base/java.lang=ALL-UNNAMED",
+            "-Dgroovy.target.bytecode=17"
+        ]
+        groovyOptions.fork = true
+        groovyClasspath = configurations.detachedConfiguration(
+            dependencies.create("org.apache.groovy:groovy:$groovyVersion")
+        )
+    }
 }

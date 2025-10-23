@@ -23,7 +23,7 @@ import griffon.core.env.Environment;
 import griffon.core.env.Metadata;
 import griffon.core.util.GriffonApplicationUtils;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
@@ -131,7 +131,7 @@ public class PropertiesReader {
         return null;
     }
 
-    public static class Provider implements javax.inject.Provider<PropertiesReader> {
+    public static class Provider implements jakarta.inject.Provider<PropertiesReader> {
         @Inject
         private Metadata metadata;
         @Inject

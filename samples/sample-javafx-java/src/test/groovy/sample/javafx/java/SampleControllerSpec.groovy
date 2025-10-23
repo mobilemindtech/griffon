@@ -17,14 +17,15 @@
  */
 package sample.javafx.java
 
+import griffon.core.GriffonApplication
 import griffon.core.artifact.ArtifactManager
+import griffon.core.view.WindowManager
 import griffon.test.core.GriffonUnitRule
 import griffon.test.core.TestFor
+import jakarta.inject.Inject
 import javafx.embed.swing.JFXPanel
 import org.junit.Rule
 import spock.lang.Specification
-
-import javax.inject.Inject
 
 import static java.util.concurrent.TimeUnit.SECONDS
 import static org.awaitility.Awaitility.await
@@ -45,6 +46,19 @@ class SampleControllerSpec extends Specification {
 
     @Rule
     public final GriffonUnitRule griffon = new GriffonUnitRule()
+
+    @Inject
+    private WindowManager windowManager
+    @Inject
+    private GriffonApplication griffonApplication
+
+    def setup() {
+        griffon.initializeGriffon(this)
+    }
+
+    def cleanup(){
+        griffonApplication.shutdown()
+    }
 
     def 'Execute HelloAction with no input'() {
         given:

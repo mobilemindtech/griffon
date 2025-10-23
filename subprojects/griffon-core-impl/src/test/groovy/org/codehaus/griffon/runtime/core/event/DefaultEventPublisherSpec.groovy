@@ -35,18 +35,30 @@ import org.codehaus.griffon.runtime.core.threading.DefaultExecutorServiceProvide
 import org.codehaus.griffon.runtime.core.threading.UIThreadManagerTestSupport
 import org.codehaus.griffon.runtime.util.SimpleInstantiator
 import org.junit.Rule
+import org.junit.runners.model.FrameworkMethod
+import org.junit.runners.model.Statement
+import org.spockframework.runtime.model.MethodInfo
+import spock.lang.Shared
 import spock.lang.Specification
 
-import javax.inject.Inject
-import javax.inject.Singleton
+import jakarta.inject.Inject
+import jakarta.inject.Singleton
 import java.util.concurrent.ExecutorService
 
 class DefaultEventPublisherSpec extends Specification {
     @Rule
+    @Shared
     final GuiceBerryRule guiceBerry = new GuiceBerryRule(TestModule)
 
     @Inject
     private EventPublisher eventPublisher
+
+    def setup() {
+        MethodInfo featureMethod = specificationContext.currentIteration.feature.featureMethod
+        Statement statement = new Statement() { void evaluate() {} }
+        FrameworkMethod method = new FrameworkMethod(featureMethod.reflection)
+        guiceBerry.apply(statement, method, this).evaluate()
+    }
 
     def 'Invoking an event in synchronous mode with listener'() {
         given:

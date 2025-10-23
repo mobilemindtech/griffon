@@ -23,7 +23,7 @@ import griffon.annotations.inject.Contextual;
 import griffon.core.controller.ActionMetadata;
 import griffon.core.controller.ActionParameter;
 
-import javax.inject.Named;
+import jakarta.inject.Named;
 import java.lang.annotation.Annotation;
 import java.util.Arrays;
 

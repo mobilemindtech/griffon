@@ -93,7 +93,7 @@ import org.codehaus.griffon.runtime.core.threading.DefaultUIThreadManager;
 import org.codehaus.griffon.runtime.core.view.NoopWindowManager;
 import org.codehaus.griffon.runtime.util.DefaultInstantiator;
 
-import javax.inject.Named;
+import jakarta.inject.Named;
 import java.util.ResourceBundle;
 import java.util.concurrent.ExecutorService;
 

@@ -24,7 +24,7 @@ import griffon.annotations.inject.Typed
 import spock.lang.Specification
 import spock.lang.Unroll
 
-import javax.inject.Named
+import jakarta.inject.Named
 
 @Unroll
 class AnnotationUtilsSpec extends Specification {

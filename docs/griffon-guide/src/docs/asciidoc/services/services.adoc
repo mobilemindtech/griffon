@@ -16,7 +16,7 @@ package sample
 
 import griffon.core.artifact.GriffonService
 
-@javax.inject.Singleton
+@jakarta.inject.Singleton
 @griffon.metadata.ArtifactProviderFor(GriffonService)
 class MathService {
     def addition(a, b) { a + b }

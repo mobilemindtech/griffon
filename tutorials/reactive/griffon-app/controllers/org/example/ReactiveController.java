@@ -26,7 +26,7 @@ import rx.Subscription;
 import rx.schedulers.Schedulers;
 
 import griffon.annotations.core.Nonnull;
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 import java.util.concurrent.TimeUnit;
 
 import static org.example.State.READY;

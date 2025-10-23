@@ -23,7 +23,7 @@ import griffon.core.env.Environment;
 import griffon.core.env.Metadata;
 import griffon.core.util.GriffonApplicationUtils;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -41,7 +41,7 @@ public class MapReader {
 
     private final Map<String, String> conditionValues = new LinkedHashMap<>();
 
-    public static class Provider implements javax.inject.Provider<MapReader> {
+    public static class Provider implements jakarta.inject.Provider<MapReader> {
         @Inject private Metadata metadata;
         @Inject private Environment environment;
 

@@ -25,7 +25,7 @@ import griffon.exceptions.InstanceNotFoundException
 import griffon.exceptions.MembersInjectionException
 import spock.lang.Specification
 
-import javax.inject.Inject
+import jakarta.inject.Inject
 
 import static griffon.util.AnnotationUtils.named
 

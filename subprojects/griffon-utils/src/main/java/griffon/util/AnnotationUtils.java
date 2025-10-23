@@ -26,8 +26,8 @@ import griffon.annotations.inject.Typed;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.inject.Named;
-import javax.inject.Qualifier;
+import jakarta.inject.Named;
+import jakarta.inject.Qualifier;
 import java.io.Serializable;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;

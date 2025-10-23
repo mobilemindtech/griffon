@@ -26,8 +26,8 @@ import groovy.lang.Script;
 import org.codehaus.griffon.runtime.core.bundles.ClassResourceBundleLoader;
 import org.codehaus.griffon.runtime.core.bundles.ResourceBundleReader;
 
-import javax.inject.Inject;
-import javax.inject.Named;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;

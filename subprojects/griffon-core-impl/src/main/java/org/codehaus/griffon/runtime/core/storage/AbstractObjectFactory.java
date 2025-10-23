@@ -23,7 +23,7 @@ import griffon.core.GriffonApplication;
 import griffon.core.event.Event;
 import griffon.core.storage.ObjectFactory;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 import java.util.Collections;
 import java.util.Map;
 

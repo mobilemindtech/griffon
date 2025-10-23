@@ -23,7 +23,7 @@ import spock.lang.Unroll
 
 @Unroll
 class ExpandableResourceBundleSpec extends Specification {
-    def 'Calling bundle.getObject(#key, #defaultValue) gives #value as result'() {
+    def 'Calling bundle.getObject(#key) gives #value as result'() {
         given:
         ResourceBundle bundle = ExpandableResourceBundle.wrapResourceBundle(new MapResourceBundle())
 

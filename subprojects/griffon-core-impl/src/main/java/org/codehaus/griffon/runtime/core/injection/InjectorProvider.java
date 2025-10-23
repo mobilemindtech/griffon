@@ -20,7 +20,7 @@ package org.codehaus.griffon.runtime.core.injection;
 import griffon.annotations.core.Nonnull;
 import griffon.core.injection.Injector;
 
-import javax.inject.Provider;
+import jakarta.inject.Provider;
 
 /**
  * @author Andres Almiray

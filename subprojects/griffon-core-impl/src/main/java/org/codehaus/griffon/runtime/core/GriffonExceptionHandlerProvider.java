@@ -21,8 +21,8 @@ import griffon.core.ExceptionHandler;
 import griffon.core.GriffonApplication;
 import griffon.core.GriffonExceptionHandler;
 
-import javax.inject.Inject;
-import javax.inject.Provider;
+import jakarta.inject.Inject;
+import jakarta.inject.Provider;
 
 /**
  * @author Andres Almiray

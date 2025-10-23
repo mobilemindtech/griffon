@@ -29,7 +29,7 @@ import org.codehaus.griffon.runtime.javafx.controller.JavaFXActionFactory;
 import org.codehaus.griffon.runtime.javafx.controller.JavaFXActionManager;
 import org.kordamp.jipsy.annotations.ServiceProviderFor;
 
-import javax.inject.Named;
+import jakarta.inject.Named;
 
 import static griffon.util.AnnotationUtils.named;
 

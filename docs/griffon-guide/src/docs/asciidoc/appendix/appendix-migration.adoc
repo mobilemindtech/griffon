@@ -54,7 +54,7 @@ import net.miginfocom.swing.MigLayout;
 import groovy.util.Factory;
 import org.codehaus.griffon.runtime.groovy.view.AbstractBuilderCustomizer;
 
-import javax.inject.Named;
+import jakarta.inject.Named;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -81,7 +81,7 @@ import griffon.util.BuilderCustomizer;
 import org.codehaus.griffon.runtime.core.injection.AbstractModule;
 import org.kordamp.jipsy.ServiceProviderFor;
 
-import javax.inject.Named;
+import jakarta.inject.Named;
 
 @DependsOn("swing-groovy")
 @Named("miglayout-swing-groovy")
@@ -213,7 +213,7 @@ import griffon.core.GriffonApplication
 import org.codehaus.griffon.runtime.core.AbstractLifecycleHandler
 
 import javax.annotation.Nonnull
-import javax.inject.Inject
+import jakarta.inject.Inject
 
 class Initialize extends AbstractLifecycleHandler {
     @Inject

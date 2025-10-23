@@ -11,7 +11,7 @@ define less than these 3 members. You may define additional typed accessors for 
 ----
 package org.example;
 
-import javax.inject.Named;
+import jakarta.inject.Named;
 import griffon.core.mvc.MVCGroup;
 import org.codehaus.griffon.runtime.core.mvc.AbstractTypedMVCGroup;
 

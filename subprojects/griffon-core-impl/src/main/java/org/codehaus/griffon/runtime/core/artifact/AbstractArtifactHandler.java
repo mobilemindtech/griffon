@@ -24,7 +24,7 @@ import griffon.core.artifact.ArtifactHandler;
 import griffon.core.artifact.GriffonArtifact;
 import griffon.core.artifact.GriffonClass;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 import java.util.Collections;
 import java.util.Map;
 import java.util.TreeMap;

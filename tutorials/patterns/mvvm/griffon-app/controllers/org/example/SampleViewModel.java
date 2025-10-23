@@ -26,7 +26,7 @@ import javafx.beans.property.StringProperty;
 import org.codehaus.griffon.runtime.core.artifact.AbstractGriffonController;
 
 import griffon.annotations.core.Nonnull;
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 @ArtifactProviderFor(GriffonController.class)
 public class SampleViewModel extends AbstractGriffonController {

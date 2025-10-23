@@ -22,7 +22,7 @@ import griffon.annotations.core.Nullable;
 import griffon.core.GriffonApplication;
 import griffon.core.view.WindowManager;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Set;

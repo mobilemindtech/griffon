@@ -29,10 +29,14 @@ import org.codehaus.griffon.runtime.core.configuration.ConfigurationDecoratorFac
 import org.codehaus.griffon.runtime.core.configuration.MutableConfigurationDecoratorFactory
 import org.codehaus.griffon.runtime.core.configuration.ResourceBundleConfigurationProvider
 import org.junit.Rule
+import org.junit.runners.model.FrameworkMethod
+import org.junit.runners.model.Statement
+import org.spockframework.runtime.model.MethodInfo
+import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Unroll
 
-import javax.inject.Inject
+import jakarta.inject.Inject
 
 import static com.google.inject.util.Providers.guicify
 import static griffon.util.AnnotationUtils.named
@@ -40,6 +44,7 @@ import static griffon.util.AnnotationUtils.named
 @Unroll
 class MutableConfigurationSpec extends Specification {
     @Rule
+    @Shared
     public final GuiceBerryRule guiceBerry = new GuiceBerryRule(TestModule)
 
     @Inject
@@ -47,6 +52,15 @@ class MutableConfigurationSpec extends Specification {
 
     @Inject
     private ConverterRegistry converterRegistry
+
+    def setup() {
+        MethodInfo featureMethod = specificationContext.currentIteration.feature.featureMethod
+        Statement statement = new Statement() { void evaluate() {} }
+        FrameworkMethod method = new FrameworkMethod(featureMethod.reflection)
+        guiceBerry.apply(statement, method, this).evaluate()
+    }
+
+
 
     def 'Calling configuration.get(#key, #defaultValue) returns #expectedValue'() {
         expect:

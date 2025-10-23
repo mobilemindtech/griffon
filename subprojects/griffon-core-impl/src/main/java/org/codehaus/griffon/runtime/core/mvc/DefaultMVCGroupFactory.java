@@ -24,7 +24,7 @@ import griffon.core.mvc.MVCGroupConfiguration;
 import griffon.core.mvc.MVCGroupFactory;
 import griffon.core.mvc.MVCGroupManager;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 import java.util.Map;
 
 /**

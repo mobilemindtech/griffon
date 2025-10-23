@@ -22,7 +22,7 @@ import griffon.annotations.core.Nullable;
 import griffon.core.bundles.ResourceBundleLoader;
 import griffon.core.resources.ResourceHandler;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 import java.net.URL;
 import java.util.List;
 

@@ -26,7 +26,7 @@ import org.opendolphin.core.server.action.ServerAction;
 import org.opendolphin.core.server.comm.ActionRegistry;
 import org.opendolphin.core.server.comm.CommandHandler;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 import java.util.List;
 
 import static java.lang.Long.parseLong;

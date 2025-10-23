@@ -21,8 +21,8 @@ import griffon.annotations.core.Nonnull;
 import griffon.core.bundles.CompositeResourceBundleBuilder;
 import griffon.core.i18n.MessageSource;
 
-import javax.inject.Inject;
-import javax.inject.Provider;
+import jakarta.inject.Inject;
+import jakarta.inject.Provider;
 
 import static griffon.util.StringUtils.requireNonBlank;
 import static java.util.Objects.requireNonNull;

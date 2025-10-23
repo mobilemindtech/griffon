@@ -42,8 +42,8 @@ import org.codehaus.griffon.runtime.core.injection.InjectorProvider;
 import org.kordamp.jipsy.annotations.ServiceProviderFor;
 
 import jakarta.annotation.PostConstruct;
-import javax.inject.Inject;
-import javax.inject.Singleton;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Field;

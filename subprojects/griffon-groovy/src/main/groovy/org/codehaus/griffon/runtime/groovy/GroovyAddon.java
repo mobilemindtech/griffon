@@ -29,7 +29,7 @@ import griffon.core.mvc.MVCGroupConfiguration;
 import groovy.util.FactoryBuilderSupport;
 import org.codehaus.griffon.runtime.core.addon.AbstractGriffonAddon;
 
-import javax.inject.Named;
+import jakarta.inject.Named;
 import java.util.Map;
 
 /**

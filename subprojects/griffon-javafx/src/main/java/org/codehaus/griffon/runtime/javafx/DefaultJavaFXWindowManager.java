@@ -29,8 +29,8 @@ import javafx.stage.Window;
 import javafx.stage.WindowEvent;
 import org.codehaus.griffon.runtime.core.view.AbstractWindowManager;
 
-import javax.inject.Inject;
-import javax.inject.Named;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -25,8 +25,8 @@ import groovy.lang.Closure;
 import javafx.stage.Window;
 import org.codehaus.griffon.runtime.javafx.ConfigurableJavaFXWindowDisplayHandler;
 
-import javax.inject.Inject;
-import javax.inject.Named;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 
 /**
  * @author Andres Almiray

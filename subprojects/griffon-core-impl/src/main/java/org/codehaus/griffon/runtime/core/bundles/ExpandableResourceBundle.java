@@ -52,7 +52,8 @@ public class ExpandableResourceBundle extends ResourceBundle {
         if (keys[1] == null) {
             map.put(keys[0], value);
         } else {
-            Map<String, Object> m = (Map<String, Object>) map.get(keys[0]);
+            Object val = map.get(keys[0]);
+            Map<String, Object> m = val instanceof Map ? (Map<String, Object>) val : null;
             if (m == null) {
                 m = new LinkedHashMap<>();
                 map.put(keys[0], m);

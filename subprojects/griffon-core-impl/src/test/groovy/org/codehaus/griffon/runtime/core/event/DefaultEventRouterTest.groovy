@@ -36,8 +36,8 @@ import org.codehaus.griffon.runtime.util.SimpleInstantiator
 import org.junit.jupiter.api.extension.ExtendWith
 import tck.griffon.core.event.EventBusTest
 
-import javax.inject.Inject
-import javax.inject.Singleton
+import jakarta.inject.Inject
+import jakarta.inject.Singleton
 import java.util.concurrent.ExecutorService
 
 import static org.junit.jupiter.api.Assertions.assertTrue

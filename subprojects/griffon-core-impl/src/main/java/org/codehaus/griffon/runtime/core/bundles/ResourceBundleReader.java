@@ -23,7 +23,7 @@ import griffon.core.env.Environment;
 import griffon.core.env.Metadata;
 import griffon.core.util.GriffonApplicationUtils;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -119,7 +119,7 @@ public class ResourceBundleReader {
         return null;
     }
 
-    public static class Provider implements javax.inject.Provider<ResourceBundleReader> {
+    public static class Provider implements jakarta.inject.Provider<ResourceBundleReader> {
         @Inject
         private Metadata metadata;
         @Inject

@@ -22,7 +22,7 @@ import griffon.annotations.core.Nullable;
 import griffon.core.mvc.MVCGroup;
 import griffon.core.mvc.MVCGroupManager;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 import java.util.Map;
 
 import static java.util.Objects.requireNonNull;

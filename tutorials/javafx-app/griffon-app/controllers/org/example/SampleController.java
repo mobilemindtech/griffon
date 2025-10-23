@@ -23,7 +23,7 @@ import griffon.metadata.ArtifactProviderFor;
 import org.codehaus.griffon.runtime.core.artifact.AbstractGriffonController;
 
 import griffon.annotations.core.Nonnull;
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 @ArtifactProviderFor(GriffonController.class)
 public class SampleController extends AbstractGriffonController {

@@ -24,7 +24,7 @@ import griffon.core.controller.Action;
 import griffon.core.controller.ActionFactory;
 import griffon.core.controller.ActionMetadataFactory;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 /**
  * @author Andres Almiray

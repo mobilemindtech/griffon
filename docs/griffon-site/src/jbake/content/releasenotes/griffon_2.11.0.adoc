@@ -129,7 +129,7 @@ It's now possible to define typed MVC groups. This feature assumes the MVC group
 ----
 package org.example;
 
-import javax.inject.Named;
+import jakarta.inject.Named;
 import griffon.core.mvc.MVCGroup;
 import org.codehaus.griffon.runtime.core.mvc.AbstractTypedMVCGroup;
 

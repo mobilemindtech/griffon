@@ -21,8 +21,8 @@ import griffon.annotations.core.Nonnull;
 import griffon.core.bundles.ResourceBundleLoader;
 import griffon.core.injection.Injector;
 
-import javax.inject.Inject;
-import javax.inject.Provider;
+import jakarta.inject.Inject;
+import jakarta.inject.Provider;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;

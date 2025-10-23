@@ -23,7 +23,7 @@ import griffon.inject.MVCMember
 import griffon.metadata.ArtifactProviderFor
 
 import javax.annotation.Nonnull
-import javax.inject.Inject
+import jakarta.inject.Inject
 
 @ArtifactProviderFor(GriffonView)
 class SampleView {
@@ -151,7 +151,7 @@ import griffon.inject.MVCMember
 import griffon.metadata.ArtifactProviderFor
 
 import javax.annotation.Nonnull
-import javax.inject.Inject
+import jakarta.inject.Inject
 
 @ArtifactProviderFor(GriffonView)
 class SampleView {
@@ -212,7 +212,7 @@ import griffon.metadata.ArtifactProviderFor
 import static griffon.core.env.GriffonEnvironment.*
 
 import javax.annotation.Nonnull
-import javax.inject.Inject
+import jakarta.inject.Inject
 
 @ArtifactProviderFor(GriffonView)
 class SampleView {

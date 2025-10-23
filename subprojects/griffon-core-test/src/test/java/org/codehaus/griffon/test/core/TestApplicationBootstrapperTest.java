@@ -29,8 +29,8 @@ import griffon.core.injection.ProviderTypeBinding;
 import griffon.core.injection.TargetBinding;
 import org.junit.jupiter.api.Test;
 
-import javax.inject.Named;
-import javax.inject.Provider;
+import jakarta.inject.Named;
+import jakarta.inject.Provider;
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.Collection;

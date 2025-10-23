@@ -21,7 +21,7 @@ import org.opendolphin.core.client.ClientDolphin;
 import org.opendolphin.core.client.ClientModelStore;
 import org.opendolphin.core.client.comm.ClientConnector;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 public class ApplicationEventHandler implements EventHandler {
     @Inject

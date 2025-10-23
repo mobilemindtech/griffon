@@ -26,7 +26,7 @@ import org.codehaus.griffon.runtime.core.addon.AbstractGriffonAddon;
 import org.jdesktop.swinghelper.debug.CheckThreadViolationRepaintManager;
 import org.jdesktop.swinghelper.debug.EventDispatchThreadHangMonitor;
 
-import javax.inject.Named;
+import jakarta.inject.Named;
 import javax.swing.*;
 
 /**
