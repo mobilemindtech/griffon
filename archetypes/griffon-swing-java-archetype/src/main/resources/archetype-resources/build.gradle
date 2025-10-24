@@ -9,9 +9,9 @@ buildscript {
 
     dependencies {
         classpath 'org.codehaus.griffon:gradle-griffon-plugin:${griffonVersion}'
-        classpath 'gradle.plugin.com.hierynomus.gradle.plugins:license-gradle-plugin:0.15.0'
+        classpath 'gradle.plugin.com.hierynomus.gradle.plugins:license-gradle-plugin:0.16.1'
         classpath 'com.github.ben-manes:gradle-versions-plugin:0.39.0'
-        classpath 'gradle.plugin.net.nemerosa:versioning:2.15.1'
+        classpath 'gradle.plugin.net.nemerosa:versioning:3.1.0'
     }
 }
 

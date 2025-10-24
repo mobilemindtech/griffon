@@ -294,12 +294,13 @@ class GriffonParentPomPlugin implements Plugin<Project> {
                         testImplementation(sub.config.dependencyManagement.gav('junit')) {
                             exclude group: 'org.hamcrest', module: 'hamcrest-core'
                         }
-                        testImplementation("org.apache.groovy:groovy-all:${sub.groovyVersion}") {
+                        testImplementation("org.apache.groovy:groovy-all${sub.groovyVersion}") {
                             exclude group: 'junit', module: 'junit'
+                            exclude group: 'org.apache.groovy', module: 'groovy-test-junit5'
                         }
                         testImplementation("org.spockframework:spock-core:${sub.spockVersion}") {
                             exclude group: 'junit', module: 'junit'
-                            exclude group: 'org.codehaus.groovy', module: 'groovy-all'
+                            exclude group: 'org.apache.groovy', module: 'groovy-all'
                         }
 
                         compileOnly "org.codehaus.griffon:griffon-core-compile:${sub.griffonVersion}"
@@ -315,7 +316,7 @@ class GriffonParentPomPlugin implements Plugin<Project> {
 
                         testImplementation "org.codehaus.griffon:griffon-core-test:${sub.griffonVersion}"
                         testImplementation("org.codehaus.griffon:griffon-groovy:${sub.griffonVersion}") {
-                            exclude group: 'org.codehaus.groovy', module: 'groovy-all'
+                            exclude group: 'org.apache.groovy', module: 'groovy-all'
                         }
 
                         testRuntimeOnly "org.codehaus.griffon:griffon-guice:${sub.griffonVersion}"
@@ -364,6 +365,7 @@ class GriffonParentPomPlugin implements Plugin<Project> {
                     dependencies {
                         compileOnly("org.apache.groovy:groovy-all:${project.groovyVersion}") {
                             exclude group: 'junit', module: 'junit'
+                            exclude group: 'org.apache.groovy', module: 'groovy-test-junit5'
                         }
                     }
                 }

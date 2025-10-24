@@ -28,7 +28,7 @@ config {
         }
     }
 }
-
+/*
 task copyArchetypeResources(type: Copy, dependsOn: 'jar') {
     //dependsOn(Jar)
     destinationDir = project.file("${buildDir}/resources/main")
@@ -36,14 +36,19 @@ task copyArchetypeResources(type: Copy, dependsOn: 'jar') {
         into 'META-INF'
     }
     duplicatesStrategy = DuplicatesStrategy.INHERIT
-}
+}*/
 
+tasks.register("copyArchetypeResources", Copy) {
+    dependsOn tasks.named("jar")
+    into(layout.buildDirectory.dir("resources/main"))
+    from(rootProject.file("archetypes/shared-files/sources/archetype")) {
+        into "META-INF"
+    }
+    duplicatesStrategy = DuplicatesStrategy.INHERIT
+}
+/*
 task copyProjectResources(type: Copy, dependsOn: 'jar') {
-    //dependsOn(Jar)
     destinationDir = project.file("${buildDir}/resources/main/archetype-resources")
-    //from(rootProject.file('archetypes/shared-files/sources/project/.mvn')) {
-    //    into '.mvn'
-    //}
     from(rootProject.file('archetypes/shared-files/sources/project'))
     from(rootProject.file('src/media')) {
         include 'griffon*'
@@ -54,6 +59,22 @@ task copyProjectResources(type: Copy, dependsOn: 'jar') {
     }
 
 }
+*/
+tasks.register("copyProjectResources", Copy) {
+    dependsOn tasks.named("jar")
+    into(layout.buildDirectory.dir("resources/main/archetype-resources"))
+    from(rootProject.file("archetypes/shared-files/sources/project"))
+    from(rootProject.file("src/media")) {
+        include 'griffon*'
+        into 'src/media'
+    }
+    from(rootProject.file("src/javadoc")) {
+        into 'src/javadoc'
+    }
+    duplicatesStrategy = DuplicatesStrategy.INHERIT
+}
+
+
 
 processResources.finalizedBy copyArchetypeResources
 processResources.finalizedBy copyProjectResources

@@ -19,6 +19,7 @@ dependencies {
     api project(':griffon-core-impl')
     api("org.apache.groovy:groovy-all:$groovyVersion") {
         exclude group: 'junit', module: 'junit'
+        exclude group: 'org.apache.groovy', module: 'groovy-test-junit5'
     }
 
     compileOnly project(':griffon-core-compile')

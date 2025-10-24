@@ -24,9 +24,11 @@ dependencies {
     api project(':griffon-groovy')
     api("org.apache.groovy:groovy-all:$groovyVersion") {
         exclude group: 'junit', module: 'junit'
+        exclude group: 'org.apache.groovy', module: 'groovy-test-junit5'
     }
     api(config.dependencyManagement.gav('gipsy')) {
         exclude group: 'org.codehaus.groovy', module: 'groovy-all'
+        exclude group: 'org.apache.groovy', module: 'groovy-all'
     }
 
     compileOnly "org.openjfx:javafx-base:${javafxVersion}:${javafxPlatform}"

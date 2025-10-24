@@ -44,14 +44,14 @@ apply from: rootProject.file('client/calculator-client-common/gradle/package.gra
 apply from: rootProject.file('client/calculator-client-common/gradle/docs.gradle')
 
 dependencies {
-    compile project(':calculator-component-swing')
-    compile project(':calculator-client-common')
+    implementation project(':calculator-component-swing')
+    implementation project(':calculator-client-common')
 
     griffon "org.codehaus.griffon.plugins:griffon-miglayout-plugin:${miglayoutVersion}"
 
-    compile "org.codehaus.griffon:griffon-guice:${griffon.version.get()}"
-    compile "org.slf4j:jul-to-slf4j:${slf4jVersion}"
-    compile "org.slf4j:jcl-over-slf4j:${slf4jVersion}"
+    implementation "org.codehaus.griffon:griffon-guice:${griffon.version.get()}"
+    implementation "org.slf4j:jul-to-slf4j:${slf4jVersion}"
+    implementation "org.slf4j:jcl-over-slf4j:${slf4jVersion}"
 
     runtime('log4j:log4j:1.2.17') {
         exclude group: 'ant',         module: 'ant-nodeps'
@@ -60,8 +60,8 @@ dependencies {
     }
     runtime "org.slf4j:slf4j-log4j12:${slf4jVersion}"
 
-    testCompile 'org.apache.groovy:groovy-all:2.5.12'
-    testCompile 'org.spockframework:spock-core:2.0-groovy-2.5'
+    testImplementation "org.apache.groovy:groovy-all:${groovyVersion}"
+    testImplementation "org.spockframework:spock-core:${spockVersion}"
 }
 
 compileGroovy.enabled = false

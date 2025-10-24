@@ -39,7 +39,8 @@ dependencies {
         exclude group: 'org.codehaus.groovy', module: 'groovy'
     }
     functionalTestImplementation("org.apache.groovy:groovy-all:$groovyVersion") {
-        exclude module: 'junit', group: 'junit'
+        exclude group: 'junit', module: 'junit'
+        exclude group: 'org.apache.groovy', module: 'groovy-test-junit5'
     }
 
     if (project.name.contains('javafx')) {

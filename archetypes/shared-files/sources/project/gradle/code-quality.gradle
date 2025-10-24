@@ -8,7 +8,7 @@ license {
         java   = 'SLASHSTAR_STYLE'
         groovy = 'SLASHSTAR_STYLE'
     }
-    ext.copyrightYear = '2021'
+    ext.copyrightYear = '2025'
     exclude '**/*.png'
 }
 

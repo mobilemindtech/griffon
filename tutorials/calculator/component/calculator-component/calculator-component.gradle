@@ -18,23 +18,23 @@ apply plugin: 'groovy'
 apply from: rootProject.file('gradle/code-coverage.gradle')
 
 dependencies {
-    compile project(':calculator-pm')
-    compile "jakarta.inject:jakarta.inject-api:$injectApiVerson"
-    compile 'javax.ws.rs:javax.ws.rs-api:2.0.1'
-    compile "org.slf4j:slf4j-api:$slf4jVersion"
-    compile "org.open-dolphin:dolphin-server:${dolphinVersion}"
-    compile 'org.kordamp.jipsy:jipsy:0.4.0'
+    implementation project(':calculator-pm')
+    implementation "jakarta.inject:jakarta.inject-api:$injectApiVerson"
+    implementation 'javax.ws.rs:javax.ws.rs-api:2.0.1'
+    implementation "org.slf4j:slf4j-api:$slf4jVersion"
+    implementation "org.open-dolphin:dolphin-server:${dolphinVersion}"
+    implementation 'org.kordamp.jipsy:jipsy:0.4.0'
 
     // -------------------------------------------------------
 
     // API
-    testCompile "org.slf4j:slf4j-simple:$slf4jVersion"
-    testCompile 'junit:junit:4.12'
-    testCompile 'org.apache.groovy:groovy-all:2.5.12'
-    testCompile('org.spockframework:spock-core:2.0-groovy-2.5') {
+    testImplementation "org.slf4j:slf4j-simple:$slf4jVersion"
+    testImplementation 'junit:junit:4.12'
+    testImplementation "org.apache.groovy:groovy-all:${groovyVersion}"
+    testImplementation("org.spockframework:spock-core:${spockVersion}") {
         exclude group: 'org.codehaus.groovy', module: 'groovy'
     }
-    testCompile 'cglib:cglib-nodep:3.2.0'
+    testImplementation 'cglib:cglib-nodep:3.2.0'
 
     // DI
     testCompile('com.google.inject:guice:3.0') {

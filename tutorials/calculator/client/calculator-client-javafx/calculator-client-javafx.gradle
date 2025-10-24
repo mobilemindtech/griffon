@@ -69,8 +69,8 @@ dependencies {
 
     runtime "org.slf4j:slf4j-simple:${slf4jVersion}"
 
-    testCompile 'org.apache.groovy:groovy-all:2.5.12'
-    testCompile 'org.spockframework:spock-core:2.0-groovy-2.5'
+    testCompile "org.apache.groovy:groovy-all:${groovyVersion}"
+    testCompile "org.spockframework:spock-core:${spockVersion}"
 }
 
 compileGroovy.enabled = false
