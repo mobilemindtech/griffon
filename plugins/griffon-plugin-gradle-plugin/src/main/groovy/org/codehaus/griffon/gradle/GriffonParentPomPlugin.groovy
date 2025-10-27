@@ -129,9 +129,9 @@ class GriffonParentPomPlugin implements Plugin<Project> {
                 javadoc {
                     excludes = ['**/*.html', 'META-INF/**']
                 }
-                sourceXref {
-                    inputEncoding = 'UTF-8'
-                }
+                //sourceXref {
+                //    inputEncoding = 'UTF-8'
+                //}
             }
 
             publishing {
@@ -294,13 +294,15 @@ class GriffonParentPomPlugin implements Plugin<Project> {
                         testImplementation(sub.config.dependencyManagement.gav('junit')) {
                             exclude group: 'org.hamcrest', module: 'hamcrest-core'
                         }
-                        testImplementation("org.apache.groovy:groovy-all${sub.groovyVersion}") {
+                        testImplementation("org.apache.groovy:groovy-all:${sub.groovyVersion}") {
                             exclude group: 'junit', module: 'junit'
                             exclude group: 'org.apache.groovy', module: 'groovy-test-junit5'
                         }
                         testImplementation("org.spockframework:spock-core:${sub.spockVersion}") {
-                            exclude group: 'junit', module: 'junit'
-                            exclude group: 'org.apache.groovy', module: 'groovy-all'
+                            exclude group: 'org.apache.groovy'
+                            exclude group: 'junit'
+                            exclude group: 'org.junit'
+
                         }
 
                         compileOnly "org.codehaus.griffon:griffon-core-compile:${sub.griffonVersion}"
@@ -336,75 +338,66 @@ class GriffonParentPomPlugin implements Plugin<Project> {
             })
         }
 
-        project.projects {
-            subprojects {
-                dir('subprojects') {
-                    config {
-                        info {
-                            name        = project.findProperty('projectDescription') ?: project.name
-                            description = project.findProperty('projectDescription') ?: project.name
-                        }
-                    }
-
-                    compileGroovy.enabled = false
-                }
-
-                dir('examples') {
-                    config {
-                        docs {
-                            javadoc {
-                                enabled = false
-                            }
-                        }
-
-                        publishing {
-                            enabled = false
-                        }
-                    }
-
-                    dependencies {
-                        compileOnly("org.apache.groovy:groovy-all:${project.groovyVersion}") {
-                            exclude group: 'junit', module: 'junit'
-                            exclude group: 'org.apache.groovy', module: 'groovy-test-junit5'
-                        }
+        project.subprojects { sub ->
+            if (sub.projectDir.name == 'subprojects') {
+                sub.extensions.configure(ProjectConfigurationExtension) { config ->
+                    config.info {
+                        name        = project.findProperty('projectDescription') ?: project.name
+                        description = project.findProperty('projectDescription') ?: project.name
                     }
                 }
 
-                path(':' + guideProjectName) {
-                    ext.projectDependencies = []
+                sub.tasks.withType(GroovyCompile) { it.enabled = false }
+            }
 
-                    asciidoctor {
-                        baseDirFollowsSourceDir()
-                        attributes = [
-                            toc                    : 'left',
-                            doctype                : 'book',
-                            icons                  : 'font',
-                            encoding               : 'utf-8',
-                            sectlink               : true,
-                            sectanchors            : true,
-                            numbered               : true,
-                            linkattrs              : true,
-                            imagesdir              : 'images',
-                            linkcss                : true,
-                            stylesheet             : 'css/style.css',
-                            'source-highlighter'   : 'coderay',
-                            'coderay-linenums-mode': 'table',
-                            'griffon-version'      : rootProject.griffonVersion
-                        ]
+            if (sub.projectDir.name == 'examples') {
+                sub.extensions.configure(ProjectConfigurationExtension) { config ->
+                    config.docs.javadoc.enabled = false
+                    config.publishing.enabled = false
+                }
 
-                        sources {
-                            include 'index.adoc'
-                        }
-
-                        resources {
-                            from file('src/resources')
-                        }
-                    }
-
-                    guide {
-                        sourceHtmlDir = 'api-src'
+                sub.dependencies {
+                    compileOnly("org.apache.groovy:groovy-all:${project.groovyVersion}") {
+                        exclude group: 'junit', module: 'junit'
+                        exclude group: 'org.apache.groovy', module: 'groovy-test-junit5'
                     }
                 }
+            }
+
+            if (sub.name == guideProjectName) {
+                sub.ext.projectDependencies = []
+
+                /*sub.asciidoctor {
+                    baseDirFollowsSourceDir()
+                    attributes = [
+                        toc                    : 'left',
+                        doctype                : 'book',
+                        icons                  : 'font',
+                        encoding               : 'utf-8',
+                        sectlink               : true,
+                        sectanchors            : true,
+                        numbered               : true,
+                        linkattrs              : true,
+                        imagesdir              : 'images',
+                        linkcss                : true,
+                        stylesheet             : 'css/style.css',
+                        'source-highlighter'   : 'coderay',
+                        'coderay-linenums-mode': 'table',
+                        'griffon-version'      : rootProject.griffonVersion
+                    ]
+
+                    sources {
+                        include 'index.adoc'
+                    }
+
+                    resources {
+                        from file('src/resources')
+                    }
+                }
+
+                sub.guide {
+                    sourceHtmlDir = 'api-src'
+                }*/
             }
         }
 

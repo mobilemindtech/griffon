@@ -57,6 +57,8 @@ dependencies {
     // api "org.ajoberstar:gradle-git-publish:$gitPluginVersion"
 
     testImplementation("org.spockframework:spock-core:$spockVersion") {
-        //exclude group: 'org.apache.groovy', module: 'groovy'
+        exclude group: 'org.apache.groovy'
+        exclude group: 'junit'
+        exclude group: 'org.junit'
     }
 }

@@ -341,7 +341,9 @@ subprojects { Project subproj ->
             if (!subproj.name.endsWith('-gradle-plugin')) {
                 testImplementation "org.apache.groovy:groovy:$groovyVersion"
                 testImplementation("org.spockframework:spock-core:$spockVersion"){
-                    //exclude group: 'org.apache.groovy', module: 'groovy'
+                    exclude group: 'org.apache.groovy'
+                    exclude group: 'junit'
+                    exclude group: 'org.junit'
                 }
                 testImplementation("org.mockito:mockito-core:$mockitoVersion"){
                     exclude group: 'org.codehaus.groovy', module: 'groovy'

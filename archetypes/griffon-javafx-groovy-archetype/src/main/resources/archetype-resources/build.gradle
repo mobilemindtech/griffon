@@ -51,7 +51,11 @@ dependencies {
 
     testImplementation "org.codehaus.griffon:griffon-javafx-test:${griffon.version.get()}"
     testImplementation "org.apache.groovy:groovy-all:${groovyVersion}"
-    testImplementation "org.spockframework:spock-core:${spockVersion}"
+    testImplementation("org.spockframework:spock-core:${spockVersion}"){
+        exclude group: 'org.apache.groovy'
+        exclude group: 'junit'
+        exclude group: 'org.junit'
+    }
     testImplementation("org.awaitility:awaitility-groovy:${awaitilityVersion}") {
         exclude group: 'org.apache.groovy', module: 'groovy'
     }

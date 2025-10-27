@@ -60,7 +60,11 @@ dependencies {
 
     testImplementation "org.codehaus.griffon:griffon-swing-test:${griffon.version}"
     testImplementation "org.apache.groovy:groovy-all:{groovy-version}"
-    testImplementation "org.spockframework:spock-core:{spock-version}"
+    testImplementation("org.spockframework:spock-core:{spock-version}"){
+        exclude group: 'org.apache.groovy'
+        exclude group: 'junit'
+        exclude group: 'org.junit'
+    }
 }
 
 task sourceJar(type: Jar) {

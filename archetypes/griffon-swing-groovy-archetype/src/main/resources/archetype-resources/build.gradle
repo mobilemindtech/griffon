@@ -50,7 +50,11 @@ dependencies {
     runtimeOnly "org.slf4j:slf4j-simple:${slf4jVersion}"
 
     testImplementation "org.codehaus.griffon:griffon-swing-test:${griffon.version.get()}"
-    testImplementation "org.spockframework:spock-core:${spockVersion}"
+    testImplementation("org.spockframework:spock-core:${spockVersion}"){
+        exclude group: 'org.apache.groovy'
+        exclude group: 'junit'
+        exclude group: 'org.junit'
+    }
     testImplementation("org.awaitility:awaitility-groovy:${awaitilityVersion}") {
         exclude group: 'org.apache.groovy', module: 'groovy'
     }

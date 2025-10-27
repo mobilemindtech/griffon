@@ -19,7 +19,7 @@ configurations {
         extendsFrom testCompile
     }
     integrationTestRuntime {
-        extendsFrom integrationTestCompile, testRuntime
+        extendsFrom integrationTestCompile, testRuntimeOnly
     }
 }
 

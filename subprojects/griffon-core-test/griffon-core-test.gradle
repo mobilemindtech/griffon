@@ -22,6 +22,7 @@ dependencies {
     }
     api "org.hamcrest:java-hamcrest:$hamcrestVersion"
     api("org.awaitility:awaitility:$awaitilityVersion") {
+        exclude group: 'org.hamcrest', module: 'hamcrest'
         exclude group: 'org.hamcrest', module: 'hamcrest-core'
         exclude group: 'org.hamcrest', module: 'hamcrest-library'
     }

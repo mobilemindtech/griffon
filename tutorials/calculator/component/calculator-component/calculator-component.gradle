@@ -32,7 +32,9 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     testImplementation "org.apache.groovy:groovy-all:${groovyVersion}"
     testImplementation("org.spockframework:spock-core:${spockVersion}") {
-        exclude group: 'org.codehaus.groovy', module: 'groovy'
+        exclude group: 'org.apache.groovy'
+        exclude group: 'junit'
+        exclude group: 'org.junit'
     }
     testImplementation 'cglib:cglib-nodep:3.2.0'
 

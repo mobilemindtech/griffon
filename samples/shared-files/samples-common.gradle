@@ -36,7 +36,9 @@ dependencies {
         exclude module: 'junit', group: 'junit'
     }
     functionalTestImplementation("org.spockframework:spock-core:$spockVersion") {
-        exclude group: 'org.codehaus.groovy', module: 'groovy'
+        exclude group: 'org.apache.groovy'
+        exclude group: 'junit'
+        exclude group: 'org.junit'
     }
     functionalTestImplementation("org.apache.groovy:groovy-all:$groovyVersion") {
         exclude group: 'junit', module: 'junit'

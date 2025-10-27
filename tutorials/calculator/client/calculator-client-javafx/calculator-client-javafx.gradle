@@ -70,7 +70,12 @@ dependencies {
     runtime "org.slf4j:slf4j-simple:${slf4jVersion}"
 
     testCompile "org.apache.groovy:groovy-all:${groovyVersion}"
-    testCompile "org.spockframework:spock-core:${spockVersion}"
+    testCompile("org.spockframework:spock-core:${spockVersion}"){
+        exclude group: 'org.apache.groovy'
+        exclude group: 'junit'
+        exclude group: 'org.junit'
+
+    }
 }
 
 compileGroovy.enabled = false
