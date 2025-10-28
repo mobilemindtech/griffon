@@ -18,7 +18,6 @@
 dependencies {
     api project(":griffon-core-api")
     api project(":griffon-converter-impl")
-    api 'mrj:MRJToolkitStubs:1.0'
     api "com.google.code.findbugs:jsr305:$jsr305Version"
     api(config.dependencyManagement.gav('jipsy', 'jipsy-util')) {
         exclude group: 'org.slf4j', module: 'slf4j-api'

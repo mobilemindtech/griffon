@@ -15,16 +15,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+repositories {
+    maven {
+        url 'https://repo1.maven.org/maven2'
+    }
+}
 dependencies {
     api project(':griffon-core-impl')
     api("junit:junit:$junitVersion") {
-        exclude group: 'org.hamcrest', module: 'hamcrest-core'
+        exclude group: 'org.hamcrest'
     }
-    api "org.hamcrest:java-hamcrest:$hamcrestVersion"
-    api("org.awaitility:awaitility:$awaitilityVersion") {
-        exclude group: 'org.hamcrest', module: 'hamcrest'
-        exclude group: 'org.hamcrest', module: 'hamcrest-core'
-        exclude group: 'org.hamcrest', module: 'hamcrest-library'
+    api("org.hamcrest:hamcrest:${hamcrestVersion}")
+    api("org.awaitility:awaitility-groovy:${awaitilityVersion}"){
+        exclude group: 'org.awaitility'
+    }
+    api("org.awaitility:awaitility:${awaitilityVersion}"){
+        exclude group: 'org.hamcrest'
     }
     api config.dependencyManagement.gav('junit5', 'junit-jupiter-api')
     api(config.dependencyManagement.gav('junit5v', 'junit-vintage-engine')) {

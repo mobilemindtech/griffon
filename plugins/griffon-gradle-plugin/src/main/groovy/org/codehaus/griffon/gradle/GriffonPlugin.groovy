@@ -31,10 +31,12 @@ import org.gradle.api.tasks.TaskProvider
 import org.gradle.api.tasks.compile.GroovyCompile
 import org.gradle.api.tasks.compile.JavaCompile
 import org.gradle.tooling.BuildException
-import org.kordamp.gradle.plugin.base.ProjectConfigurationExtension
-import org.kordamp.gradle.plugin.project.java.JavaProjectPlugin
+//import org.kordamp.gradle.plugin.base.ProjectConfigurationExtension
+//import org.kordamp.gradle.plugin.project.java.JavaProjectPlugin
 
 import java.text.SimpleDateFormat
+
+import static org.gradle.api.file.DuplicatesStrategy.*
 
 /**
  * @author Andres Almiray
@@ -74,58 +76,48 @@ class GriffonPlugin implements Plugin<Project> {
         project.apply(plugin: 'idea')
         project.apply(plugin: 'java-library')
         project.apply(plugin: 'application')
-        JavaProjectPlugin.applyIfMissing(project)
 
-        project.extensions.findByType(ProjectConfigurationExtension).with {
-            release = (project.rootProject.findProperty('release') ?: false).toBoolean()
+        //JavaProjectPlugin.applyIfMissing(project)
 
-            info {
-                name          = project.findProperty('projectDescription') ?: project.name
-                description   = project.findProperty('projectDescription') ?: project.name
-                inceptionYear = new SimpleDateFormat('YYYY').format(new Date())
-                vendor = 'Griffon'
-                organization {
-                    url = "com.codehause.griffon"
-                }
-                scm {
-                    url = "https://github.com/griffon/griffon"
-                }
-                licensing {
-                    licenses {
-                        license {
-                            id = 'Apache-2.0'
-                        }
-                    }
-                }
-                repositories {
-                    repository {
-                        name = 'localRelease'
-                        url  = "${project.rootProject.buildDir}/repos/local/release"
-                    }
-                    repository {
-                        name = 'localSnapshot'
-                        url  = "${project.rootProject.buildDir}/repos/local/snapshot"
-                    }
-                }
-            }
-
-            coverage {
-                jacoco {
-                    toolVersion = project.jacocoVersion
-                }
-            }
-
-            docs {
-                javadoc {
-                    excludes = ['**/*.html', 'META-INF/**']
-                }
-            }
-
-            publishing {
-                releasesRepository  = 'localRelease'
-                snapshotsRepository = 'localSnapshot'
-            }
-        }
+        //project.extensions.findByType(ProjectConfigurationExtension)?.with {
+        //    release = (project.rootProject.findProperty('release') ?: false).toBoolean()
+        //
+        //    info {
+        //        name          = project.findProperty('projectDescription') ?: project.name
+        //        description   = project.findProperty('projectDescription') ?: project.name
+        //        inceptionYear = new SimpleDateFormat('YYYY').format(new Date())
+        //        vendor = 'Griffon'
+        //        organization {
+        //            url = "com.codehause.griffon"
+        //        }
+        //        scm {
+        //            url = "https://github.com/griffon/griffon"
+        //        }
+        //        licensing {
+        //            licenses {
+        //                license {
+        //                    id = 'Apache-2.0'
+        //                }
+        //            }
+        //        }
+        //        repositories {
+        //            repository {
+        //                name = 'localRelease'
+        //                url  = "${project.rootProject.buildDir}/repos/local/release"
+        //            }
+        //            repository {
+        //                name = 'localSnapshot'
+        //                url  = "${project.rootProject.buildDir}/repos/local/snapshot"
+        //            }
+        //        }
+        //    }
+        //
+        //    docs {
+        //        javadoc {
+        //            excludes = ['**/*.html', 'META-INF/**']
+        //        }
+        //    }
+        //}
     }
 
     static void configureNormalization(Project project) {
@@ -185,7 +177,7 @@ class GriffonPlugin implements Plugin<Project> {
     }
 
     static void processResources(Project project, SourceSet sourceSet, GriffonExtension extension) {
-        ProjectConfigurationExtension config = project.extensions.getByName('config')
+        //ProjectConfigurationExtension config = project.extensions.getByName('config')
 
         project.tasks."${sourceSet.processResourcesTaskName}" {
             filesMatching([
@@ -201,12 +193,12 @@ class GriffonPlugin implements Plugin<Project> {
                     'application_name'   : resolveApplicationName(project),
                     'application_version': project.version,
                     'griffon_version'    : extension.version.get(),
-                    'build_date'         : config.buildInfo.buildDate,
-                    'build_time'         : config.buildInfo.buildTime,
-                    'build_revision'     : config.buildInfo.buildRevision
+                    'build_date'         : new Date().format("YYYY-mm-dd"),
+                    'build_time'         : new Date().format("HH:mm:ss"),
+                    'build_revision'     : "${new Date().time}"
                 ] + extension.applicationProperties.getOrElse([:]))
             }
-            duplicatesStrategy = org.gradle.api.file.DuplicatesStrategy.INCLUDE
+            duplicatesStrategy = INCLUDE
         }
     }
 

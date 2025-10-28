@@ -17,7 +17,6 @@
  */
 apply from: 'gradle/idea.gradle'
 
-ext.javafxPlatform = osdetector.os == 'osx' ? 'mac' : osdetector.os == 'windows' ? 'win' : osdetector.os
 ext.platform = "${osdetector.os}-${osdetector.arch}"
 boolean github = (System.env['CI'] ?: false) as boolean
 ext {
@@ -36,58 +35,11 @@ ext {
 
 config {
     info {
-        name          = 'griffon'
-        vendor        = 'Griffon'
-        description   = project.project_description
+        name = 'griffon'
+        vendor = 'Griffon'
+        description = project.project_description
         inceptionYear = '2008'
-        tags          = ['griffon']
-
-        links {
-            website      = 'https://griffon-framework.org'
-            issueTracker = 'https://github.com/griffon/griffon/issues'
-            scm          = 'https://github.com/griffon/griffon.git'
-        }
-
-        scm {
-            url                 = 'https://github.com/griffon/griffon'
-            connection          = 'scm:git:https://github.com/griffon/griffon.git'
-            developerConnection = 'scm:git:git@github.com:griffon/griffon.git'
-        }
-
-        people {
-            person {
-                id    = 'shemnon'
-                name  = 'Danno Ferrin'
-                roles = ['Developer']
-            }
-            person {
-                id    = 'jwill'
-                name  = 'James Williams'
-                roles = ['Developer']
-            }
-            person {
-                id    = 'aklein'
-                name  = 'Alexander Klein'
-                roles = ['Developer']
-            }
-            person {
-                id    = 'rgroeschke'
-                name  = 'Rene Groeschke'
-                roles = ['Developer']
-            }
-            person {
-                name  = 'Dierk Koenig'
-                roles = ['Contributor']
-            }
-            person {
-                name  = 'Guillaume Laforge'
-                roles = ['Contributor']
-            }
-            person {
-                name  = 'Dean Iverson'
-                roles = ['Contributor']
-            }
-        }
+        tags = ['griffon']
     }
 
     stats {
@@ -122,19 +74,6 @@ config {
                 enabled = false
                 exclude 'griffon.*'
             }
-
-            options {
-                addBooleanOption('javafx', true)
-                links 'https://www.slf4j.org/apidocs/'
-                links 'https://junit.org/junit4/javadoc/latest/'
-                links 'https://javax-inject.github.io/javax-inject/api/'
-                links 'https://docs.oracle.com/javase/8/docs/api/'
-                links 'https://docs.oracle.com/javase/8/javafx/api/'
-                links 'https://google.github.io/guice/api-docs/4.1/javadoc/'
-                links 'http://docs.groovy-lang.org/latest/html/api/'
-                links 'http://kordamp.org/jipsy/apidocs/'
-                links 'http://kordamp.org/gipsy/apidocs/'
-            }
         }
     }
 
@@ -150,11 +89,6 @@ config {
         enabled = false
     }
 
-    coverage {
-        jacoco {
-            toolVersion = jacocoVersion
-        }
-    }
 
     dependencyManagement {
         dependency("org.kordamp.gipsy:gipsy:$jipsyVersion")
@@ -190,12 +124,6 @@ config {
             artifactId = 'junit-vintage-engine'
             version    = junit5Version
         }
-        dependency('testfx') {
-            groupId    = 'org.testfx'
-            artifactId = 'testfx-core'
-            version    = testfxVersion
-            modules    = ['testfx-junit5', 'testfx-junit']
-        }
         dependency("com.google.guava:guava:$guavaVersion")
         dependency('cglib') {
             groupId    = 'cglib'
@@ -210,6 +138,9 @@ allprojects {
     repositories {
         mavenLocal()
         gradlePluginPortal()
+        maven {
+            url 'https://repo1.maven.org/maven2'
+        }
     }
 
     tasks.withType(GenerateModuleMetadata) {
@@ -248,10 +179,6 @@ subprojects { Project subproj ->
             }
         }
 
-        publishing {
-            enabled = shouldPublish
-        }
-
         artifacts {
             source {
                 enabled = shouldPublish
@@ -270,16 +197,6 @@ subprojects { Project subproj ->
 
         testing {
             enabled = isCoreProject || isSampleProject || isGradlePlugin
-        }
-
-        coverage {
-            jacoco {
-                enabled = false //isCoreProject || isSampleProject || isGradlePlugin
-            }
-        }
-
-        licensing {
-            enabled = false //isCoreProject || isGradlePlugin
         }
 
         stats {
@@ -327,7 +244,7 @@ subprojects { Project subproj ->
                 exclude group: 'junit', module: 'junit'
             }
             testImplementation(config.dependencyManagement.gav('junit')) {
-                exclude group: 'org.hamcrest', module: 'hamcrest-core'
+                exclude group: 'org.hamcrest'
             }
             testImplementation("com.google.guiceberry:guiceberry:$guiceBerryVersion") {
                 exclude group: 'junit', module: 'junit'
@@ -376,9 +293,6 @@ subprojects { Project subproj ->
                     enabled true
                 }
             }
-            jacoco {
-                enabled = false
-            }
         }
 
         tasks.withType(AbstractCompile) {
@@ -387,32 +301,6 @@ subprojects { Project subproj ->
                     '-Xlint:all', '-Xlint:deprecation', '-Xlint:unchecked'
                 ]
             }
-        }
-
-        license {
-            mapping {
-                kt     = 'SLASHSTAR_STYLE'
-                java   = 'SLASHSTAR_STYLE'
-                groovy = 'SLASHSTAR_STYLE'
-                gdsl   = 'SLASHSTAR_STYLE'
-                dsld   = 'SLASHSTAR_STYLE'
-                fxml   = 'XML_STYLE'
-            }
-            exclude '**/*.png'
-            exclude '**/griffon/util/MethodUtils.java'
-            exclude '**/griffon/util/application.groovy'
-            exclude '**/griffon/util/application.xml'
-            exclude '**/griffon/util/application_jdk8.groovy'
-            exclude '**/griffon/util/bad_application.xml'
-            exclude '**/org/jdesktop/swinghelper/debug/CheckThreadViolationRepaintManager.java'
-            exclude '**/org/jdesktop/swinghelper/debug/EventDispatchThreadHangMonitor.java'
-            exclude '**/org/testfx/service/support/WaitUntilSupport.java'
-            exclude 'archetype-resources/**/*'
-            exclude '**/archetype*.xml'
-        }
-
-        licenseTest {
-            source -= sourceSets.test.resources
         }
 
         if (isCoreProject) {

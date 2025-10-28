@@ -22,6 +22,9 @@ buildscript {
         mavenLocal()
         mavenCentral()
         gradlePluginPortal()
+        maven {
+            url 'https://repo1.maven.org/maven2'
+        }
     }
     dependencies {
         //classpath 'org.jbake:jbake-gradle-plugin:5.2.0'
@@ -35,8 +38,7 @@ buildscript {
 }
 apply plugin: 'org.kordamp.gradle.kordamp-parentbuild'
 
-boolean github   = (System.env['CI'] ?: false) as boolean
-boolean fullBuild = !github
+boolean fullBuild = true
 
 rootProject.name = 'griffon'
 
@@ -47,8 +49,6 @@ projects {
     includeProjects('tcks')
     includeProjects('plugins')
     includeProjects('samples').includeIf(fullBuild)
-    includeProjects('poms').includeIf(fullBuild)
-    // includeProjects('docs').includeIf(fullBuild)
     includeProjects('archetypes').includeIf(fullBuild)
 
     plugins {
@@ -57,7 +57,6 @@ projects {
         }
         path(':') {
             id 'com.google.osdetector'
-            id 'org.kordamp.gradle.coveralls'
             id 'org.kordamp.gradle.java-project'
         }
         dir('subprojects') {

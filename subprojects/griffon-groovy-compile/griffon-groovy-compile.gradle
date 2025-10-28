@@ -23,29 +23,11 @@ dependencies {
 
     api project(':griffon-groovy')
     api("org.apache.groovy:groovy-all:$groovyVersion") {
-        exclude group: 'junit', module: 'junit'
         exclude group: 'org.apache.groovy', module: 'groovy-test-junit5'
     }
     api(config.dependencyManagement.gav('gipsy')) {
-        exclude group: 'org.codehaus.groovy', module: 'groovy-all'
-        exclude group: 'org.apache.groovy', module: 'groovy-all'
+        exclude group: 'org.codehaus.groovy'
     }
-
-    compileOnly "org.openjfx:javafx-base:${javafxVersion}:${javafxPlatform}"
-    compileOnly "org.openjfx:javafx-web:${javafxVersion}:${javafxPlatform}"
-    compileOnly "org.openjfx:javafx-media:${javafxVersion}:${javafxPlatform}"
-    compileOnly "org.openjfx:javafx-graphics:${javafxVersion}:${javafxPlatform}"
-    compileOnly "org.openjfx:javafx-controls:${javafxVersion}:${javafxPlatform}"
-    compileOnly "org.openjfx:javafx-fxml:${javafxVersion}:${javafxPlatform}"
-    compileOnly "org.openjfx:javafx-swing:${javafxVersion}:${javafxPlatform}"
-
-    testImplementation "org.openjfx:javafx-base:${javafxVersion}:${javafxPlatform}"
-    testImplementation "org.openjfx:javafx-web:${javafxVersion}:${javafxPlatform}"
-    testImplementation "org.openjfx:javafx-media:${javafxVersion}:${javafxPlatform}"
-    testImplementation "org.openjfx:javafx-graphics:${javafxVersion}:${javafxPlatform}"
-    testImplementation "org.openjfx:javafx-controls:${javafxVersion}:${javafxPlatform}"
-    testImplementation "org.openjfx:javafx-fxml:${javafxVersion}:${javafxPlatform}"
-    testImplementation "org.openjfx:javafx-swing:${javafxVersion}:${javafxPlatform}"
 }
 
 compileGroovy.enabled = false

@@ -46,7 +46,7 @@ class GriffonExtension {
     final MapProperty<String, String> applicationProperties
 
     GriffonExtension(Project project) {
-        version = project.objects.property(String).convention('3.0.0-SNAPSHOT')
+        version = project.objects.property(String).convention('5.0.0-SNAPSHOT')
         toolkit = project.objects.property(String).convention(project.providers.provider {
             project.pluginManager.hasPlugin('org.openjfx.javafxplugin') ? 'javafx' : null
         })

@@ -29,7 +29,7 @@ dependencies {
 
     testImplementation project(':griffon-core-test')
 
-    functionalTestImplementation "org.hamcrest:java-hamcrest:$hamcrestVersion"
+    functionalTestImplementation "org.hamcrest:hamcrest:$hamcrestVersion"
     functionalTestImplementation "org.junit.jupiter:junit-jupiter-api:$junit5Version"
     functionalTestRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junit5Version"
     functionalTestRuntimeOnly("org.junit.vintage:junit-vintage-engine:$junit5Version") {

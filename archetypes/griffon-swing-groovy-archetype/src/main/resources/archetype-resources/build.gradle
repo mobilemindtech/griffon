@@ -9,20 +9,17 @@ buildscript {
 
     dependencies {
         classpath 'org.codehaus.griffon:griffon-gradle-plugin:${griffonVersion}'
-        classpath 'gradle.plugin.com.hierynomus.gradle.plugins:license-gradle-plugin:0.16.1'
-        classpath 'com.github.ben-manes:gradle-versions-plugin:0.39.0'
-        classpath 'gradle.plugin.net.nemerosa:versioning:3.1.0'
     }
 }
 
 apply plugin: 'groovy'
 apply plugin: 'org.codehaus.griffon.project'
-apply plugin: 'net.nemerosa.versioning'
 
 Date buildTimeAndDate = new Date()
 ext {
     buildDate = new SimpleDateFormat('yyyy-MM-dd').format(buildTimeAndDate)
     buildTime = new SimpleDateFormat('HH:mm:ss.SSSZ').format(buildTimeAndDate)
+    buildVersion = "${new Date().time}"
     macosx = System.getProperty('os.name').contains('Mac OS')
 }
 
@@ -34,15 +31,13 @@ griffon {
     applicationProperties = [
         'build_date'    : buildDate,
         'build_time'    : buildTime,
-        'build_revision': versioning.info.commit
+        'build_revision': buildVersion
     ]
 }
 
 mainClassName = '${package}.Launcher'
 
 apply from: 'gradle/publishing.gradle'
-apply from: 'gradle/code-quality.gradle'
-apply plugin: 'com.github.ben-manes.versions'
 
 dependencies {
     api "org.codehaus.griffon:griffon-guice:${griffon.version.get()}"
@@ -52,19 +47,21 @@ dependencies {
     testImplementation "org.codehaus.griffon:griffon-swing-test:${griffon.version.get()}"
     testImplementation("org.spockframework:spock-core:${spockVersion}"){
         exclude group: 'org.apache.groovy'
-        exclude group: 'junit'
         exclude group: 'org.junit'
     }
-    testImplementation("org.awaitility:awaitility-groovy:${awaitilityVersion}") {
-        exclude group: 'org.apache.groovy', module: 'groovy'
+    testImplementation("org.hamcrest:hamcrest:${hamcrestVersion}")
+    testImplementation("org.awaitility:awaitility-groovy:${awaitilityVersion}")
+    testImplementation("org.apache.groovy:groovy-all:${groovyVersion}"){
+        exclude group: 'junit', module: 'junit'
+        exclude group: 'org.apache.groovy', module: 'groovy-test-junit5'
     }
-    testImplementation "org.apache.groovy:groovy-all:${groovyVersion}"
 }
 
 configurations.all {
     resolutionStrategy {
         force "org.apache.groovy:groovy:${groovyVersion}"
-        force "org.junit.jupiter:junit-jupiter-api:${junit5Version}"
+        force "org.apache.groovy:groovy:${groovyVersion}"
+        force "org.hamcrest:hamcrest:${hamcrestVersion}"
     }
 }
 
@@ -78,23 +75,5 @@ startScripts {
 if (hasProperty('debugRun') && ((project.debugRun as boolean))) {
     run {
         jvmArgs '-Xdebug', '-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005'
-    }
-}
-
-config {
-    info {
-        vendor = 'Griffon'
-        organization.url = "com.codehause.griffon"
-        scm {
-            url = "https://github.com/griffon/griffon"
-        }
-
-    }
-    licensing {
-        licenses {
-            license {
-                id = 'Apache-2.0'
-            }
-        }
     }
 }
