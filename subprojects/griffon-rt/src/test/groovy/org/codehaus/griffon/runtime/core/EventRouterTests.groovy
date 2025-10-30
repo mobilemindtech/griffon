@@ -2,6 +2,7 @@ package org.codehaus.griffon.runtime.core
 
 import griffon.core.Event
 import griffon.core.EventRouter
+import groovy.test.GroovyTestCase
 
 class EventRouterTests extends GroovyTestCase {
     void testSmoke() {

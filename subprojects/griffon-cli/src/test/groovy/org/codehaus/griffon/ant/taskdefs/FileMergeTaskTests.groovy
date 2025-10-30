@@ -1,5 +1,7 @@
 package org.codehaus.griffon.ant.taskdefs
 
+import groovy.test.GroovyTestCase
+
 class FileMergeTaskTests extends GroovyTestCase {
     private final String EOL = System.getProperty('line.separator')
 

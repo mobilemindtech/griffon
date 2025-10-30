@@ -14,6 +14,7 @@
  */
 package griffon.test
 
+import groovy.test.GroovyTestCase
 import junit.framework.AssertionFailedError
 
 /**

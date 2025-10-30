@@ -19,7 +19,34 @@ apply plugin: 'groovy'
 ext.pomDescription = 'Griffon command scripts'
 
 dependencies {
-    compile project(':griffon-rt'),
-            project(':griffon-cli'),
-            project(':griffon-resources')
+    implementation 'asm:asm:3.3.1'
+    implementation("org.slf4j:slf4j-log4j12:$slf4jVersion") {
+        exclude group: 'org.slf4j', module: 'slf4j-api'
+        exclude group: 'log4j',     module: 'log4j'
+    }
+    implementation("org.slf4j:slf4j-api:$slf4jVersion")
+    implementation("org.slf4j:jcl-over-slf4j:$slf4jVersion")  {
+        exclude group: 'org.slf4j', module: 'slf4j-api'
+    }
+    implementation("org.slf4j:jul-to-slf4j:$slf4jVersion")  {
+        exclude group: 'org.slf4j', module: 'slf4j-api'
+    }
+    implementation("org.springframework:spring-core:$springVersion") {
+        exclude group: 'org.apache.commons',  module: 'com.springsource.org.apache.commons.logging'
+        exclude group: 'org.apache.log4',     module: 'com.springsource.org.apache.log4j'
+        exclude group: 'org.aspectj',         module: 'com.springsource.org.aspectj.weaver'
+        exclude group: 'org.springframework', module: 'spring-asm'
+    }
+    implementation 'biz.aQute:bndlib:1.50.0'
+    implementation 'commons-lang:commons-lang:2.6'
+    implementation("org.grails:grails-docs:$grailsDocsVersion") {
+        exclude group: 'radeox',              module: 'radeox'
+        exclude group: 'org.codehaus.groovy', module: 'groovy-all'
+        exclude group: 'org.apache.ant',      module: 'ant'
+        exclude group: 'org.xhtmlrenderer',   module: 'core-renderer'
+    }
+
+    implementation project(':griffon-rt')
+    implementation project(':griffon-cli')
+    implementation project(':griffon-resources')
 }

@@ -27,19 +27,23 @@ jar.doFirst {
    from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
 }
 
-task dist(type: Zip) {   
+tasks.register('dist', Zip) {
     description = 'Creates a wrapper distribution'
-    archiveName = 'griffon-wrapper-files.zip'
-    into('wrapper'){
-        from(jar.outputs.files){
-            rename "griffon-wrapper-$version", 'griffon-wrapper'
+    archiveFileName.set('griffon-wrapper-files.zip')
+
+    into('wrapper') {
+        from(jar) {
+            rename { String fileName ->
+                fileName.replace("griffon-wrapper-$version", 'griffon-wrapper')
+            }
         }
         from('src/resources') {
             filter(ReplaceTokens, tokens: ['griffon.version': version])
-        }    
+        }
     }
+
     from('src/bin') {
         filter(ReplaceTokens, tokens: ['griffon.version': version])
-        fileMode = 0755    
+        fileMode = 0755
     }
 }

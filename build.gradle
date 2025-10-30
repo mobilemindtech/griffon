@@ -15,7 +15,6 @@
  */
 
 import java.text.SimpleDateFormat
-import org.apache.ivy.plugins.resolver.URLResolver
 
 apply plugin: 'base'
 apply plugin: 'idea'
@@ -23,20 +22,18 @@ apply plugin: 'eclipse'
 
 buildscript {
     repositories {
-        jcenter()
-        maven {
-            name "Ben's Maven repo"
-            url 'http://dl.bintray.com/content/bmuschko/maven'
-        }
-        maven {
-            name "Ben's Gradle Plugins repo"
-            url 'http://dl.bintray.com/content/bmuschko/gradle-plugins'
-        }
+        mavenCentral()
+        mavenLocal()
+        gradlePluginPortal()
     }
     dependencies {
-        classpath 'org.gradle.api.plugins:gradle-izpack-plugin:0.2.2'
-        classpath 'org.gradle.api.plugins:gradle-java2html-plugin:0.4'
+        classpath 'com.bmuschko:gradle-izpack-plugin:3.2'
+        classpath 'com.bmuschko:gradle-java2html-plugin:2.0.1'
     }
+}
+
+mavenizedProjects().each { proj ->
+    proj.apply from: "${rootDir}/gradle/maven.gradle"
 }
 
 evaluationDependsOn(':griffon-rt')
@@ -51,23 +48,42 @@ evaluationDependsOn(':griffon-guide')
 
 subprojects { subproj ->
     apply plugin: 'idea'
-    if(plugins.hasPlugin('java')){
-        sourceCompatibility = 1.5
-        targetCompatibility = 1.5
+    if(plugins.hasPlugin('java') || plugins.hasPlugin('groovy')){
+        sourceCompatibility = 17
+        targetCompatibility = 17
         group = 'org.codehaus.griffon'
 
-        apply from: "${rootDir}/gradle/coverage.gradle"
-        apply from: "${rootDir}/gradle/codeQuality.gradle"
+        //apply from: "${rootDir}/gradle/coverage.gradle"
+        //apply from: "${rootDir}/gradle/codeQuality.gradle"
+    }
+
+    if(plugins.hasPlugin("groovy")){
+        dependencies {
+            implementation("org.apache.groovy:groovy-all:$groovyVersion")
+        }
+
+        tasks.withType(GroovyCompile).configureEach {
+            groovyOptions.forkOptions.jvmArgs += ['--add-exports', 'java.base/java.io=ALL-UNNAMED']
+        }
     }
 
     repositories {
-        jcenter()
-        maven { url 'http://repository.codehaus.org' }
-        maven { url 'http://repository.springsource.com/maven/bundles/release' }
-        maven { url 'http://gradle.artifactoryonline.com/gradle/libs-releases-local' }
-        maven { url 'http://repository.sonatype.org/content/groups/public' }
-        maven { url 'http://repo.grails.org/grails/core/' }
         mavenCentral()
+        mavenLocal()
+    }
+
+    // resolve conflict with gradle groovy 3 and project groogy 4
+    tasks.withType(GroovyCompile).configureEach {
+        if (name == "compileTestGroovy") {
+            groovyOptions.forkOptions.jvmArgs += [
+                "--add-opens", "java.base/java.lang=ALL-UNNAMED",
+                "-Dgroovy.target.bytecode=17"
+            ]
+            groovyOptions.fork = true
+            groovyClasspath = configurations.detachedConfiguration(
+                dependencies.create("org.apache.groovy:groovy:$groovyVersion")
+            )
+        }
     }
 }
 
@@ -78,7 +94,6 @@ ext {
 }
 
 configure(mavenizedProjects()) { proj ->
-    proj.apply from: "${rootDir}/gradle/maven.gradle"
     proj.task('checkManifest') {
         dependsOn proj.classes
         doLast {
@@ -107,19 +122,23 @@ configure(mavenizedProjects()) { proj ->
 apply from: "${rootDir}/gradle/package.gradle"
 apply from: "${rootDir}/gradle/installer.gradle"
 
-task allTests(dependsOn: [clean, project(':griffon-rt').test, project(':griffon-cli').test]) {
+tasks.register('allTests') {
+    dependsOn("clean", ':griffon-rt:test', ':griffon-cli:test')
     description = "Runs all tests."
 }
 
-task fullDist(dependsOn: [zipBinary, zipSource, tarBinary, tarSource, izPackCreateInstaller, deb]) {
+tasks.register('fullDist') {
+    dependsOn('zipBinary', 'zipSource', 'tarBinary', 'tarSource', 'izPackCreateInstaller', 'deb')
     description = "Assembles all packages."
 }
 
-task bambooStage1(dependsOn: allTests) {
+tasks.register('bambooStage1') {
+    dependsOn('allTests')
     description = "Makes a full test run and assembles all packages."
 }
 
-task bambooStage2(dependsOn: [bambooStage1, fullDist, rpm]) {
+tasks.register('bambooStage2') {
+    dependsOn('bambooStage1', 'fullDist', 'rpm')
     description = "Makes a full test run and assembles all packages."
 }
 

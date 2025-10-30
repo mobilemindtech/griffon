@@ -28,7 +28,7 @@ import java.util.jar.Manifest;
 
 import static griffon.util.BuildSettingsHolder.getSettings;
 import static griffon.util.GriffonNameUtils.isBlank;
-import static org.codehaus.groovy.runtime.DefaultGroovyMethods.padLeft;
+import static org.codehaus.groovy.runtime.StringGroovyMethods.padLeft;
 
 /**
  * @author Andres Almiray

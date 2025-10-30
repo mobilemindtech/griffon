@@ -1,6 +1,7 @@
 package griffon.util
 
 import griffon.build.GriffonBuildListener
+import groovy.test.GroovyTestCase
 
 /**
  * Test case for {@link BuildSettings}.

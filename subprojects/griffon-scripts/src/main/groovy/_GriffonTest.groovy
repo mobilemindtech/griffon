@@ -15,6 +15,7 @@
  */
 
 import griffon.util.GriffonExceptionHandler
+import groovy.xml.XmlParser
 import org.codehaus.griffon.test.GriffonTestTargetPattern
 import org.codehaus.griffon.test.GriffonTestType
 import org.codehaus.griffon.test.event.GriffonTestEventConsoleReporter

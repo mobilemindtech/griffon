@@ -1,5 +1,6 @@
 package griffon.ant
 
+import groovy.test.GroovyTestCase
 import org.apache.tools.ant.BuildException
 import org.apache.tools.ant.types.Path
 

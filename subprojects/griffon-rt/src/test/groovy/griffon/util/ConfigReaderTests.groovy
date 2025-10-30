@@ -16,6 +16,8 @@
 
 package griffon.util
 
+import groovy.test.GroovyTestCase
+
 class ConfigReaderTests extends GroovyTestCase {
     void testConsecutiveReaderValues() {
         def config = new ConfigReader().parse('''
@@ -546,36 +548,37 @@ log4j {
         reader.registerConditionalBlock('projects', 'bogus')
         def config = reader.parse(conf)
         assert config.griffon.cli.verbose
+
         reader.registerConditionalBlock('projects', 'custom')
         config = reader.parse(conf)
         assert !config.griffon.cli.verbose
     }
 
-    void testNestedConditionaBlocks() {
+    void testNestedConditionalBlocks() {
         def conf = '''
-          var = 1
+          xxx = 1
           projects {
               custom {
-                  var = 2
+                  xxx = 2
                   environments {
                       development {
-                          var = 3
+                          xxx = 3
                       }
                       local {
-                          var = 4
+                          xxx = 4
                       }
                   }
               }
               extension {
-                  var = 7
+                  xxx = 7
               }
           }
           environments {
                development {
-                   var = 5
+                   xxx = 5
                }
                production {
-                   var = 6
+                   xxx = 6
                }
            }
         '''
@@ -583,27 +586,30 @@ log4j {
         ConfigReader reader = new ConfigReader()
         reader.binding = [reader:reader]
         def config = reader.parse(conf)
-        assert config.var == 1
+        assert config.xxx == 1
+
 
         reader.registerConditionalBlock('environments', 'production')
         config = reader.parse(conf)
-        assert config.var == 6
+        assert config.xxx == 6
+
 
         reader.registerConditionalBlock('environments', 'test')
         config = reader.parse(conf)
-        assert config.var == 1
+        assert config.xxx == 1
 
         reader.registerConditionalBlock('projects', 'custom')
         config = reader.parse(conf)
-        assert config.var == 2
+        assert config.xxx == 2
 
         reader.registerConditionalBlock('environments', 'local')
         config = reader.parse(conf)
-        assert config.var == 4
+        assert config.xxx == 4
 
         reader.registerConditionalBlock('projects', 'bogus')
         config = reader.parse(conf)
-        assert config.var == 1
+        assert config.xxx == 1
+
     }
 
     void testConditionalOverrides() {

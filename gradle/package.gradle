@@ -62,12 +62,12 @@ ext.distBinSpec = copySpec {
         filter(ReplaceTokens, tokens: ['griffon.version': version, 'groovy.version': groovyVersion])
     }
     into('lib') {
-        from(project(':griffon-cli').configurations.runtime) {
+        from(project(':griffon-cli').configurations.runtimeClasspath) {
             exclude 'griffon*'
         }
     }
     into('lib/shell') {
-        from((project(':griffon-shell').configurations.runtime - project(':griffon-cli').configurations.runtime)) {
+        from((project(':griffon-shell').configurations.runtimeClasspath - project(':griffon-cli').configurations.runtimeClasspath)) {
             exclude 'griffon*'
         }
     }
@@ -108,16 +108,17 @@ ext.distBinSpec = copySpec {
     }
 }
 
-task zipBinary(type: Zip, dependsOn: ':griffon-guide:dist') {
+tasks.register('zipBinary', Zip) {
+    dependsOn(':griffon-guide:dist')
     description = "Zips the binary distribution."
-    classifier = 'bin'
+    archiveClassifier.set('bin')
     into "griffon-$version"
     with distBinSpec
 }
 
-task tarBinary(type: Tar) {
+tasks.register('tarBinary', Tar) {
     description = "Tars the binary distribution."
-    classifier = 'bin'
+    archiveClassifier.set('bin')
     into "griffon-$version"
     with distBinSpec
     compression = Compression.GZIP
@@ -149,34 +150,41 @@ ext.distSourceSpec = copySpec {
     }
 }
 
-task zipSource(type: Zip) {
+tasks.register('zipSource', Zip) {
     description = "Zips the source distribution."
     with distSourceSpec
-    classifier = 'src'
+    archiveClassifier.set('src')
     into "griffon-$version"
 }
 
-task tarSource(type: Tar) {
+tasks.register('tarSource', Tar) {
     description = "Tars the source distribution."
     with distSourceSpec
-    classifier = 'src'
+    archiveClassifier.set('src')
     into "griffon-$version"
     compression = Compression.GZIP
 }
 
 ext.griffonHomeDir = System.getProperty('griffon.home') ?: System.env['GRIFFON_HOME']
 
-task checkGriffonHome << {
-    ext.griffonHomeDir = System.getProperty('griffon.home') ?: System.env['GRIFFON_HOME']
-    assert griffonHomeDir: 'You must define a value for $GRIFFON_HOME first!'
-    println "===> \$GRIFFON_HOME is set to $griffonHomeDir"
+tasks.register('checkGriffonHome') {
+    doLast {
+        def griffonHomeDir = System.getProperty('griffon.home') ?: System.getenv('GRIFFON_HOME')
+        if (!griffonHomeDir) {
+            throw new GradleException('You must define a value for $GRIFFON_HOME first!')
+        }
+        println "===> \$GRIFFON_HOME is set to $griffonHomeDir"
+    }
 }
 
-task installBinary(type: Sync, dependsOn: checkGriffonHome) {
+tasks.register('installBinary', Sync) {
+    dependsOn('checkGriffonHome')
     description = 'Installs the binary distribution at $GRIFFON_HOME.'
-    destinationDir = griffonHomeDir as File
+    destinationDirectory.set(file(griffonHomeDir))
     with distBinSpec
     doLast {
         ant.chmod(dir: "${griffonHomeDir}/bin", excludes: '*.bat', perm: 'ugo+x')
     }
 }
+
+

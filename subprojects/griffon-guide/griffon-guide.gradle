@@ -16,18 +16,20 @@
 
 buildscript {
     repositories {
-        jcenter()
-        maven { url 'http://dl.bintray.com/melix/gradle-javadoc-hotfix-plugin' }
+        mavenCentral()
+        mavenLocal()
+        gradlePluginPortal()
     }
 
     dependencies {
-        classpath 'me.champeau.gradle:gradle-javadoc-hotfix-plugin:0.1'
+        //classpath 'me.champeau.gradle:gradle-javadoc-hotfix-plugin:0.1'
+        classpath 'com.bmuschko:gradle-java2html-plugin:2.0.1'
     }
 }
 
 apply plugin: 'java'
-apply plugin: 'java2html'
-apply plugin: 'javadocHotfix'
+apply plugin: 'com.bmuschko.java2html'
+//apply plugin: 'javadocHotfix'
 
 configurations {
     groovy
@@ -36,14 +38,13 @@ configurations {
 
 repositories {
     mavenCentral()
+    mavenLocal()
 }
 
 dependencies {
-    groovy "org.codehaus.groovy:groovy-all:$groovyVersion" //for api docs generation needed (groovydoc)
-
     // problems with ant classloader makes it necessary to duplicate the deps
     // in buildSrc/ and the docs configurations
-    docs("org.codehaus.groovy:groovy-all:$groovyVersion",
+    docs("org.apache.groovy:groovy-all:$groovyVersion",
             "org.grails:grails-docs:$grailsDocsVersion",
             'org.grails:grails-gdoc-engine:1.0.1',
             'radeox:radeox:1.0-b2',
@@ -51,7 +52,8 @@ dependencies {
             'org.yaml:snakeyaml:1.9',
             'commons-lang:commons-lang:2.6',
             'org.xhtmlrenderer:core-renderer:R8',
-            "log4j:log4j:${log4jVersion}",
+            "org.apache.logging.log4j:log4j-api:${log4jVersion}",
+            "org.apache.logging.log4j:log4j-core:${log4jVersion}",
             "org.slf4j:slf4j-api:$slf4jVersion",
             "org.slf4j:slf4j-log4j12:$slf4jVersion",
             "org.slf4j:jcl-over-slf4j:$slf4jVersion")
@@ -59,8 +61,8 @@ dependencies {
     java2html 'de.java2html:java2html:5.0'
 }
 
-task copyDocs(type: Copy) {
-    destinationDir = "${buildDir}/sources" as File
+tasks.register('copyDocs', Copy) {
+    destinationDir = "${layout.buildDirectory}/sources" as File
     from(project(":griffon-cli").sourceSets.main.allSource) {
         include 'griffon/test/**/*'
         include 'griffon/transform/**/*'
@@ -68,15 +70,16 @@ task copyDocs(type: Copy) {
     from(project(":griffon-rt").sourceSets.main.allSource)
 }
 
-task apiDocs(type: Groovydoc, dependsOn: copyDocs) {
-    source          = "${buildDir}/sources" as File
-    destinationDir  = "$buildDir/api" as File
+tasks.register('apiDocs', Groovydoc) {
+    dependsOn('copyDocs')
+    source          = "$layout.buildDirectory/sources" as File
+    destinationDir  = "$layout.buildDirectory/api" as File
     docTitle        = "Griffon $version"
     header          = "Griffon $version"
     windowTitle     = "Griffon $version"
     groovyClasspath = configurations.groovy
     classpath       = project(":griffon-rt").sourceSets.main.output +
-                      project(":griffon-rt").configurations.compile
+                      project(":griffon-rt").configurations
 
     includePrivate = true
     use = true
@@ -105,34 +108,37 @@ task apiDocs(type: Groovydoc, dependsOn: copyDocs) {
     }
 }
 
-task java2html {
+tasks.register('java2html') {
    dependsOn apiDocs
    dependsOn "java2htmlGenerateOverview"
    dependsOn java2htmlConvertCode
 }
 
-task jarApi(type: Jar, dependsOn: apiDocs) {
-    archiveName    = "griffon-rt-${project.version}-javadoc.jar"
-    destinationDir = "$buildDir/assemble/jars" as File
-    from "$buildDir/api"
+tasks.register('jarApi', Jar) {
+    dependsOn('apiDocs')
+    archiveFileName.set("griffon-rt-${project.version}-javadoc.jar")
+    destinationDirectory.set(file("$layout.buildDirectory/assemble/jars"))
+    from "$layout.buildDirectory/api"
 }
 
-task jarSource(type: Jar, dependsOn: copyDocs) {
-    archiveName    = "griffon-rt-${project.version}-sources.jar"
-    destinationDir = "$buildDir/assemble/jars" as File
-    from "$buildDir/sources"
+tasks.register('jarSource', Jar) {
+    dependsOn(copyDocs)
+    archiveFileName.set("griffon-rt-${project.version}-sources.jar")
+    destinationDirectory.set(file("$layout.buildDirectory/assemble/jars"))
+    from "$layout.buildDirectory/sources"
     exclude '**/*.html'
 }
 
-task jarSourceHtml(type: Jar, dependsOn: java2html) {
-    archiveName    = "griffon-rt-${project.version}-sources-html.jar"
-    destinationDir = "$buildDir/assemble/jars" as File
-    from "$buildDir/java2html"
+tasks.register('jarSourceHtml', Jar) {
+    dependsOn('java2html')
+    archiveFileName.set("griffon-rt-${project.version}-sources-html.jar")
+    destinationDirectory.set(file("$layout.buildDirectory/assemble/jars"))
+    from "$layout.buildDirectory/java2html"
 }
 
-task cliApiDocs(type: Groovydoc) {
+tasks.register('cliApiDocs', Groovydoc) {
     source          = project(":griffon-cli").file('src/main/groovy')
-    destinationDir  = "$buildDir/cli-api" as File
+    destinationDir = file("$layout.buildDirectory/cli-api")
     docTitle        = "Griffon $version"
     header          = "Griffon $version"
     windowTitle     = "Griffon $version"
@@ -167,74 +173,79 @@ task cliApiDocs(type: Groovydoc) {
     }
 }
 
-task jarCliApi(type: Jar, dependsOn: cliApiDocs) {
-    archiveName    = "griffon-cli-${project.version}-javadoc.jar"
-    destinationDir = "$buildDir/assemble/jars" as File
-    from "$buildDir/cli-api"
+tasks.register('jarCliApi', Jar) {
+    dependsOn('cliApiDocs')
+    archiveFileName.set("griffon-cli-${project.version}-javadoc.jar")
+    destinationDirectory.set(file("$layout.buildDirectory/assemble/jars"))
+    from "$layout.buildDirectory/cli-api"
 }
 
-task jarCliSource(type: Jar) {
-    archiveName    = "griffon-cli-${project.version}-sources.jar"
-    destinationDir = "$buildDir/assemble/jars" as File
+tasks.register('jarCliSource', Jar) {
+    archiveFileName.set("griffon-cli-${project.version}-sources.jar")
+    destinationDirectory.set(file("$layout.buildDirectory/assemble/jars"))
     from project(":griffon-cli").file('src/main/groovy')
     exclude '**/*.html'
 }
 
-task jarDocs(dependsOn: [jarApi, jarSource, jarSourceHtml, jarCliApi, jarCliSource]) {}
+tasks.register('jarDocs') {
+    dependsOn('jarApi', 'jarSource', 'jarSourceHtml', 'jarCliApi', 'jarCliSource')
+}
 
-task prepareGuide(type: Copy) {
-    destinationDir = "$buildDir/guide" as File
+tasks.register('prepareGuide', Copy) {
+    destinationDir = "$layout.buildDirectory/guide" as File
     from('src/guide/src')
     doLast {
         ant {
-            replace(dir: "$buildDir/guide", includes: '**/*.*') {
+            replace(dir: "$layout.buildDirectory/guide", includes: '**/*.*') {
                 replacefilter(token: '@griffon.version@', value: version)
             }
         }
     }
 }
 
-task buildGuide(type: GrailsDoc, dependsOn: [java2html, prepareGuide]) {
-    srcDir    = file("$buildDir/guide")
+tasks.register('buildGuide', GrailsDoc) {
+    dependsOn('java2html', 'prepareGuide')
+    srcDir    = file("$layout.buildDirectory/guide")
     props     = file('src/guide/guide.properties')
     imagesDir = file('src/guide/resources/img')
     styleDir  = file('src/guide/resources/style')
     cssDir    = file('src/guide/resources/css')
-    outputDir = file("$buildDir/manual")
+    outputDir = file("$layout.buildDirectory/manual")
 
     doFirst {
         copy {
-            into("$buildDir/manual/api")
-            from("$buildDir/api")
+            into("$layout.buildDirectory/manual/api")
+            from("$layout.buildDirectory/api")
             into('src-html') {
-                from("$buildDir/java2html")
+                from("$layout.buildDirectory/java2html")
             }
         }
     }
 
     doLast {
         ant {
-            replace(dir: "$buildDir/manual") {
+            replace(dir: "$layout.buildDirectory/manual") {
                 replacefilter(token: '@griffon.version@', value: version)
             }
         }
     }
 }
 
-task pdfGuide(type: PdfGuide, dependsOn: buildGuide) {
-    inputs.files file("$buildDir/manual/guide")
+tasks.register('pdfGuide', PdfGuide) {
+    dependsOn('buildGuide')
+    inputs.files file("$layout.buildDirectory/manual/guide")
     pdfName = "griffon-guide-${version}.pdf"
 }
 
-task dist(type: Zip) {
-    dependsOn { [pdfGuide, jarDocs] }
-    from "$buildDir/manual"
+tasks.register('dist', Zip) {
+    dependsOn('pdfGuide', 'jarDocs')
+    from "$layout.buildDirectory/manual"
 }
 
 java2html {
     conversion {
-        srcDirs = files("${buildDir}/sources")
-        destDir = file("${buildDir}/java2html")
+        srcDirs = files("${layout.buildDirectory}/sources")
+        destDir = file("${layout.buildDirectory}/java2html")
         tabs = 4
         style = 'eclipse'
         outputFormat = 'html'
@@ -249,15 +260,15 @@ java2html {
     }
 
     overview {
-        srcDirs = files("${buildDir}/java2html")
-        destDir = file("${buildDir}/java2html")
+        srcDirs = files("${layout.buildDirectory}/java2html")
+        destDir = file("${layout.buildDirectory}/java2html")
         windowTitle = "Griffon $version"
         docTitle = "Griffon $version"
         docDescription = """Griffon is a Grails like application framework for developing desktop
                             applications in Groovy. Inspired by Grails, Griffon follows the Convention over
                             Configuration paradigm, paired with an intuitive MVC architecture and a command
                             line interface."""
-        header = "Griffon $version"
+        //header = "Griffon $version"
         icon = project(':').file('src/dist/media/griffon.ico')
         stylesheet = file('src/guide/resources/css/stylesheet.css')
     }

@@ -17,6 +17,7 @@
 package org.codehaus.griffon.artifacts
 
 import griffon.util.*
+import groovy.ant.AntBuilder
 import groovy.json.JsonBuilder
 import org.apache.commons.io.FileUtils
 import org.codehaus.griffon.artifacts.model.Archetype

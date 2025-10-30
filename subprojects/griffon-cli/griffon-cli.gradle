@@ -20,39 +20,45 @@ apply plugin: 'groovy'
 
 ext.pomDescription = 'Griffon buildtime'
 
+repositories {
+    mavenLocal()
+}
+
 dependencies {
-    compile project(':griffon-rt'),
-            project(':griffon-resources')
-    compile 'junit:junit:4.11',
-            'asm:asm:3.2',
-            'commons-cli:commons-cli:1.2',
-            'commons-io:commons-io:2.4',
-            'commons-lang:commons-lang:2.6',
-            'commons-collections:commons-collections:3.2.1',
-            'commons-codec:commons-codec:1.6',
-            'org.apache.httpcomponents:httpcore:4.1.2',
-            'com.jcraft:jzlib:1.1.1',
-            'xml-resolver:xml-resolver:1.2',
-            'org.fusesource.jansi:jansi:1.9',
-            'jline:jline:0.9.94',
-            'org.yaml:snakeyaml:1.9',
-            'radeox:radeox:1.0-b2',
-            "org.apache.ant:ant-launcher:$antVersion",
-            'biz.aQute:bndlib:1.50.0'
-    compile("org.apache.ant:ant:$antVersion") {
+    implementation project(':griffon-rt')
+    implementation project(':griffon-resources')
+    implementation "org.apache.logging.log4j:log4j-api:${log4jVersion}"
+    implementation "org.apache.logging.log4j:log4j-core:${log4jVersion}"
+    implementation 'junit:junit:4.11'
+    implementation 'asm:asm:3.3.1'
+    implementation 'commons-cli:commons-cli:1.2'
+    implementation 'commons-io:commons-io:2.4'
+    implementation 'commons-lang:commons-lang:2.6'
+    implementation 'commons-collections:commons-collections:3.2.1'
+    implementation 'commons-codec:commons-codec:1.6'
+    implementation 'org.apache.httpcomponents:httpcore:4.1.2'
+    implementation 'com.jcraft:jzlib:1.1.1'
+    implementation 'xml-resolver:xml-resolver:1.2'
+    implementation 'org.fusesource.jansi:jansi:1.9'
+    implementation 'jline:jline:0.9.94'
+    implementation 'org.yaml:snakeyaml:1.9'
+    implementation 'radeox:radeox:1.0-b2'
+    implementation "org.apache.ant:ant-launcher:$antVersion"
+    implementation 'biz.aQute:bndlib:1.50.0'
+    implementation("org.apache.ant:ant:$antVersion") {
         exclude group: 'org.apache.ant', module: 'ant-launcher'
     }
-    compile("org.apache.ant:ant-junit:$antVersion") {
+    implementation("org.apache.ant:ant-junit:$antVersion") {
         exclude group: 'org.apache.ant', module: 'ant'
         exclude group: 'junit',          module: 'junit'
     }
-    compile("org.springframework:spring-core:$springVersion") {
+    implementation("org.springframework:spring-core:$springVersion") {
         exclude group: 'org.apache.commons',  module: 'com.springsource.org.apache.commons.logging'
         exclude group: 'org.apache.log4',     module: 'com.springsource.org.apache.log4j'
         exclude group: 'org.aspectj',         module: 'com.springsource.org.aspectj.weaver'
         exclude group: 'org.springframework', module: 'spring-asm'
     }
-    compile("org.springframework:spring-beans:$springVersion") {
+    implementation("org.springframework:spring-beans:$springVersion") {
         exclude group: 'javax.el',              module: 'com.springsource.javax.el'
         exclude group: 'javax.inject',          module: 'com.springsource.javax.inject'
         exclude group: 'net.sourceforge.cglib', module: 'com.springsource.net.sf.cglib'
@@ -61,7 +67,7 @@ dependencies {
         exclude group: 'org.springframework',   module: 'spring-core'
         exclude group: 'org.springframework',   module: 'spring-asm'
     }
-    compile("org.springframework:spring-context:$springVersion") {
+    implementation("org.springframework:spring-context:$springVersion") {
         exclude group: 'edu.emory.mathcs.backport', module: 'com.springsource.edu.emory.mathcs.backport'
         exclude group: 'javax.annotation',          module: 'com.springsource.javax.annotation'
         exclude group: 'javax.ejb',                 module: 'com.springsource.javax.ejb'
@@ -87,7 +93,7 @@ dependencies {
         exclude group: 'org.springframework',       module: 'spring-instrument'
         exclude group: 'javax.inject',              module: 'com.springsource.org.atinject.tck'
     }
-    compile("org.springframework:spring-context-support:$springVersion") {
+    implementation("org.springframework:spring-context-support:$springVersion") {
         exclude group: 'com.bea.commonj',               module: 'com.springsource.commonj'
         exclude group: 'com.opensymphony.quartz',       module: 'com.springsource.org.quartz'
         exclude group: 'javax.activation',              module: 'com.springsource.javax.activation'
@@ -105,23 +111,23 @@ dependencies {
         exclude group: 'org.springframework',           module: 'spring-jdbc'
         exclude group: 'org.springframework',           module: 'spring-transaction'    
     }
-    compile('org.xhtmlrenderer:core-renderer:R8') {
+    implementation('org.xhtmlrenderer:core-renderer:R8') {
         exclude group: 'com.lowagie', module: 'itext'
     }
-    compile('com.lowagie:itext:2.0.8') {
+    implementation('com.lowagie:itext:2.0.8') {
         exclude group: 'bouncycastle', module: 'bcmail-jdk14'
         exclude group: 'bouncycastle', module: 'bcprov-jdk14'
     }
-    compile("org.grails:grails-docs:$grailsDocsVersion") {
+    implementation("org.grails:grails-docs:$grailsDocsVersion") {
         exclude group: 'radeox',              module: 'radeox'
         exclude group: 'org.codehaus.groovy', module: 'groovy-all'
         exclude group: 'org.apache.ant',      module: 'ant'
         exclude group: 'org.xhtmlrenderer',   module: 'core-renderer'
     }
-    compile("org.grails:grails-gdoc-engine:1.0.1") {
+    implementation("org.grails:grails-gdoc-engine:1.0.1") {
         exclude group: 'org.slf4j', module: 'jcl-over-slf4j'
     }
-    compile('org.apache.ivy:ivy:2.2.0') {
+    implementation('org.apache.ivy:ivy:2.2.0') {
         exclude group: 'ant',                module: 'ant'
         exclude group: 'ant',                module: 'ant-nodeps'
         exclude group: 'ant',                module: 'ant-trax'
@@ -132,14 +138,15 @@ dependencies {
         exclude group: 'org.bouncycastle',   module: 'bcpg-jdk14'
         exclude group: 'org.bouncycastle',   module: 'bcprov-jdk14'
     }
-    compile('org.codehaus.gant:gant_groovy2.2:1.9.10') {
+    implementation('org.codehaus.gant:gant_groovy2.2:1.9.11') {
         exclude group: 'org.apache.ant', module: 'ant'
         exclude group: 'commons-cli',    module: 'commons-cli'
+        exclude group: 'org.codehaus.groovy', module: 'groovy-all'
     }
-    compile('org.codehaus.groovy.modules.http-builder:http-builder:0.6') {
+    implementation('org.codehaus.groovy.modules.http-builder:http-builder:0.8.0-SNAPSHOT') {
         exclude group: 'org.apache.httpcomponents', module: 'httpclient'
         exclude group: 'net.sf.json-lib',           module: 'json-lib'
-        exclude group: 'org.codehaus.groovy',       module: 'groovy'
+        exclude group: 'org.apache.groovy',       module: 'groovy'
         exclude group: 'net.sourceforge.nekohtml',  module: 'nekohtml'
         exclude group: 'xml-resolver',              module: 'xml-resolver'
         exclude group: 'oauth.signpost',            module: 'signpost-commonshttp4'
@@ -148,7 +155,7 @@ dependencies {
         exclude group: 'log4j',                     module: 'log4j'
         exclude group: 'com.google.appengine',      module: 'appengine-api-1.0-sdk'
     }
-    compile('net.sf.json-lib:json-lib:2.4:jdk15') {
+    implementation('net.sf.json-lib:json-lib:2.4:jdk15') {
         exclude group: 'commons-beanutils',   module: 'commons-beanutils'
         exclude group: 'commons-collections', module: 'commons-collections'
         exclude group: 'commons-lang',        module: 'commons-lang'
@@ -159,31 +166,31 @@ dependencies {
         exclude group: 'log4j',               module: 'log4j'
         exclude group: 'org.codehaus.groovy', module: 'groovy-all'
     }
-    compile('net.sf.ezmorph:ezmorph:1.0.6') {
+    implementation('net.sf.ezmorph:ezmorph:1.0.6') {
         exclude group: 'commons-beanutils',   module: 'commons-beanutils'
         exclude group: 'commons-lang',        module: 'commons-lang'
         exclude group: 'commons-logging',     module: 'commons-logging'
         exclude group: 'log4j',               module: 'log4j'
     }
-    compile('commons-beanutils:commons-beanutils:1.8.3') {
+    implementation('commons-beanutils:commons-beanutils:1.8.3') {
         exclude group: 'commons-logging',     module: 'commons-logging'
         exclude group: 'commons-collections', module: 'commons-collections'
     }
-    compile('org.apache.httpcomponents:httpclient:4.1.2') {
+    implementation('org.apache.httpcomponents:httpclient:4.1.2') {
         exclude group: 'org.apache.httpcomponents', module: 'httpcore'
         exclude group: 'commons-logging',           module: 'commons-logging'
         exclude group: 'commons-codec',             module: 'commons-codec'
     }
-    compile('com.jcraft:jsch:0.1.48') {
+    implementation('com.jcraft:jsch:0.1.48') {
         exclude group: 'com.jcraft', module: 'jzlib'
     }
-    compile('xerces:xercesImpl:2.9.1') {
+    implementation('xerces:xercesImpl:2.9.1') {
         exclude group: 'xml-apis',     module: 'xml-apis'
         exclude group: 'xml-resolver', module: 'xml-resolver'
     }
 
-    testCompile('org.spockframework:spock-core:0.7-groovy-2.0') {
-        exclude group: 'org.codehaus.groovy', module: 'groovy-all'
+    testImplementation('org.spockframework:spock-core:2.4-M6-groovy-4.0') {
+        exclude group: 'org.groovy.groovy'
     }
 }
 

@@ -16,14 +16,15 @@
 
 import org.apache.tools.ant.filters.ReplaceTokens
 
-apply plugin: 'izpack'
+apply plugin: 'com.bmuschko.izpack'
 
 dependencies {
-    izpack files('installer/izpack/lib/izpack-standalone-compiler-4.3.3.jar')
+    //izpack files('installer/izpack/lib/izpack-standalone-compiler-4.3.3.jar')
+    izpack 'org.codehaus.izpack:izpack-standalone-compiler:4.3.5'
 }
 
-task prepareIzpack(type: Copy) {
-    destinationDir = "$buildDir/assemble/izpack" as File
+tasks.register('prepareIzpack', Copy) {
+
     from('installer/izpack/resources') {
         into 'resources'
         filter(ReplaceTokens, tokens: ['griffon.version': version])
@@ -34,25 +35,26 @@ task prepareIzpack(type: Copy) {
     into('source'){
         with distSourceSpec
     }
+    into("$layout.buildDirectory/assemble/izpack")
 }
 
 izPackCreateInstaller.dependsOn prepareIzpack
 izPackCreateInstaller.doFirst {
-    ant.chmod(dir: "$buildDir/assemble/izpack/binary/bin", excludes: '*.bat', perm: 'ugo+x')
+    ant.chmod(dir: "$layout.buildDirectory/assemble/izpack/binary/bin", excludes: '*.bat', perm: 'ugo+x')
 }
 
 izpack {
-    baseDir = file("$buildDir/assemble/izpack")
+    baseDir = file("$layout.buildDirectory/assemble/izpack")
     installFile = file('installer/izpack/installer.xml')
-    outputFile = file("$buildDir/distributions/griffon-${version}-installer.jar")
+    outputFile = file("$layout.buildDirectory/distributions/griffon-${version}-installer.jar")
     compression = 'deflate'
     compressionLevel = 9
     appProperties = ['app.group': 'Griffon', 'app.name': 'griffon', 'app.title': 'Griffon',
                      'app.version': version, 'app.subpath': "Griffon-$version"]
 }
 
-task prepareRpm(type: Copy) {
-    def rpmDir = "$buildDir/assemble/rpm" as File
+tasks.register('prepareRpm', Copy) {
+    def rpmDir = "$layout.buildDirectory/assemble/rpm" as File
     into rpmDir    
     doFirst {
         mkdir("${rpmDir}/BUILD")
@@ -71,11 +73,12 @@ task prepareRpm(type: Copy) {
     }
 }
 
-task rpm(dependsOn: prepareRpm) {
+tasks.register('rpm') {
+    dependsOn('prepareRpm')
     description = "Creates an RPM package from the binary distribution."
     inputs.dir prepareRpm.outputs.files
-    outputs.files "$buildDir/distributions/griffon-${version.replace('-','_')}-1.noarch.rpm"
-    def rpmDir = "$buildDir/assemble/rpm" as File
+    outputs.files "$layout.buildDirectory/distributions/griffon-${version.replace('-','_')}-1.noarch.rpm"
+    def rpmDir = "$layout.buildDirectory/assemble/rpm" as File
     doLast {
         ant.chmod(dir: "$rpmDir/griffon-${version}/bin", excludes: '*.bat', perm: 'ugo+x')
         ant.zip(
@@ -87,36 +90,37 @@ task rpm(dependsOn: prepareRpm) {
                 cleanBuildDir: false,
                 failOnError: true)
         copy {
-            into "$buildDir/distributions"
+            into "$layout.buildDirectory/distributions"
             from "$rpmDir/RPMS/noarch/"
             include '*.rpm'
         }
     }
 }
 
-task prepareDmg(type: Copy) {
-    destinationDir = "$buildDir/assemble/dmg" as File
+tasks.register('prepareDmg', Copy) {
     from('installer/dmg/resources') {
         filter(ReplaceTokens, tokens: ['griffon.version': version])
     }
     into("griffon-${version}") {
         with distBinSpec
     }
+    into("$layout.buildDirectory/assemble/dmg")
 }
 
-task dmg(dependsOn: prepareDmg) {
+tasks.register('dmg') {
+    dependsOn('prepareDmg')
     description = "Creates a DMG package from the binary distribution."
     inputs.dir prepareDmg.outputs.files
-    outputs.files "$buildDir/distributions/griffon-${version}-bin.dmg"
+    outputs.files "$layout.buildDirectory/distributions/griffon-${version}-bin.dmg"
 
-    def destinationDir = "$buildDir/distributions" as File
-    def dmgDir = "$buildDir/assemble/dmg" as File
+    def destinationDir = "$layout.buildDirectory/distributions" as File
+    def dmgDir = "$layout.buildDirectory/assemble/dmg" as File
 
     doLast {
         ant.chmod(dir: "$dmgDir/griffon-${version}/bin", excludes: '*.bat', perm: 'ugo+x')
 
         def assemblerDir = project.file('installer/dmg/assembler')
-        def output = "$buildDir/distributions/griffon-${version}-bin.dmg"
+        def output = "$layout.buildDirectory/distributions/griffon-${version}-bin.dmg"
         ant.exec(executable: "$assemblerDir/create-dmg") {
             arg(line: "--window-size 380 260 "+
                       "--background ${assemblerDir}/background.png "+
@@ -127,8 +131,7 @@ task dmg(dependsOn: prepareDmg) {
     }
 }
 
-task prepareDeb(type: Copy) {
-    destinationDir = "$buildDir/assemble/deb" as File
+tasks.register('prepareDeb', Copy) {
     from('installer/deb') {
         filter(ReplaceTokens, tokens: ['griffon.version': version])
     }
@@ -138,23 +141,25 @@ task prepareDeb(type: Copy) {
 
     doLast {
         ant.chmod(dir: "${destinationDir}/dist/bin", perm: 'ugo+x')
-        file("$buildDir/distributions").mkdirs()
+        file("$layout.buildDirectory/distributions").mkdirs()
     }
+    into("$layout.buildDirectory/assemble/deb")
 }
 
-task deb(dependsOn: prepareDeb) {
+tasks.register('deb') {
+    dependsOn('prepareDeb')
     description = "Creates a Debian package from the binary distribution."
     inputs.dir prepareDeb.outputs.files
-    outputs.file "$buildDir/distributions/griffon-${version}-1_all.deb"
+    outputs.file "$layout.buildDirectory/distributions/griffon-${version}-1_all.deb"
 
     File debSrcDir = project.file('installer/deb')
-    File debDir = "$buildDir/assemble/deb" as File
+    File debDir = "$layout.buildDirectory/assemble/deb" as File
     File destinationDir = new File(debDir.absolutePath, 'dist')
 
     doLast {
         ant.taskdef(resource: 'ant_deb_task.properties',
                     classpath: fileTree(dir: debSrcDir, includes: ['*.jar']).asPath)
-        ant.deb(todir: "$buildDir/distributions",
+        ant.deb(todir: "$layout.buildDirectory/distributions",
                 'package': 'griffon',
                 section: 'contrib/devel',
                 priority: 'extra',

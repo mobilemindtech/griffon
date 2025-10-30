@@ -15,6 +15,7 @@
  */
 package org.codehaus.griffon.resolve.config
 
+import groovy.xml.XmlSlurper
 import org.apache.ivy.plugins.resolver.*
 import org.apache.ivy.util.Message
 import org.codehaus.griffon.resolve.SnapshotAwareM2Resolver

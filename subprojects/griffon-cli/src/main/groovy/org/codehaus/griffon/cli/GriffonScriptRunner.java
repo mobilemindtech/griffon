@@ -20,8 +20,9 @@ import gant.Gant;
 import griffon.build.GriffonBuildListener;
 import griffon.util.*;
 import groovy.lang.*;
-import groovy.util.AntBuilder;
-import org.apache.log4j.LogManager;
+import groovy.ant.AntBuilder;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.LoggerContext;
 import org.apache.tools.ant.Project;
 import org.codehaus.gant.GantBinding;
 import org.codehaus.griffon.artifacts.ArtifactRepositoryRegistry;
@@ -306,8 +307,11 @@ public class GriffonScriptRunner {
     public void setLoggingOptions() {
         Object log4jConfig = settings.getConfig().get("log4j");
         if (log4jConfig instanceof Closure) {
-            LogManager.resetConfiguration();
-            new Log4jConfig().configure((Closure) log4jConfig);
+            LoggerContext context = (LoggerContext) LogManager.getContext(false);
+            context.stop();
+            context.start();
+            new Log4jConfig().configure((Closure<?>) log4jConfig);
+            context.updateLoggers();
         }
     }
 

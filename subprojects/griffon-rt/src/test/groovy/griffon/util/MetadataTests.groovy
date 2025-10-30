@@ -1,5 +1,7 @@
 package griffon.util
 
+import groovy.test.GroovyTestCase
+
 /**
  * @author Graeme Rocher
  * @since 1.2

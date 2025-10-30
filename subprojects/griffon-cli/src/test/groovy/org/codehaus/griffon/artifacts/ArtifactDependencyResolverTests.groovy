@@ -1,6 +1,7 @@
 package org.codehaus.griffon.artifacts
 
 import griffon.util.GriffonUtil
+import groovy.test.GroovyTestCase
 import org.codehaus.griffon.artifacts.model.Artifact
 import org.codehaus.griffon.artifacts.model.Plugin
 import org.codehaus.griffon.artifacts.model.Release

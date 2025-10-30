@@ -1,5 +1,7 @@
 package org.codehaus.griffon.cli
 
+import groovy.test.GroovyTestCase
+
 class ScriptNameResolverTests extends GroovyTestCase {
     void testFoo(){
         assert ScriptNameResolver.resolvesTo('F', 'Foo')

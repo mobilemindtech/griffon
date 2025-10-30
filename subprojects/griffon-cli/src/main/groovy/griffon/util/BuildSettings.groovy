@@ -32,7 +32,7 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver
 
 import java.util.concurrent.ConcurrentHashMap
 import java.util.regex.Pattern
-
+import java.io.File
 import static griffon.util.ArtifactSettings.*
 import static griffon.util.GriffonExceptionHandler.sanitize
 import static griffon.util.GriffonNameUtils.capitalize

@@ -37,8 +37,9 @@ class ConfigReader {
     private Map bindingVars = [:]
 
     private Stack<String> currentConditionalBlock = new Stack<String>()
-    private final Map<String, String> conditionValues = [:]
+    private final Map<String, String> conditionValues = new HashMap<>()
     private final Stack<Map<String, ConfigObject>> conditionalBlocks = new Stack<Map<String,ConfigObject>>()
+    private final String defaultEnv
 
     ConfigReader() {
         this('')
@@ -49,7 +50,8 @@ class ConfigReader {
      * @param env The Environment to use
      */
     ConfigReader(String env) {
-        conditionValues[ENVIRONMENTS_METHOD] = env
+        defaultEnv = env
+        conditionValues[ENVIRONMENTS_METHOD] = defaultEnv
         classLoader = new GroovyClassLoader(ApplicationClassLoader.get())
     }
 
@@ -167,37 +169,23 @@ class ConfigReader {
      * @return The ConfigObject instance
      */
     ConfigObject parse(Script script, URL location) {
+
         def config = location ? new ConfigObject(location) : new ConfigObject()
         GroovySystem.metaClassRegistry.removeMetaClass(script.class)
         def mc = script.class.metaClass
         def prefix = ""
-        LinkedList stack = new LinkedList()
+        def stack = new Stack()
         stack << [config: config, scope: [:]]
         def pushStack = { co ->
-            stack << [config: co, scope: stack.last.scope.clone()]
+            stack << [config: co, scope: stack.peek().scope.clone()]
         }
         def assignName = { name, co ->
-            def current = stack.last
-            /*
-            def cfg = current.config
-            if (cfg instanceof ConfigObject) {
-                String[] keys = name.split(/\./)
-                for (int i = 0; i < keys.length - 1; i++) {
-                    String key = keys[i]
-                    if (!cfg.containsKey(key)) {
-                        cfg[key] = new ConfigObject()
-                    }
-                    cfg = cfg.get(key)
-                }
-                name = keys[keys.length - 1]
-            }
-            cfg[name] = co
-            */
+            def current = stack.peek()
             current.config[name] = co
             current.scope[name] = co
         }
         mc.getProperty = { String name ->
-            def current = stack.last
+            def current = stack.peek()
             def result
             if (current.config.get(name)) {
                 result = current.config.get(name)
@@ -226,8 +214,14 @@ class ConfigReader {
                     } finally {
                         currentConditionalBlock.pop()
                         for (entry in conditionalBlocks.pop().entrySet()) {
-                            def c = stack.last.config
-                            (c != config? c : overrides).merge(entry.value)
+                            def c = stack.peek().config
+                            def cfg = c != config ? c : overrides
+                            cfg.merge(entry.value)
+                            //entry.value.each {k, v ->
+                            //    if(!cfg.containsKey(k))
+                            //        cfg[k] = v
+                            //}
+
                         }
                     }
                 } else if (currentConditionalBlock.size() > 0) {
@@ -247,8 +241,8 @@ class ConfigReader {
                     }
                 } else {
                     def co
-                    if (stack.last.config.get(name) instanceof ConfigObject) {
-                        co = stack.last.config.get(name)
+                    if (stack.peek().config.get(name) instanceof ConfigObject) {
+                        co = stack.peek().config.get(name)
                     } else {
                         co = new ConfigObject()
                     }
@@ -286,6 +280,7 @@ class ConfigReader {
         script.binding = binding
 
         script.run()
+
 
         config.merge(overrides)
 

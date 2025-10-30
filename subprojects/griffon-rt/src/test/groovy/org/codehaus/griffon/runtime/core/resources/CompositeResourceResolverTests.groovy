@@ -1,6 +1,7 @@
 package org.codehaus.griffon.runtime.core.resources
 
 import griffon.core.resources.ResourceResolver
+import groovy.test.GroovyTestCase
 
 class CompositeResourceResolverTests extends GroovyTestCase {
     void testResolveAllFormatsInProperties() {

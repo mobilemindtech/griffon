@@ -19,6 +19,7 @@ package org.codehaus.griffon.artifacts.model
 import griffon.util.ArtifactSettings
 import groovy.json.JsonBuilder
 import groovy.json.JsonSlurper
+import groovy.xml.XmlSlurper
 import org.codehaus.griffon.artifacts.VersionComparator
 
 import static griffon.util.ArtifactSettings.*

@@ -30,9 +30,8 @@ import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.types.ZipFileSet;
 import org.apache.tools.ant.types.resources.FileResource;
 import org.apache.tools.ant.types.resources.ZipResource;
-import org.codehaus.groovy.runtime.DefaultGroovyMethods;
-
 import java.io.*;
+import java.nio.file.Files;
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -107,9 +106,10 @@ public class FileMergeTask extends MatchingTask {
         public static final MergeStrategy INSTANCE = new Append();
 
         public void merge(File file1, File file2) throws IOException {
-            String text1 = DefaultGroovyMethods.getText(file1);
-            String text2 = DefaultGroovyMethods.getText(file2);
-            DefaultGroovyMethods.setText(file1, text1 + text2);
+            String text1 = new String(Files.readAllBytes(file1.toPath()));
+            String text2 = new String(Files.readAllBytes(file2.toPath()));
+            String mergedText = text1 + text2;
+            Files.write(file1.toPath(), mergedText.getBytes());
         }
     }
 
@@ -333,7 +333,7 @@ public class FileMergeTask extends MatchingTask {
     }
 
     private void copy(InputStream in, File dest) throws IOException {
-        DefaultGroovyMethods.setText(dest, DefaultGroovyMethods.getText(in));
+        Files.copy(in, dest.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
     }
 
     public File getDir() {

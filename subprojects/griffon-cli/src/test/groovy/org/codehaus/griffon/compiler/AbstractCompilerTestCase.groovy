@@ -1,5 +1,8 @@
 package org.codehaus.griffon.compiler
 
+import groovy.ant.AntBuilder
+import groovy.test.GroovyTestCase
+
 abstract class AbstractCompilerTestCase extends GroovyTestCase {
     protected String projectName
     protected File baseDir

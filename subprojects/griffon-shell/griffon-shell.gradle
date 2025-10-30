@@ -22,7 +22,7 @@ ext {
 }
 
 dependencies {
-    compile project(':griffon-cli'),
-            "org.apache.karaf.shell:org.apache.karaf.shell.console:$karafVersion",
-            "org.apache.karaf.shell:org.apache.karaf.shell.commands:$karafVersion"
+    implementation project(':griffon-cli')
+    implementation "org.apache.karaf.shell:org.apache.karaf.shell.console:$karafVersion"
+    implementation "org.apache.karaf.shell:org.apache.karaf.shell.commands:$karafVersion"
 }

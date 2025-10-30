@@ -19,58 +19,59 @@ apply plugin: 'java'
 ext.pomDescription = 'Griffon common resources'
 
 tasks.withType(Jar).all { task ->
-    task.appFileJar = false
+    ext.appFileJar = false
 }
 
-task jarSharedFiles(type: Jar, dependsOn: ':griffon-wrapper:dist') {
-    appFileJar = true
-    archiveName = 'griffon-shared-files.jar'
-    destinationDir = "$buildDir/assemble/jars" as File
+tasks.register('jarSharedFiles', Jar) {
+    ext.appFileJar = true
+    dependsOn(':griffon-wrapper:dist')
+    archiveFileName.set('griffon-shared-files.jar')
+    destinationDirectory.set(file("$layout.buildDirectory/assemble/jars"))
     from(project(':griffon-wrapper').file('build/distributions/griffon-wrapper-files.zip'))
 }
 
-task jarAppFiles(type: Jar) {
-    appFileJar = true
-    archiveName = 'griffon-app-files.jar'
-    destinationDir = "$buildDir/assemble/jars" as File
+tasks.register('jarAppFiles', Jar) {
+    ext.appFileJar = true
+    archiveFileName.set('griffon-app-files.jar')
+    destinationDirectory.set(file("$layout.buildDirectory/assemble/jars"))
     from('src/app') {
         into 'griffon-app'
     }
 }
 
-task jarArchetypeFiles(type: Jar) {
-    appFileJar = true
-    archiveName = 'griffon-archetype-files.jar'
-    destinationDir = "$buildDir/assemble/jars" as File
-    from 'src/archetype'
+tasks.register('jarArchetypeFiles', Jar) {
+    ext.appFileJar = true
+    archiveFileName.set('griffon-archetype-files.jar')
+    destinationDirectory.set(file("$layout.buildDirectory/assemble/jars"))
+    from('src/archetype')
 }
 
-task jarPluginFiles(type: Jar) {
-    appFileJar = true
-    archiveName = 'griffon-plugin-files.jar'
-    destinationDir = "$buildDir/assemble/jars" as File
-    from 'src/plugin'
+tasks.register('jarPluginFiles', Jar) {
+    ext.appFileJar = true
+    archiveFileName.set('griffon-plugin-files.jar')
+    destinationDirectory.set(file("$layout.buildDirectory/assemble/jars"))
+    from('src/plugin')
 }
 
-task jarIntegrationFiles(type: Jar) {
-    appFileJar = true
-    archiveName = 'griffon-integration-files.jar'
-    destinationDir = "$buildDir/assemble/jars" as File
-    from 'src/ide'
+tasks.register('jarIntegrationFiles', Jar) {
+    ext.appFileJar = true
+    archiveFileName.set('griffon-integration-files.jar')
+    destinationDirectory.set(file("$layout.buildDirectory/assemble/jars"))
+    from('src/ide')
 }
 
-task jarDistFiles(type: Jar) {
-    appFileJar = true
-    archiveName = 'griffon-dist-files.jar'
-    destinationDir = "$buildDir/assemble/jars" as File
-    from 'src/dist'
+tasks.register('jarDistFiles', Jar) {
+    ext.appFileJar = true
+    archiveFileName.set('griffon-dist-files.jar')
+    destinationDirectory.set(file("$layout.buildDirectory/assemble/jars"))
+    from('src/dist')
 }
 
-task jarDefaultBundles(type: Jar) {
-    appFileJar = true
-    archiveName = 'griffon-default-bundles.jar'
-    destinationDir = "$buildDir/assemble/jars" as File
-    from 'src/bundles'
+tasks.register('jarDefaultBundles', Jar) {
+    ext.appFileJar = true
+    archiveFileName.set('griffon-default-bundles.jar')
+    destinationDirectory.set(file("$layout.buildDirectory/assemble/jars"))
+    from('src/bundles')
 }
 
 ext.resourceFilesJars = tasks.withType(Jar).matching({ task -> task.appFileJar } as Spec)

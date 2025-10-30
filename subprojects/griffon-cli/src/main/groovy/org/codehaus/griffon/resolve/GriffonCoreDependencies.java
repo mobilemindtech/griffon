@@ -151,7 +151,8 @@ public class GriffonCoreDependencies {
                         registerDependencies(dependencyManager, "build", buildDependencies);
 
                         ModuleRevisionId[] loggingDependencies = {
-                                ModuleRevisionId.newInstance("log4j", "log4j", log4jVersion),
+                                ModuleRevisionId.newInstance("org.apache.logging.log4j:", "log4j-api", log4jVersion),
+                                ModuleRevisionId.newInstance("org.apache.logging.log4j:", "log4j-core", log4jVersion),
                                 ModuleRevisionId.newInstance("org.slf4j", "slf4j-api", slf4jVersion),
                                 ModuleRevisionId.newInstance("org.slf4j", "slf4j-log4j12", slf4jVersion),
                                 ModuleRevisionId.newInstance("org.slf4j", "jcl-over-slf4j", slf4jVersion),

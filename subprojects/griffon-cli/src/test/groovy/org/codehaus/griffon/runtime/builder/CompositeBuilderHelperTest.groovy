@@ -1,5 +1,7 @@
 package org.codehaus.griffon.runtime.builder
 
+import groovy.test.GroovyTestCase
+
 class CompositeBuilderHelperTest extends GroovyTestCase {
     void testSanityCheckOnSampleBuilder() {
         SampleBuilder builder = new SampleBuilder()

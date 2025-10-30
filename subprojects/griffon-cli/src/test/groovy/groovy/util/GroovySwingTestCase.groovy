@@ -1,5 +1,7 @@
 package groovy.util
 
+import groovy.test.GroovyTestCase
+
 import java.lang.reflect.Constructor
 import javax.swing.SwingUtilities
 

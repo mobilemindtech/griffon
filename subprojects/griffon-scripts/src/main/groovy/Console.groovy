@@ -43,7 +43,7 @@ createConsole = {
     if (!isPluginProject && !isArchetypeProject) b.app = griffonApp
     def cl = griffonApp?.class?.classLoader ?: classLoader
 
-    def console = new groovy.ui.Console(cl, b)
+    def console = new groovy.console.ui.Console(cl, b)
 
     return console
 }

@@ -17,6 +17,7 @@
 package griffon.test
 
 import griffon.core.UIThreadManager
+import groovy.test.GroovyTestCase
 
 import java.lang.reflect.Constructor
 import java.lang.reflect.InvocationTargetException

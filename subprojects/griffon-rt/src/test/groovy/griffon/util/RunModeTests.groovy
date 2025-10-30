@@ -1,5 +1,7 @@
 package griffon.util
 
+import groovy.test.GroovyTestCase
+
 class RunModeTests extends GroovyTestCase {
     protected void setUp() {
         System.clearProperty(RunMode.KEY)

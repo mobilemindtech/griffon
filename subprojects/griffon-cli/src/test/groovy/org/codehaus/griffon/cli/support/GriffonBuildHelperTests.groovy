@@ -1,5 +1,6 @@
 package org.codehaus.griffon.cli.support
 
+import groovy.test.GroovyTestCase
 import junit.framework.Assert
 import junit.framework.AssertionFailedError
 

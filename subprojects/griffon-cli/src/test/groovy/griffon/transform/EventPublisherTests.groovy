@@ -1,5 +1,6 @@
 package griffon.transform
 
+import groovy.test.GroovyTestCase
 import org.codehaus.groovy.control.CompilationFailedException
 
 class EventPublisherTests extends GroovyTestCase {

@@ -20,6 +20,7 @@
 
 package org.codehaus.griffon
 
+import groovy.ant.AntBuilder
 import org.codehaus.groovy.tools.GroovyStarter
 
 def ant = new AntBuilder()

@@ -15,8 +15,8 @@
  */
 package org.codehaus.griffon.resolve;
 
-import groovy.util.XmlSlurper;
-import groovy.util.slurpersupport.GPathResult;
+import groovy.xml.XmlSlurper;
+import groovy.xml.slurpersupport.GPathResult;
 import org.apache.ivy.core.module.descriptor.Artifact;
 import org.apache.ivy.core.module.id.ModuleRevisionId;
 import org.apache.ivy.plugins.repository.Repository;

@@ -19,6 +19,7 @@ package org.codehaus.griffon.cli
 import griffon.util.BuildSettings
 import griffon.util.BuildSettingsHolder
 import griffon.util.Metadata
+import groovy.ant.AntBuilder
 import org.codehaus.griffon.artifacts.ArtifactInstallEngine
 import org.codehaus.griffon.artifacts.LocalArtifactRepository
 import org.codehaus.griffon.artifacts.model.Archetype

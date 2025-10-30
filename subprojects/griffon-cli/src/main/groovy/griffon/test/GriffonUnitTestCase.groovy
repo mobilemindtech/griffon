@@ -16,6 +16,7 @@
 package griffon.test
 
 import griffon.core.UIThreadManager
+import groovy.test.GroovyTestCase
 
 /**
  * Support class for writing unit tests in Griffon. It mainly provides

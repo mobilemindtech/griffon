@@ -15,8 +15,8 @@
  */
 package griffon.util;
 
-import groovy.util.XmlSlurper;
-import groovy.util.slurpersupport.GPathResult;
+import groovy.xml.XmlSlurper;
+import groovy.xml.slurpersupport.GPathResult;
 import junit.framework.TestCase;
 import org.xml.sax.SAXException;
 

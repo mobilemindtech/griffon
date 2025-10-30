@@ -16,9 +16,9 @@
 package griffon.util;
 
 import groovy.util.ConfigObject;
-import org.codehaus.groovy.runtime.DateGroovyMethods;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Map;
@@ -33,6 +33,9 @@ import static org.codehaus.griffon.cli.CommandLineConstants.KEY_NON_INTERACTIVE_
  * @since 0.9.1
  */
 public abstract class AbstractBuildSettings {
+
+    private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
     /**
      * Used to cache results of certain expensive operations
      */
@@ -94,11 +97,7 @@ public abstract class AbstractBuildSettings {
     public void debug(String msg) {
         if (isDebugEnabled()) {
             Date now = new Date();
-            System.out.println("[" +
-                    DateGroovyMethods.getDateString(now)
-                    + " " +
-                    DateGroovyMethods.getTimeString(now)
-                    + "] " + msg);
+            System.out.println("[" + dateFormat.format(now) + "] " + msg);
         }
     }
 }

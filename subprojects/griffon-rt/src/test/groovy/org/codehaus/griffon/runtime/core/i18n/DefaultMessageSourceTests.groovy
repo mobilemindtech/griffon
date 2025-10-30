@@ -1,6 +1,7 @@
 package org.codehaus.griffon.runtime.core.i18n
 
 import griffon.core.i18n.MessageSource
+import groovy.test.GroovyTestCase
 
 class DefaultMessageSourceTests extends GroovyTestCase {
     void testResolveAllFormatsInProperties() {

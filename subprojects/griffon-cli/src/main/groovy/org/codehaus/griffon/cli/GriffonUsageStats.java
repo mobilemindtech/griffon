@@ -23,11 +23,12 @@ import griffon.util.MD5;
 import groovy.lang.Binding;
 import groovyx.net.http.ContentType;
 import groovyx.net.http.HttpURLClient;
-import org.codehaus.groovy.runtime.DefaultGroovyMethods;
+
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
 import java.util.Map;
 
 import static griffon.util.CollectionUtils.map;
@@ -110,7 +111,7 @@ public class GriffonUsageStats {
         if (usageStatsFile.exists()) {
             String text = "false";
             try {
-                text = DefaultGroovyMethods.getText(usageStatsFile);
+                text = new String(Files.readAllBytes(usageStatsFile.toPath()));
             } catch (IOException e) {
                 // ignore
             }
@@ -122,7 +123,7 @@ public class GriffonUsageStats {
     public static void setEnabled(BuildSettings settings, boolean enabled) {
         File usageStatsFile = getUsageStatesFile(settings);
         try {
-            DefaultGroovyMethods.setText(usageStatsFile, String.valueOf(enabled));
+            Files.write(usageStatsFile.toPath(), Boolean.toString(enabled).getBytes());
         } catch (IOException e) {
             // ignore
         }
