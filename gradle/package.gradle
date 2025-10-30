@@ -57,10 +57,10 @@ ext.distBinSpec = copySpec {
         include '**/*.md'
         filter(ReplaceTokens, tokens: ['griffon.version': version, 'groovy.version': groovyVersion])
     }
-    from(project(':griffon-guide').file('src/griffon')) {
-        into 'src/griffon'
-        filter(ReplaceTokens, tokens: ['griffon.version': version, 'groovy.version': groovyVersion])
-    }
+    //from(project(':griffon-guide').file('src/griffon')) {
+    //    into 'src/griffon'
+    //    filter(ReplaceTokens, tokens: ['griffon.version': version, 'groovy.version': groovyVersion])
+    //}
     into('lib') {
         from(project(':griffon-cli').configurations.runtimeClasspath) {
             exclude 'griffon*'
@@ -91,21 +91,21 @@ ext.distBinSpec = copySpec {
         from(project(":griffon-scripts").sourceSets.main.allSource)
     }
 
-    into('doc') {
-        from(project(':griffon-guide').jarApi.outputs.files)
-        from(project(':griffon-guide').jarSource.outputs.files)
-        from(project(':griffon-guide').jarSourceHtml.outputs.files)
-        from(project(':griffon-guide').jarCliApi.outputs.files)
-        from(project(':griffon-guide').jarCliSource.outputs.files)
-    }
+    //into('doc') {
+    //    from(project(':griffon-guide').jarApi.outputs.files)
+    //    from(project(':griffon-guide').jarSource.outputs.files)
+    //    from(project(':griffon-guide').jarSourceHtml.outputs.files)
+    //    from(project(':griffon-guide').jarCliApi.outputs.files)
+    //    from(project(':griffon-guide').jarCliSource.outputs.files)
+    //}
     into('doc') {
         from('src/dist/doc')
         filter(ReplaceTokens, tokens: ['griffon.version': version, 'groovy.version': groovyVersion])
     }
 
-    into('guide') {
-        from(project(':griffon-guide').buildGuide.outputs.files)
-    }
+    //into('guide') {
+    //    from(project(':griffon-guide').buildGuide.outputs.files)
+    //}
 }
 
 tasks.register('zipBinary', Zip) {
@@ -180,11 +180,12 @@ tasks.register('checkGriffonHome') {
 tasks.register('installBinary', Sync) {
     dependsOn('checkGriffonHome')
     description = 'Installs the binary distribution at $GRIFFON_HOME.'
-    destinationDirectory.set(file(griffonHomeDir))
     with distBinSpec
     doLast {
         ant.chmod(dir: "${griffonHomeDir}/bin", excludes: '*.bat', perm: 'ugo+x')
     }
+    into(griffonHomeDir)
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
 
 

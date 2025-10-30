@@ -110,7 +110,17 @@ fi
 if [ -z "$GROOVY_CONF" ]; then
     GROOVY_CONF="$GRIFFON_HOME/conf/groovy-starter.conf"
 fi
-STARTER_CLASSPATH="$GRIFFON_HOME/lib/groovy-all-@groovy.version@.jar:$GRIFFON_HOME/dist/griffon-cli-@griffon.version@.jar:$GRIFFON_HOME/dist/griffon-rt-@griffon.version@.jar"
+STARTER_CLASSPATH=""
+
+for f in `ls $GRIFFON_HOME/lib/*.jar`; do
+    STARTER_CLASSPATH="$STARTER_CLASSPATH:$f"
+done
+
+for f in `ls $GRIFFON_HOME/dist/*.jar`; do
+    STARTER_CLASSPATH="$STARTER_CLASSPATH:$f"
+done
+
+#STARTER_CLASSPATH="$GROOVY_CLASSPATH:$GRIFFON_HOME/dist/griffon-cli-@griffon.version@.jar:$GRIFFON_HOME/dist/griffon-rt-@griffon.version@.jar"
 
 # Allow access to Cocoa classes on OS X
 if $darwin; then

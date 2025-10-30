@@ -23,13 +23,27 @@ buildscript {
 
     dependencies {
         //classpath 'me.champeau.gradle:gradle-javadoc-hotfix-plugin:0.1'
-        classpath 'com.bmuschko:gradle-java2html-plugin:2.0.1'
+        classpath 'com.bmuschko:gradle-java2html-plugin:2.0.4'
     }
 }
 
+
 apply plugin: 'java'
+apply plugin: 'groovy'
 apply plugin: 'com.bmuschko.java2html'
 //apply plugin: 'javadocHotfix'
+
+afterEvaluate {
+    tasks.named("java2htmlConvertCode") {
+        dependsOn tasks.named("copyDocs")
+        inputs.dir tasks.named("copyDocs").get().destinationDir
+    }
+
+    tasks.named("java2htmlGenerateOverview").configure {
+        dependsOn tasks.named("java2htmlConvertCode")
+        inputs.dir tasks.named("java2htmlConvertCode").get().destDir
+    }
+}
 
 configurations {
     groovy
@@ -59,7 +73,9 @@ dependencies {
             "org.slf4j:jcl-over-slf4j:$slf4jVersion")
 
     java2html 'de.java2html:java2html:5.0'
+    groovy "org.apache.groovy:groovy-all:$groovyVersion"
 }
+
 
 tasks.register('copyDocs', Copy) {
     destinationDir = "${layout.buildDirectory}/sources" as File
@@ -70,18 +86,26 @@ tasks.register('copyDocs', Copy) {
     from(project(":griffon-rt").sourceSets.main.allSource)
 }
 
+
+
 tasks.register('apiDocs', Groovydoc) {
-    dependsOn('copyDocs')
-    source          = "$layout.buildDirectory/sources" as File
-    destinationDir  = "$layout.buildDirectory/api" as File
+    dependsOn tasks.named("copyDocs")
+    source          = file("$layout.buildDirectory/sources")
+    destinationDir  = file("$layout.buildDirectory/api")
     docTitle        = "Griffon $version"
     header          = "Griffon $version"
     windowTitle     = "Griffon $version"
     groovyClasspath = configurations.groovy
-    classpath       = project(":griffon-rt").sourceSets.main.output +
-                      project(":griffon-rt").configurations
+    classpath       = files(
+        project(":griffon-rt").sourceSets.main.output +
+            project(":griffon-rt").configurations.runtimeClasspath
+    )
 
-    includePrivate = true
+    //includePrivate = true
+    access = GroovydocAccess.PRIVATE
+    includeAuthor = true
+    includeMainForScripts = false
+    processScripts = false
     use = true
 
     link('http://java.sun.com/j2se/1.5.0/docs/api', 'java.,org.xml.,javax.,org.xml.')
@@ -108,11 +132,6 @@ tasks.register('apiDocs', Groovydoc) {
     }
 }
 
-tasks.register('java2html') {
-   dependsOn apiDocs
-   dependsOn "java2htmlGenerateOverview"
-   dependsOn java2htmlConvertCode
-}
 
 tasks.register('jarApi', Jar) {
     dependsOn('apiDocs')
@@ -143,10 +162,15 @@ tasks.register('cliApiDocs', Groovydoc) {
     header          = "Griffon $version"
     windowTitle     = "Griffon $version"
     groovyClasspath = configurations.groovy
-    classpath       = project(":griffon-cli").sourceSets.main.output +
-                      project(":griffon-cli").configurations.compile
-
-    includePrivate = true
+    classpath = files(
+        project(":griffon-cli").sourceSets.main.output +
+            project(":griffon-cli").configurations.runtimeClasspath
+    )
+    //includePrivate = true
+    access = GroovydocAccess.PRIVATE
+    includeAuthor = true
+    includeMainForScripts = false
+    processScripts = false
     use = true
 
     link('http://java.sun.com/j2se/1.5.0/docs/api', 'java.,org.xml.,javax.,org.xml.')
@@ -192,7 +216,6 @@ tasks.register('jarDocs') {
 }
 
 tasks.register('prepareGuide', Copy) {
-    destinationDir = "$layout.buildDirectory/guide" as File
     from('src/guide/src')
     doLast {
         ant {
@@ -201,6 +224,7 @@ tasks.register('prepareGuide', Copy) {
             }
         }
     }
+    into("$layout.buildDirectory/guide")
 }
 
 tasks.register('buildGuide', GrailsDoc) {
@@ -242,6 +266,12 @@ tasks.register('dist', Zip) {
     from "$layout.buildDirectory/manual"
 }
 
+tasks.register('java2html') {
+    dependsOn 'apiDocs'
+    dependsOn 'java2htmlGenerateOverview'
+    dependsOn 'java2htmlConvertCode'
+}
+
 java2html {
     conversion {
         srcDirs = files("${layout.buildDirectory}/sources")
@@ -273,3 +303,4 @@ java2html {
         stylesheet = file('src/guide/resources/css/stylesheet.css')
     }
 }
+

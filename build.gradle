@@ -28,7 +28,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.bmuschko:gradle-izpack-plugin:3.2'
-        classpath 'com.bmuschko:gradle-java2html-plugin:2.0.1'
+        //classpath 'com.bmuschko:gradle-java2html-plugin:2.0.1'
     }
 }
 
@@ -49,8 +49,8 @@ evaluationDependsOn(':griffon-guide')
 subprojects { subproj ->
     apply plugin: 'idea'
     if(plugins.hasPlugin('java') || plugins.hasPlugin('groovy')){
-        sourceCompatibility = 17
-        targetCompatibility = 17
+        sourceCompatibility = 24
+        targetCompatibility = 24
         group = 'org.codehaus.griffon'
 
         //apply from: "${rootDir}/gradle/coverage.gradle"
@@ -60,6 +60,8 @@ subprojects { subproj ->
     if(plugins.hasPlugin("groovy")){
         dependencies {
             implementation("org.apache.groovy:groovy-all:$groovyVersion")
+            implementation("org.apache.groovy:groovy-dateutil:$groovyVersion")
+
         }
 
         tasks.withType(GroovyCompile).configureEach {
@@ -85,6 +87,7 @@ subprojects { subproj ->
             )
         }
     }
+
 }
 
 Date buildTimeAndDate = new Date()
@@ -151,3 +154,4 @@ def mavenizedProjects() {
         project(':griffon-shell')
     ]
 }
+

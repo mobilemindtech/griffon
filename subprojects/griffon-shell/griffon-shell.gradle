@@ -23,6 +23,34 @@ ext {
 
 dependencies {
     implementation project(':griffon-cli')
+    implementation project(':griffon-rt')
+    implementation 'asm:asm:3.3.1'
+    implementation 'commons-lang:commons-lang:2.6'
+    implementation("org.slf4j:slf4j-log4j12:$slf4jVersion") {
+        exclude group: 'org.slf4j', module: 'slf4j-api'
+        exclude group: 'log4j',     module: 'log4j'
+    }
+    implementation("org.slf4j:slf4j-api:$slf4jVersion")
+    implementation("org.slf4j:jcl-over-slf4j:$slf4jVersion")  {
+        exclude group: 'org.slf4j', module: 'slf4j-api'
+    }
+    implementation("org.slf4j:jul-to-slf4j:$slf4jVersion")  {
+        exclude group: 'org.slf4j', module: 'slf4j-api'
+    }
+    implementation("org.apache.ant:ant:$antVersion") {
+        exclude group: 'org.apache.ant', module: 'ant-launcher'
+    }
+    implementation('org.codehaus.gant:gant_groovy2.2:1.9.11') {
+        exclude group: 'org.apache.ant', module: 'ant'
+        exclude group: 'commons-cli',    module: 'commons-cli'
+        exclude group: 'org.codehaus.groovy', module: 'groovy-all'
+    }
+    implementation("org.springframework:spring-core:$springVersion") {
+        exclude group: 'org.apache.commons',  module: 'com.springsource.org.apache.commons.logging'
+        exclude group: 'org.apache.log4',     module: 'com.springsource.org.apache.log4j'
+        exclude group: 'org.aspectj',         module: 'com.springsource.org.aspectj.weaver'
+        exclude group: 'org.springframework', module: 'spring-asm'
+    }
     implementation "org.apache.karaf.shell:org.apache.karaf.shell.console:$karafVersion"
     implementation "org.apache.karaf.shell:org.apache.karaf.shell.commands:$karafVersion"
 }
