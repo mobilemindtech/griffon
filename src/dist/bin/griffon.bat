@@ -12,7 +12,25 @@ if "%OS%"=="Windows_NT" setlocal
 set DIRNAME=%~dp0
 if "%DIRNAME%" == "" set DIRNAME=.\
 
-set STARTER_CLASSPATH=%GRIFFON_HOME%\lib\groovy-all-@groovy.version@.jar;%GRIFFON_HOME%\dist\griffon-cli-@griffon.version@.jar;%GRIFFON_HOME%\dist\griffon-rt-@griffon.version@.jar
+set "STARTER_CLASSPATH="
+
+for %%f in ("%GRIFFON_HOME%\lib\*.jar") do (
+    if defined STARTER_CLASSPATH (
+        set "STARTER_CLASSPATH=!STARTER_CLASSPATH!;%%f"
+    ) else (
+        set "STARTER_CLASSPATH=%%f"
+    )
+)
+
+for %%f in ("%GRIFFON_HOME%\dist\*.jar") do (
+    if defined STARTER_CLASSPATH (
+        set "STARTER_CLASSPATH=!STARTER_CLASSPATH!;%%f"
+    ) else (
+        set "STARTER_CLASSPATH=%%f"
+    )
+)
+
+rem set STARTER_CLASSPATH=%GRIFFON_HOME%\lib\groovy-all-@groovy.version@.jar;%GRIFFON_HOME%\dist\griffon-cli-@griffon.version@.jar;%GRIFFON_HOME%\dist\griffon-rt-@griffon.version@.jar
 
 set STARTER_CONF=%GRIFFON_HOME%\conf\groovy-starter.conf
 
