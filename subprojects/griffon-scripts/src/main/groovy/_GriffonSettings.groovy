@@ -21,6 +21,8 @@ import org.springframework.core.io.Resource
 import org.springframework.util.FileCopyUtils
 import griffon.util.*
 
+import java.lang.reflect.Method
+
 import static org.codehaus.griffon.cli.CommandLineConstants.KEY_INTERACTIVE_MODE
 
 /**
@@ -345,7 +347,7 @@ hasJavaOrGroovySources = { dir ->
     hasFiles(dir: dir, includes: '**/*.groovy **/*.java')
 }
 
-addUrlIfNotPresent = { to, what ->
+addUrlIfNotPresent = { URLClassLoader to, what ->
     if (!to || !what) return
     def urls = to.URLs.toList()
     switch (what.class) {
@@ -361,7 +363,16 @@ addUrlIfNotPresent = { to, what ->
     if (what.directory && !what.exists()) what.mkdirs()
     def url = what.toURI().toURL()
     if (!urls.contains(url) && (what.directory || !urls.find {it.path.endsWith(what.name)})) {
-        to.addURL(url)
+        //to.addURL(url)
+        try {
+            def gcl = new GroovyClassLoader(to)
+            gcl.addURL(url)
+            Thread.currentThread().setContextClassLoader(gcl)
+        } catch (Exception ex) {
+            throw new RuntimeException(
+                "Cannot dynamically add URLs to _GriffonSettings: $ex.message")
+        }
+
     }
 }
 

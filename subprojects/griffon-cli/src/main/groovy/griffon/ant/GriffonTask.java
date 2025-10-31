@@ -143,7 +143,7 @@ public class GriffonTask extends Task {
             // Make sure Groovy and Gant are on the classpath if we are using "griffonHome".
             File[] files = new File(home, "lib").listFiles(new FilenameFilter() {
                 public boolean accept(File dir, String name) {
-                    return name.startsWith("gant_") || name.startsWith("groovy-all");
+                    return name.startsWith("gant") || name.startsWith("groovy-all");
                 }
             });
 

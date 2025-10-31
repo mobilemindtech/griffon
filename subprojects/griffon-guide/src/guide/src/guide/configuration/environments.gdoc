@@ -13,6 +13,7 @@ environments {
                 storepass = 'BadStorePassword'
                 keypass   = 'BadKeyPassword'
                 lazy      = true // only sign when unsigned
+                keyalg    = 'RSA'
             }
         }
 
@@ -32,6 +33,7 @@ environments {
                 keystore = 'CHANGE ME'
                 alias = 'CHANGE ME'
                 lazy = false // sign, regardless of existing signatures
+                keyalg    = 'RSA'
             }
         }
 

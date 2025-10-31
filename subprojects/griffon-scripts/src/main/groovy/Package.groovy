@@ -199,7 +199,7 @@ target(name: 'package_jar', description: "Creates a single jar distribution and 
 // XXX -- NATIVE
     }
     ant.delete(dir: mergeDir)
-    maybePackAndSign(destFile)
+    //maybePackAndSign(destFile)
 
     _copySharedFiles(targetDistDir)
     _copyPackageFiles(targetDistDir)

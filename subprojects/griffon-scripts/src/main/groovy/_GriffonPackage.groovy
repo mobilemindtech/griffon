@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+
+//import aQute.bnd.osgi.Analyzer
 import griffon.util.Environment
 import griffon.util.Metadata
 import griffon.util.PlatformUtils
@@ -27,7 +29,7 @@ import java.util.zip.ZipFile
 import static griffon.util.GriffonApplicationUtils.osArch
 import static griffon.util.GriffonNameUtils.capitalize
 import static griffon.util.PlatformUtils.getPlatform
-import aQute.lib.osgi.Analyzer
+
 import java.util.jar.Manifest
 
 /**
@@ -250,7 +252,7 @@ target(name: 'jarFiles', description: "Jar up the package files",
 
     if (!upToDate) {
         mergeManifest()
-        Map osgiManifestMap = createOsgiManifest()
+        Map osgiManifestMap = manifestMap //createOsgiManifest()
         ant.jar(destfile: destFileName) {
             fileset(dir: projectMainClassesDir) {
                 exclude(name: 'BuildConfig*.class')
@@ -292,6 +294,7 @@ target(name: 'mergeManifest', description: 'Generates a Manifest with default an
     }
 }
 
+/*
 createOsgiManifest = {
     Map osgiManifestAttributes = [
         (Analyzer.BUNDLE_NAME): griffonAppName,
@@ -314,7 +317,7 @@ createOsgiManifest = {
     Map mergedAttributes = [:]
     osgiManifest.mainAttributes.each { k, v -> mergedAttributes[k.toString()] = v }
     return mergedAttributes
-}
+}*/
 
 _copyLibs = {
     // jardir = ant.antProject.replaceProperties(buildConfig.griffon.jars.destDir)
@@ -385,7 +388,7 @@ griffonCopyDist = { jarname, targetDir, boolean force = false ->
 
     ant.copy(file: srcFile, toFile: targetFile, overwrite: force)
 
-    maybePackAndSign(srcFile, targetFile, force)
+    //maybePackAndSign(srcFile, targetFile, force)
 }
 
 maybePackAndSign = {srcFile, targetFile = srcFile, boolean force = false ->
@@ -509,6 +512,28 @@ maybePackAndSign = {srcFile, targetFile = srcFile, boolean force = false ->
     }
 
     return targetFile
+}
+
+packageWithJlink = { srcFile, targetFile = srcFile, boolean force = false ->
+    def modulePath = "${basedir}/modules"
+    ant.mkdir(dir: modulePath)
+    ant.copy(todir: modulePath) {
+        fileset(dir: "${basedir}/lib")
+    }
+
+    def outputDir = "${basedir}/dist/image"
+    ant.mkdir(dir: outputDir)
+
+    ant.exec(executable: "${System.env.JAVA_HOME}/bin/jlink") {
+        arg(value: "--module-path")
+        arg(value: "${System.env.JAVA_HOME}/jmods:${modulePath}")
+        arg(value: "--add-modules")
+        arg(value: "java.base,java.desktop")
+        arg(value: "--output")
+        arg(value: outputDir)
+        arg(value: "--launcher")
+        arg(value: "griffon-app=org.codehaus.griffon.Main")
+    }
 }
 
 target(name: 'generateJNLP', description: "Generates the JNLP File",

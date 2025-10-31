@@ -22,16 +22,12 @@ ext.pomDescription = 'Griffon runtime'
 
 dependencies {
 
-    implementation("org.apache.logging.log4j:log4j-api:$log4jVersion") {
+    implementation("log4j:log4j:$log4jVersion") {
         exclude group: 'ant',         module: 'ant-nodeps'
         exclude group: 'ant',         module: 'ant-junit'
         exclude group: 'ant-contrib', module: 'ant-contrib'
     }
-    implementation("org.apache.logging.log4j:log4j-core:$log4jVersion") {
-        exclude group: 'ant',         module: 'ant-nodeps'
-        exclude group: 'ant',         module: 'ant-junit'
-        exclude group: 'ant-contrib', module: 'ant-contrib'
-    }
+
     implementation("org.slf4j:slf4j-log4j12:$slf4jVersion") {
         exclude group: 'org.slf4j', module: 'slf4j-api'
         exclude group: 'log4j',     module: 'log4j'
@@ -44,7 +40,7 @@ dependencies {
         exclude group: 'org.slf4j', module: 'slf4j-api'
     }
 
-    testImplementation 'junit:junit:4.10'
+    testImplementation "junit:junit:${junitVersion}"
 }
 tasks.register('copyDependencies', Copy) {
     dependsOn('jar')

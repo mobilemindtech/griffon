@@ -118,13 +118,15 @@ public class GriffonCoreDependencies {
                         String slf4jVersion = buildSettings.getSlf4jVersion();
                         String log4jVersion = buildSettings.getLog4jVersion();
                         String groovyVersion = buildSettings.getGroovyVersion();
+                        String junitVersion = buildSettings.getJunitVersion();
+
 
                         ModuleRevisionId[] buildDependencies = {
                                 ModuleRevisionId.newInstance("org.apache.ant", "ant", antVersion),
                                 ModuleRevisionId.newInstance("org.apache.ant", "ant-launcher", antVersion),
                                 ModuleRevisionId.newInstance("org.apache.ant", "ant-junit", antVersion),
                                 ModuleRevisionId.newInstance("org.fusesource.jansi", "jansi", "1.9"),
-                                ModuleRevisionId.newInstance("jline", "jline" ,"0.9.94"),
+                                ModuleRevisionId.newInstance("jline", "jline" ,"2.14.6"),
                                 ModuleRevisionId.newInstance("commons-io", "commons-io", "2.4"),
                                 ModuleRevisionId.newInstance("commons-lang", "commons-lang", "2.6"),
                                 ModuleRevisionId.newInstance("commons-codec", "commons-codec", "1.6"),
@@ -134,7 +136,7 @@ public class GriffonCoreDependencies {
                                 ModuleRevisionId.newInstance("org.apache.httpcomponents", "httpclient", "4.1.2"),
                                 ModuleRevisionId.newInstance("com.jcraft", "jsch", "0.1.48"),
                                 ModuleRevisionId.newInstance("com.jcraft", "jzlib", "1.1.1"),
-                                ModuleRevisionId.newInstance("org.codehaus.groovy.modules.http-builder", "http-builder", "0.6"),
+                                ModuleRevisionId.newInstance("org.codehaus.groovy.modules.http-builder", "http-builder", "0.8.0-SNAPSHOT"),
                                 ModuleRevisionId.newInstance("xerces", "xercesImpl", "2.9.1"),
                                 ModuleRevisionId.newInstance("net.sf.ezmorph", "ezmorph", "1.0.6"),
                                 ModuleRevisionId.newInstance("xml-resolver", "xml-resolver", "1.2"),
@@ -146,13 +148,11 @@ public class GriffonCoreDependencies {
                                 ModuleRevisionId.newInstance("org.springframework", "spring-context", springVersion),
                                 ModuleRevisionId.newInstance("org.springframework", "spring-context-support", springVersion),
                                 ModuleRevisionId.newInstance("net.sf.json-lib", "json-lib", "2.4", classifier("jdk15")),
-                                ModuleRevisionId.newInstance("biz.aQute", "bndlib", "1.50.0")
                         };
                         registerDependencies(dependencyManager, "build", buildDependencies);
 
                         ModuleRevisionId[] loggingDependencies = {
-                                ModuleRevisionId.newInstance("org.apache.logging.log4j:", "log4j-api", log4jVersion),
-                                ModuleRevisionId.newInstance("org.apache.logging.log4j:", "log4j-core", log4jVersion),
+                                ModuleRevisionId.newInstance("log4j", "log4j", log4jVersion),
                                 ModuleRevisionId.newInstance("org.slf4j", "slf4j-api", slf4jVersion),
                                 ModuleRevisionId.newInstance("org.slf4j", "slf4j-log4j12", slf4jVersion),
                                 ModuleRevisionId.newInstance("org.slf4j", "jcl-over-slf4j", slf4jVersion),
@@ -161,7 +161,28 @@ public class GriffonCoreDependencies {
                         registerDependencies(dependencyManager, "build", loggingDependencies, "mail", "jms", "jmxtools", "jmxri");
 
                         ModuleRevisionId[] groovyDependencies = {
-                                ModuleRevisionId.newInstance("org.codehaus.groovy", "groovy-all", groovyVersion)
+                                ModuleRevisionId.newInstance("org.apache.groovy", "groovy", groovyVersion),
+                                ModuleRevisionId.newInstance("org.apache.groovy", "groovy-ant", groovyVersion),
+                                ModuleRevisionId.newInstance("org.apache.groovy", "groovy-cli-picocli", groovyVersion),
+                                ModuleRevisionId.newInstance("org.apache.groovy", "groovy-console", groovyVersion),
+                                ModuleRevisionId.newInstance("org.apache.groovy", "groovy-datetime", groovyVersion),
+                                ModuleRevisionId.newInstance("org.apache.groovy", "groovy-dateutil", groovyVersion),
+                                ModuleRevisionId.newInstance("org.apache.groovy", "groovy-docgenerator", groovyVersion),
+                                ModuleRevisionId.newInstance("org.apache.groovy", "groovy-groovydoc", groovyVersion),
+                                ModuleRevisionId.newInstance("org.apache.groovy", "groovy-groovysh", groovyVersion),
+                                ModuleRevisionId.newInstance("org.apache.groovy", "groovy-jmx", groovyVersion),
+                                ModuleRevisionId.newInstance("org.apache.groovy", "groovy-json", groovyVersion),
+                                ModuleRevisionId.newInstance("org.apache.groovy", "groovy-jsr223", groovyVersion),
+                                ModuleRevisionId.newInstance("org.apache.groovy", "groovy-macro", groovyVersion),
+                                ModuleRevisionId.newInstance("org.apache.groovy", "groovy-nio", groovyVersion),
+                                ModuleRevisionId.newInstance("org.apache.groovy", "groovy-servlet", groovyVersion),
+                                ModuleRevisionId.newInstance("org.apache.groovy", "groovy-sql", groovyVersion),
+                                ModuleRevisionId.newInstance("org.apache.groovy", "groovy-swing", groovyVersion),
+                                ModuleRevisionId.newInstance("org.apache.groovy", "groovy-templates", groovyVersion),
+                                ModuleRevisionId.newInstance("org.apache.groovy", "groovy-test", groovyVersion),
+                                ModuleRevisionId.newInstance("org.apache.groovy", "groovy-test-junit5", groovyVersion),
+                                ModuleRevisionId.newInstance("org.apache.groovy", "groovy-xml", groovyVersion),
+                                ModuleRevisionId.newInstance("org.apache.groovy", "groovy-yaml", groovyVersion),
                         };
                         registerDependencies(dependencyManager, "build", groovyDependencies, false);
 
@@ -169,7 +190,7 @@ public class GriffonCoreDependencies {
                         ModuleRevisionId[] docDependencies = {
                                 ModuleRevisionId.newInstance("org.xhtmlrenderer", "core-renderer", "R8"),
                                 ModuleRevisionId.newInstance("com.lowagie", "itext", "2.0.8"),
-                                ModuleRevisionId.newInstance("org.grails", "grails-docs", "2.2.4"),
+                                ModuleRevisionId.newInstance("org.grails", "grails-docs", "2.5.6"),
                                 ModuleRevisionId.newInstance("org.grails", "grails-gdoc-engine", "1.0.1"),
                                 ModuleRevisionId.newInstance("org.yaml", "snakeyaml", "1.9"),
                                 ModuleRevisionId.newInstance("commons-lang", "commons-lang", "2.6"),
@@ -189,7 +210,7 @@ public class GriffonCoreDependencies {
 
                         // dependencies needed for running tests
                         ModuleRevisionId[] testDependencies = {
-                                ModuleRevisionId.newInstance("junit", "junit", "4.11"),
+                                ModuleRevisionId.newInstance("junit", "junit", junitVersion),
                                 ModuleRevisionId.newInstance("org.hamcrest", "hamcrest-core", "1.3")
 
                         };

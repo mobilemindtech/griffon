@@ -14,7 +14,9 @@
  * limitations under the License.
  */
 
-import aQute.lib.osgi.Analyzer
+
+//import aQute.bnd.osgi.Analyzer
+
 import java.util.jar.Manifest
 import java.text.SimpleDateFormat
 
@@ -82,6 +84,7 @@ target(name: 'packageAddon', description: 'Packages a Griffon addon',
         'Implementation-Version': pluginVersion,
         'Implementation-Vendor': 'griffon-framework.org'
     ]
+    /*
     Map osgiManifestAttributes = [
         (Analyzer.BUNDLE_NAME): bundleName,
         (Analyzer.BUNDLE_VERSION): pluginVersion,
@@ -113,6 +116,7 @@ target(name: 'packageAddon', description: 'Packages a Griffon addon',
     Map mergedAttributes = [:]
     osgiManifest.mainAttributes.each { k, v -> mergedAttributes[k.toString()] = v }
     mergedAttributes.putAll(defaultManifestAttributes)
+     */
 
     ant.jar(destfile: "$addonJarDir/$addonJarName") {
         fileset(dir: projectMainClassesDir) {
@@ -124,7 +128,7 @@ target(name: 'packageAddon', description: 'Packages a Griffon addon',
         fileset(dir: resourcesDir)
 
         manifest {
-            mergedAttributes.sort().each { key, value ->
+            defaultManifestAttributes.sort().each { key, value ->
                 attribute(name: key, value: value)
             }
         }

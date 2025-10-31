@@ -26,6 +26,7 @@ dependencies {
     implementation project(':griffon-rt')
     implementation 'asm:asm:3.3.1'
     implementation 'commons-lang:commons-lang:2.6'
+    implementation "log4j:log4j:${log4jVersion}"
     implementation("org.slf4j:slf4j-log4j12:$slf4jVersion") {
         exclude group: 'org.slf4j', module: 'slf4j-api'
         exclude group: 'log4j',     module: 'log4j'
@@ -40,8 +41,10 @@ dependencies {
     implementation("org.apache.ant:ant:$antVersion") {
         exclude group: 'org.apache.ant', module: 'ant-launcher'
     }
-    implementation('org.codehaus.gant:gant_groovy2.2:1.9.11') {
+    implementation('org.codehaus.gant:gant:2.0.0') {
         exclude group: 'org.apache.ant', module: 'ant'
+        exclude group: 'org.apache.ivy', module: 'ivy'
+        exclude group: 'org.apache.groovy', module: 'groovy-all'
         exclude group: 'commons-cli',    module: 'commons-cli'
         exclude group: 'org.codehaus.groovy', module: 'groovy-all'
     }

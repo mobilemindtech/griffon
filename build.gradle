@@ -14,6 +14,9 @@
  * limitations under the License.
  */
 
+
+import org.apache.tools.ant.filters.ReplaceTokens
+
 import java.text.SimpleDateFormat
 
 apply plugin: 'base'
@@ -59,7 +62,11 @@ subprojects { subproj ->
 
     if(plugins.hasPlugin("groovy")){
         dependencies {
-            implementation("org.apache.groovy:groovy-all:$groovyVersion")
+            implementation("org.apache.groovy:groovy-all:$groovyVersion"){
+                exclude group: 'org.apache.ant', module: 'ant'
+                exclude group: 'org.apache.ivy', module: 'ivy'
+                exclude group: 'junit', module: 'junit'
+            }
             implementation("org.apache.groovy:groovy-dateutil:$groovyVersion")
 
         }
@@ -74,6 +81,17 @@ subprojects { subproj ->
         mavenLocal()
     }
 
+    processResources {
+        filter(ReplaceTokens, tokens: [
+            version: version,
+            groovyVersion: groovyVersion,
+            antVersion: antVersion,
+            slf4jVersion: slf4jVersion,
+            log4jVersion: log4jVersion,
+            springVersion: springVersion,
+            junitVersion: junitVersion,
+        ])
+    }
     // resolve conflict with gradle groovy 3 and project groogy 4
     tasks.withType(GroovyCompile).configureEach {
         if (name == "compileTestGroovy") {
@@ -143,6 +161,24 @@ tasks.register('bambooStage1') {
 tasks.register('bambooStage2') {
     dependsOn('bambooStage1', 'fullDist', 'rpm')
     description = "Makes a full test run and assembles all packages."
+}
+
+tasks.register('allDependencies') {
+    doLast {
+        rootProject.allprojects.each { p ->
+            println "\n=== ${p.path} ==="
+            p.configurations.findAll { it.canBeResolved }.each { conf ->
+                println "Configuration: ${conf.name}"
+                try {
+                    conf.resolvedConfiguration.resolvedArtifacts.each { a ->
+                        println "  ${a.moduleVersion.id.group}:${a.name}:${a.moduleVersion.id.version}"
+                    }
+                } catch (ignore) {
+                    println "  (could not resolve)"
+                }
+            }
+        }
+    }
 }
 
 def mavenizedProjects() {

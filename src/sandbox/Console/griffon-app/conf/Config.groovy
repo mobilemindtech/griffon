@@ -29,6 +29,7 @@ environments {
                 storepass = 'BadStorePassword'
                 keypass   = 'BadKeyPassword'
                 lazy      = true // only sign when unsigned
+                keyalg    = 'RSA'
             }
         }
 
@@ -53,6 +54,7 @@ environments {
                 // no value means we will prompt //storepass = 'BadStorePassword'
                 // no value means we will prompt //keypass   = 'BadKeyPassword'
                 lazy = false // sign, regardless of existing signatures
+                keyalg    = 'RSA'
             }
         }
 

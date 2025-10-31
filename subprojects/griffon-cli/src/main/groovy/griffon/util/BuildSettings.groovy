@@ -175,6 +175,7 @@ class BuildSettings extends AbstractBuildSettings {
     final String slf4jVersion
     final String log4jVersion
     final String springVersion
+    final String junitVersion
 
     /** The environment for the current script. */
     String griffonEnv
@@ -520,6 +521,7 @@ class BuildSettings extends AbstractBuildSettings {
             slf4jVersion = buildProps.'slf4j.version'
             log4jVersion = buildProps.'log4j.version'
             springVersion = buildProps.'spring.version'
+            junitVersion = buildProps.'junit.version'
         }
         catch (IOException ex) {
             sanitize(ex).printStackTrace()
@@ -910,15 +912,16 @@ class BuildSettings extends AbstractBuildSettings {
                         Script script = gcl.parseClass(dependencyDescriptor)?.newInstance()
                         if (script) {
                             pluginSlurper.binding = [
-                                    pluginName: pluginName,
-                                    pluginVersion: pluginVersion,
-                                    pluginDirPath: path,
-                                    griffonVersion: this.griffonVersion,
-                                    groovyVersion: this.groovyVersion,
-                                    springVersion: this.springVersion,
-                                    antVersion: this.antVersion,
-                                    slf4jVersion: this.slf4jVersion,
-                                    log4jVersion: this.log4jVersion
+                                pluginName: pluginName,
+                                pluginVersion: pluginVersion,
+                                pluginDirPath: path,
+                                griffonVersion: this.griffonVersion,
+                                groovyVersion: this.groovyVersion,
+                                springVersion: this.springVersion,
+                                antVersion: this.antVersion,
+                                slf4jVersion: this.slf4jVersion,
+                                log4jVersion: this.log4jVersion,
+                                junitVersion: this.junitVersion
                             ]
                             def pluginConfig = pluginSlurper.parse(script)
                             def pluginDependencyConfig = pluginConfig.griffon.project.dependency.resolution

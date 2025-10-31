@@ -135,6 +135,7 @@ target(name: 'replaceTokens', description: "Replaces any tokens in the files", p
         replacefilter(token: "@ant.version@", value: griffonSettings.antVersion)
         replacefilter(token: "@slf4j.version@", value: griffonSettings.slf4jVersion)
         replacefilter(token: "@spring.version@", value: griffonSettings.springVersion)
+        replacefilter(token: "@junit.version@", value: griffonSettings.junitVersion)
         replacefilter(token: "@griffon.project.name@", value: griffonAppName)
         replacefilter(token: "@griffon.app.version@", value: griffonAppVersion ?: '0.1')
         def paths = pluginPaths()

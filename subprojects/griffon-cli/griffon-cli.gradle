@@ -27,11 +27,10 @@ repositories {
 dependencies {
     implementation project(':griffon-rt')
     implementation project(':griffon-resources')
-    implementation "org.apache.logging.log4j:log4j-api:${log4jVersion}"
-    implementation "org.apache.logging.log4j:log4j-core:${log4jVersion}"
-    implementation 'junit:junit:4.11'
+    implementation "log4j:log4j:${log4jVersion}"
+    implementation "junit:junit:${junitVersion}"
     implementation 'asm:asm:3.3.1'
-    implementation 'commons-cli:commons-cli:1.2'
+    implementation 'commons-cli:commons-cli:1.10.0'
     implementation 'commons-io:commons-io:2.4'
     implementation 'commons-lang:commons-lang:2.6'
     implementation 'commons-collections:commons-collections:3.2.1'
@@ -40,11 +39,21 @@ dependencies {
     implementation 'com.jcraft:jzlib:1.1.1'
     implementation 'xml-resolver:xml-resolver:1.2'
     implementation 'org.fusesource.jansi:jansi:1.9'
-    implementation 'jline:jline:0.9.94'
+    implementation 'jline:jline:2.14.6'
     implementation 'org.yaml:snakeyaml:1.9'
     implementation 'radeox:radeox:1.0-b2'
     implementation "org.apache.ant:ant-launcher:$antVersion"
-    implementation 'biz.aQute:bndlib:1.50.0'
+    implementation("org.slf4j:slf4j-log4j12:$slf4jVersion") {
+        exclude group: 'org.slf4j', module: 'slf4j-api'
+        exclude group: 'log4j',     module: 'log4j'
+    }
+    implementation("org.slf4j:slf4j-api:$slf4jVersion")
+    implementation("org.slf4j:jcl-over-slf4j:$slf4jVersion")  {
+        exclude group: 'org.slf4j', module: 'slf4j-api'
+    }
+    implementation("org.slf4j:jul-to-slf4j:$slf4jVersion")  {
+        exclude group: 'org.slf4j', module: 'slf4j-api'
+    }
     implementation("org.apache.ant:ant:$antVersion") {
         exclude group: 'org.apache.ant', module: 'ant-launcher'
     }
@@ -123,6 +132,9 @@ dependencies {
         exclude group: 'org.codehaus.groovy', module: 'groovy-all'
         exclude group: 'org.apache.ant',      module: 'ant'
         exclude group: 'org.xhtmlrenderer',   module: 'core-renderer'
+        exclude group: 'org.grails:grails-gdoc',   module: 'engine'
+        exclude group: 'commons-lang',   module: 'commons-lang'
+        exclude group: 'org.slf4j',   module: 'jcl-over-slf4j'
     }
     implementation("org.grails:grails-gdoc-engine:1.0.1") {
         exclude group: 'org.slf4j', module: 'jcl-over-slf4j'
@@ -138,10 +150,12 @@ dependencies {
         exclude group: 'org.bouncycastle',   module: 'bcpg-jdk14'
         exclude group: 'org.bouncycastle',   module: 'bcprov-jdk14'
     }
-    implementation('org.codehaus.gant:gant_groovy2.2:1.9.11') {
+    implementation('org.codehaus.gant:gant:2.0.0') {
         exclude group: 'org.apache.ant', module: 'ant'
+        exclude group: 'org.apache.ivy', module: 'ivy'
+        exclude group: 'org.apache.groovy', module: 'groovy-all'
         exclude group: 'commons-cli',    module: 'commons-cli'
-        exclude group: 'org.codehaus.groovy', module: 'groovy-all'
+        exclude group: 'org.groovy.groovy', module: 'groovy-all'
     }
     implementation('org.codehaus.groovy.modules.http-builder:http-builder:0.8.0-SNAPSHOT') {
         exclude group: 'org.apache.httpcomponents', module: 'httpclient'
@@ -194,16 +208,7 @@ dependencies {
     }
 }
 
-processResources {
-    filter(ReplaceTokens, tokens: [
-        version: version,
-        groovyVersion: groovyVersion,
-        antVersion: antVersion,
-        slf4jVersion: slf4jVersion,
-        log4jVersion: log4jVersion,
-        springVersion: springVersion
-    ])
-}
+
 
 test {
     systemProperty('user.dir', rootProject.file('.').absolutePath)

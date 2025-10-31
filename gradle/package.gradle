@@ -66,6 +66,7 @@ ext.distBinSpec = copySpec {
             exclude 'griffon*'
         }
     }
+
     into('lib/shell') {
         from((project(':griffon-shell').configurations.runtimeClasspath - project(':griffon-cli').configurations.runtimeClasspath)) {
             exclude 'griffon*'
