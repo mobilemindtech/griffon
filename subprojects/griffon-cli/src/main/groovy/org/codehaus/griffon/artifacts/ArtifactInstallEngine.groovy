@@ -20,6 +20,7 @@ import griffon.util.*
 import groovy.ant.AntBuilder
 import groovy.json.JsonBuilder
 import org.apache.commons.io.FileUtils
+import org.codehaus.gant.GantBinding
 import org.codehaus.griffon.artifacts.model.Archetype
 import org.codehaus.griffon.artifacts.model.Artifact
 import org.codehaus.griffon.artifacts.model.Plugin
@@ -561,6 +562,9 @@ class ArtifactInstallEngine {
                 String pluginName = getPropertyNameForLowerCaseHyphenSeparatedName(artifactName)
                 variableStore["${pluginName}PluginDir"] = new File(artifactInstallPath).canonicalFile
                 variableStore["${pluginName}PluginVersion"] = releaseVersion
+
+                def exists = new File(artifactInstallPath).exists()
+
                 // TODO LEGACY - remove before 1.0
                 if (new File(artifactInstallPath, 'plugin.xml').exists()) {
                     generateDependencyDescriptorFor(artifactInstallPath, artifactName, releaseVersion)
@@ -861,6 +865,8 @@ class ArtifactInstallEngine {
             if (pluginScriptRunner.maximumNumberOfParameters < 3) {
                 throw new IllegalStateException("The [pluginScriptRunner] closure property must accept at least 3 arguments")
             } else {
+
+                //def props = ((GantBinding)variableStore).properties
                 pluginScriptRunner.call(scriptFile, fullPluginName, msg)
             }
         }

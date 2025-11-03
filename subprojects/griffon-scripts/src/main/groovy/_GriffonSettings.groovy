@@ -170,7 +170,7 @@ copyGriffonResources = { destDir, pattern, boolean overwrite = true ->
 
 // Closure for unpacking a JAR file that's on the classpath.
 griffonUnpack = {Map args ->
-    def dir = args["dest"] ?: "."
+    def dir = args["dest"] != null ? args["dest"] : "."
     def src = args["src"]
     def overwriteOption = args["overwrite"] == null ? true : args["overwrite"]
 
@@ -277,7 +277,7 @@ askAndDoNoNag = { message, yesCallback = null, noCallback = null ->
  * file. If it doesn't exist, the file is created.
  */
 updateMetadata = { Map entries, File file = null ->
-    if (!file) file = metadataFile
+    if (file == null) file = metadataFile
     if (!file.exists()) {
         ant.propertyfile(
                 file: file,

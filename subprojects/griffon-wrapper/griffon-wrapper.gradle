@@ -44,6 +44,11 @@ tasks.register('dist', Zip) {
 
     from('src/bin') {
         filter(ReplaceTokens, tokens: ['griffon.version': version])
-        fileMode = 0755
+    }
+
+    doLast {
+        fileTree('src/bin').matching { include 'griffonw' }.files.each {
+            it.setExecutable(true, false)
+        }
     }
 }

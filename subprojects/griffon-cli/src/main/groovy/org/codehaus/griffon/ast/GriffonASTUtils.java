@@ -15,6 +15,7 @@
  */
 package org.codehaus.griffon.ast;
 
+import griffon.util.GriffonNameUtils;
 import griffon.util.GriffonUtil;
 import org.apache.commons.lang.StringUtils;
 import org.codehaus.griffon.compiler.SourceUnitCollector;
@@ -319,7 +320,7 @@ public class GriffonASTUtils {
             Expression initialValue = value != null && !(value instanceof Expression) ? initialValue = new ConstantExpression(value) : (Expression) value;
             classNode.addField(propertyName, visibility, propertyClass, initialValue);
             addMethod(classNode, new MethodNode(
-                "get" + MetaClassHelper.capitalize(propertyName),
+                "get" + GriffonNameUtils.capitalize(propertyName),
                 Modifier.PUBLIC,
                 propertyClass,
                 Parameter.EMPTY_ARRAY,

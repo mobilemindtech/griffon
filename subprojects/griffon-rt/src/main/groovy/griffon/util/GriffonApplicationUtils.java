@@ -235,7 +235,8 @@ public final class GriffonApplicationUtils {
 
         osVersion = System.getProperty("os.version");
         javaVersion = System.getProperty("java.version");
-        String version = javaVersion.substring(0, 3);
+
+        String version = (javaVersion.length() > 2) ? javaVersion.substring(0, 3) : javaVersion;
         isJdk14 = true;
         if (version.equals("1.8")) {
             isJdk18 = true;

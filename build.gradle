@@ -39,21 +39,36 @@ mavenizedProjects().each { proj ->
     proj.apply from: "${rootDir}/gradle/maven.gradle"
 }
 
+project('::griffon-guide') {
+    tasks.configureEach {
+        enabled = false
+    }
+}
+
 evaluationDependsOn(':griffon-rt')
 evaluationDependsOn(':griffon-cli')
 evaluationDependsOn(':griffon-resources')
 evaluationDependsOn(':griffon-scripts')
 evaluationDependsOn(':griffon-shell')
 evaluationDependsOn(':griffon-wrapper')
-evaluationDependsOn(':griffon-guide')
+//evaluationDependsOn(':griffon-guide')
 
 // dependsOnChildren()
 
 subprojects { subproj ->
+
+    if(subproj.name == 'griffon-guide')
+        return
+
     apply plugin: 'idea'
     if(plugins.hasPlugin('java') || plugins.hasPlugin('groovy')){
-        sourceCompatibility = 24
-        targetCompatibility = 24
+
+        java {
+            toolchain {
+                languageVersion.set(JavaLanguageVersion.of(25)) // ou 8, 11...
+            }
+        }
+
         group = 'org.codehaus.griffon'
 
         //apply from: "${rootDir}/gradle/coverage.gradle"
@@ -79,6 +94,7 @@ subprojects { subproj ->
     repositories {
         mavenCentral()
         mavenLocal()
+        maven { url 'https://central.sonatype.com/repository/maven-snapshots/' }
     }
 
     processResources {

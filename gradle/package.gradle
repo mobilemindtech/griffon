@@ -31,7 +31,6 @@ ext.distBinSpec = copySpec {
     from('src/dist/bin') {
         into 'bin'
         filter(ReplaceTokens, tokens: ['griffon.version': version, 'groovy.version': groovyVersion])
-        fileMode = 0755
     }
     from('src/dist/media') {
         into 'media'
@@ -115,6 +114,11 @@ tasks.register('zipBinary', Zip) {
     archiveClassifier.set('bin')
     into "griffon-$version"
     with distBinSpec
+    eachFile { f ->
+        if (f.path.startsWith('bin/')) {
+            f.mode = 0755
+        }
+    }
 }
 
 tasks.register('tarBinary', Tar) {
@@ -123,6 +127,11 @@ tasks.register('tarBinary', Tar) {
     into "griffon-$version"
     with distBinSpec
     compression = Compression.GZIP
+    eachFile { f ->
+        if (f.path.startsWith('bin/')) {
+            f.mode = 0755
+        }
+    }
 }
 
 ext.distSourceSpec = copySpec {
@@ -183,6 +192,9 @@ tasks.register('installBinary', Sync) {
     description = 'Installs the binary distribution at $GRIFFON_HOME.'
     with distBinSpec
     doLast {
+        fileTree("${griffonHomeDir}/bin").each { f ->
+            f.setExecutable(true, false)
+        }
         ant.chmod(dir: "${griffonHomeDir}/bin", excludes: '*.bat', perm: 'ugo+x')
     }
     into(griffonHomeDir)

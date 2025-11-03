@@ -620,7 +620,7 @@ class BuildSettings extends AbstractBuildSettings {
      * will be lost!</p>
      */
     void setBaseDir(File newBaseDir) {
-        baseDir = newBaseDir ?: establishBaseDir()
+        baseDir = newBaseDir != null ? newBaseDir : establishBaseDir()
         // Initialize Metadata
         Metadata.getInstance(new File(baseDir, "application.properties"))
 
@@ -629,7 +629,6 @@ class BuildSettings extends AbstractBuildSettings {
         // file is loaded.
         config = new ConfigObject()
         establishProjectStructure()
-
         if (baseDir) {
             // Add the application's libraries.
             def appLibDir = new File(baseDir, "lib")
@@ -737,11 +736,11 @@ class BuildSettings extends AbstractBuildSettings {
                 // Groovy class loader used to parse the config file has
                 // the root loader as its parent. Otherwise we get something
                 // like NoClassDefFoundError for Script.
-                GroovyClassLoader gcl = obtainGroovyClassLoader()
+                //GroovyClassLoader gcl = obtainGroovyClassLoader()
                 ConfigReader configReader = createConfigReader()
 
                 URL configUrl = configFile.toURI().toURL()
-                Script script = gcl.parseClass(configFile)?.newInstance()
+                Script script = new GroovyShell().parse(configFile) // gcl.parseClass(configFile)?.getConstructor()?.newInstance()
 
                 config.setConfigFile(configUrl)
                 loadConfig(configReader.parse(script))

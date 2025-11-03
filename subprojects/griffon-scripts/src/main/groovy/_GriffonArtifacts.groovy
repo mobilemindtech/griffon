@@ -368,7 +368,6 @@ runPluginScript = { File scriptFile, fullPluginName, msg ->
         // instrumenting plugin scripts adding 'pluginBasedir' variable
         def instrumentedInstallScript = "def pluginBasedir = '${artifactSettings.artifactBase(Plugin.TYPE)}/${fullPluginName}'\n".toString().replaceAll('\\\\', '/') + scriptFile.text
         // we are using text form of script here to prevent Gant caching
-
         includeTargets << instrumentedInstallScript
     }
 }

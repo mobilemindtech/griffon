@@ -21,7 +21,7 @@
  */
 
 
-import org.apache.groovy.groovysh.Groovysh
+//import org.apache.groovy.groovysh.Groovysh
 import org.codehaus.groovy.tools.shell.IO
 
 includeTargets << griffonScript('_GriffonBootstrap')
@@ -39,8 +39,8 @@ target(name: 'shell', description: "Runs an embedded application in a Groovy She
     def b = new Binding()
     if (!isPluginProject && !isArchetypeProject) b.app = griffonApp
 
-    def shell = new Groovysh(classLoader, b, new IO(System.in, System.out, System.err))
-    shell.run([] as String[])
+    //def shell = new Groovysh(classLoader, b, new IO(System.in, System.out, System.err))
+    //shell.run([] as String[])
 }
 
 setDefaultTarget(shell)
