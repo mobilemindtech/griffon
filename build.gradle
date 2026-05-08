@@ -28,6 +28,9 @@ buildscript {
         mavenCentral()
         mavenLocal()
         gradlePluginPortal()
+        maven {
+            url 'https://raw.githubusercontent.com/mobilemindtech/m2/master'
+        }
     }
     dependencies {
         classpath 'com.bmuschko:gradle-izpack-plugin:3.2'
@@ -95,6 +98,9 @@ subprojects { subproj ->
         mavenCentral()
         mavenLocal()
         maven { url 'https://central.sonatype.com/repository/maven-snapshots/' }
+        maven {
+            url 'https://raw.githubusercontent.com/mobilemindtech/m2/master'
+        }
     }
 
     processResources {

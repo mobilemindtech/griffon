@@ -39,7 +39,9 @@ case "`uname`" in
     CYGWIN*)
         cygwin=true
         ;;
-
+    MINGW*)
+        cygwin=true
+        ;;
     Darwin*)
         darwin=true
         ;;
@@ -112,15 +114,21 @@ if [ -z "$GROOVY_CONF" ]; then
 fi
 STARTER_CLASSPATH=""
 
-for f in `ls $GRIFFON_HOME/lib/*.jar`; do
-    STARTER_CLASSPATH="$STARTER_CLASSPATH:$f"
+for JAR_FILE in `ls $GRIFFON_HOME/lib/*.jar`; do
+    if $cygwin ; then
+        JAR_FILE=$(cygpath -u $JAR_FILE)
+    fi
+    STARTER_CLASSPATH="$STARTER_CLASSPATH:$JAR_FILE"
 done
 
-for f in `ls $GRIFFON_HOME/dist/*.jar`; do
-    STARTER_CLASSPATH="$STARTER_CLASSPATH:$f"
+for JAR_FILE in `ls $GRIFFON_HOME/dist/*.jar`; do
+    if $cygwin ; then
+        JAR_FILE=$(cygpath -u $JAR_FILE)
+    fi
+    STARTER_CLASSPATH="$STARTER_CLASSPATH:$JAR_FILE"
 done
 
-#STARTER_CLASSPATH="$GROOVY_CLASSPATH:$GRIFFON_HOME/dist/griffon-cli-@griffon.version@.jar:$GRIFFON_HOME/dist/griffon-rt-@griffon.version@.jar"
+#STARTER_CLASSPATH="$GROOVY_CLASSPATH:$GRIFFON_HOME/dist/griffon-cli-1.6.0-SNAPSHOT.jar:$GRIFFON_HOME/dist/griffon-rt-1.6.0-SNAPSHOT.jar"
 
 # Allow access to Cocoa classes on OS X
 if $darwin; then
@@ -248,7 +256,8 @@ STACKTRACE_FILTERS="groovy., org.codehaus.groovy., java., javax., sun., gjdk.gro
 startGriffon() {
   CLASS=$1
   shift
-  JAVA_OPTS="-server -Xmx512M $JAVA_OPTS"
+  JAVA_OPTS="-server -Xmx512M --add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/java.util=ALL-UNNAMED --add-opens java.base/java.lang.reflect=ALL-UNNAMED $JAVA_OPTS"
+
   # Start the Profiler or the JVM
   if $useprofiler; then
       runProfiler

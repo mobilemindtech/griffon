@@ -2,4 +2,4 @@
 
 rm -rf /opt/griffon/*
 
-gradlew installBinary
+./gradlew installBinary
