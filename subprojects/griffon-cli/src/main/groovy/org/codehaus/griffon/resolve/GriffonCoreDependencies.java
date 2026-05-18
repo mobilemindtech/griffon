@@ -180,7 +180,7 @@ public class GriffonCoreDependencies {
                                 ModuleRevisionId.newInstance("org.apache.groovy", "groovy-swing", groovyVersion),
                                 ModuleRevisionId.newInstance("org.apache.groovy", "groovy-templates", groovyVersion),
                                 ModuleRevisionId.newInstance("org.apache.groovy", "groovy-test", groovyVersion),
-                                ModuleRevisionId.newInstance("org.apache.groovy", "groovy-test-junit5", groovyVersion),
+                                ModuleRevisionId.newInstance("org.apache.groovy", "groovy-test-junit6", groovyVersion),
                                 ModuleRevisionId.newInstance("org.apache.groovy", "groovy-xml", groovyVersion),
                                 ModuleRevisionId.newInstance("org.apache.groovy", "groovy-yaml", groovyVersion),
                         };

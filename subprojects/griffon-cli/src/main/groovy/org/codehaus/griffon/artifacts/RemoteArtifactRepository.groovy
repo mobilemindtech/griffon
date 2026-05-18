@@ -104,7 +104,7 @@ class RemoteArtifactRepository extends AbstractArtifactRepository {
 
     private HttpURLClient newHttp(String url) {
         HttpURLClient client = new HttpURLClient(url: url)
-        client.parsers.'application/zip' = { response ->
+        client.parsers['application/zip'] = { response ->
             response.entity.content
         }
         client

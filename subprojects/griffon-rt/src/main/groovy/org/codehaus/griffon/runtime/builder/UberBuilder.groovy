@@ -16,6 +16,9 @@
 
 package org.codehaus.griffon.runtime.builder
 
+import griffon.core.GriffonViewClass
+import groovy.swing.SwingBuilder
+import org.codehaus.griffon.runtime.core.AbstractGriffonArtifactScript
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -78,7 +81,7 @@ class UberBuilder extends FactoryBuilderSupport {
         if (builderLookup.containsKey(klass)) {
             return uberInit(prefix, builderLookup[klass])
         } else if (FactoryBuilderSupport.isAssignableFrom(klass)) {
-            return uberInit(prefix, klass.newInstance())
+            return uberInit(prefix, klass.getDeclaredConstructor().newInstance())
         } else {
             throw new IllegalArgumentException("Cannot uberinit indirectly from class'${klass.name}'")
         }
@@ -119,6 +122,7 @@ class UberBuilder extends FactoryBuilderSupport {
             if (factory) {
                 if (ubr.builder) {
                     getProxyBuilder().getContext().put(CHILD_BUILDER, ubr.builder)
+                    ubr.builder.setProxyBuilder(this)
                 } else {
                     getProxyBuilder().getContext().put(CHILD_BUILDER, proxyBuilder)
                 }
@@ -143,9 +147,19 @@ class UberBuilder extends FactoryBuilderSupport {
         closure.setDelegate(currentBuilder)
     }
 
+    @Override
+    Object build(Class viewClass) {
+        def parentScript = this.variables['view'] ?: this.variables['owner']
+        assert parentScript instanceof AbstractGriffonArtifactScript
+        def script = parentScript.newInstance(viewClass, GriffonViewClass.TYPE) as Script
+        assert script
+        return super.build(script)
+    }
+
+
     public Object build(Script script) {
         synchronized (script) {
-            Object oldScriptName = builder.variables[FactoryBuilderSupport.SCRIPT_CLASS_NAME]
+            Object oldScriptName = builder.variables[SCRIPT_CLASS_NAME]
             try {
                 MetaClass scriptMetaClass = script.getMetaClass()
                 boolean isArtifact = script instanceof GriffonArtifact
@@ -155,7 +169,7 @@ class UberBuilder extends FactoryBuilderSupport {
                     script.setMetaClass(uberMetaClass)
                     if (isArtifact) script.getGriffonClass().setMetaClass(uberMetaClass)
                 }
-                builder[FactoryBuilderSupport.SCRIPT_CLASS_NAME] = script.getClass().name
+                builder[SCRIPT_CLASS_NAME] = script.getClass().name
                 script.binding = this
                 return script.run()
             } catch (x) {
@@ -163,9 +177,9 @@ class UberBuilder extends FactoryBuilderSupport {
                 throw x
             } finally {
                 if (oldScriptName != null) {
-                    builder[FactoryBuilderSupport.SCRIPT_CLASS_NAME] = oldScriptName
+                    builder[SCRIPT_CLASS_NAME] = oldScriptName
                 } else {
-                    builder.variables.remove(FactoryBuilderSupport.SCRIPT_CLASS_NAME)
+                    builder.variables.remove(SCRIPT_CLASS_NAME)
                 }
             }
 

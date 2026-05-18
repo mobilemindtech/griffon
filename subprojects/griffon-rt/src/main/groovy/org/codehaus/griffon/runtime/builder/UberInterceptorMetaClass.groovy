@@ -117,10 +117,6 @@ class UberInterceptorMetaClass extends DelegatingMetaClass {
     }
 
     Object invokeMethod(Object object, String methodName, Object arguments) {
-        // try {
-        //     return invokeMethod(object, methodName, arguments);
-        // } catch (MissingMethodException mme) {
-        //     exceptionIfMethodNotFound(methodName, mme);
         try {
             return delegate.invokeMethod(object, methodName, arguments)
         } catch (MissingMethodException mme2) {
@@ -140,14 +136,9 @@ class UberInterceptorMetaClass extends DelegatingMetaClass {
             // dispatch to factories if it is not a literal method
             return invokeFactoryMethod(methodName, arguments, mme2)
         }
-        // }
     }
 
     Object invokeMethod(Object object, String methodName, Object[] arguments) {
-        // try {
-        //     return invokeMethod(object, methodName, arguments);
-        // } catch (MissingMethodException mme) {
-        //     exceptionIfMethodNotFound(methodName, mme);
         try {
             return delegate.invokeMethod(object, methodName, arguments)
         } catch (MissingMethodException mme2) {
@@ -167,7 +158,6 @@ class UberInterceptorMetaClass extends DelegatingMetaClass {
             // dispatch to factories if it is not a literal method
             return invokeFactoryMethod(methodName, arguments, mme2)
         }
-        // }
     }
 
     Object invokeStaticMethod(Object object, String methodName, Object[] arguments) {

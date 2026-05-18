@@ -37,7 +37,7 @@ class CompositeBuilderHelper {
         try {
             URL url = classLoader.getResource('META-INF/services/' + CompositeBuilderCustomizer.class.name)
             String className = url.text.trim()
-            builderCustomizer = classLoader.loadClass(className).newInstance()
+            builderCustomizer = classLoader.loadClass(className).getDeclaredConstructor().newInstance()
         } catch (Exception e) {
             builderCustomizer = new DefaultCompositeBuilderCustomizer()
         }

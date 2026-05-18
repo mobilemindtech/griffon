@@ -157,7 +157,6 @@ public class GriffonStarter {
         }
 
         if (javaVersion != null && griffonHome != null) {
-            IO.println("javaVersion = " + javaVersion);
             javaVersion = javaVersion.length() > 2 ? javaVersion.substring(0,3) : javaVersion;
             File vmConfig = new File(griffonHome +"/conf/groovy-starter-java-"+javaVersion+".conf");
             if (vmConfig.exists()) {
