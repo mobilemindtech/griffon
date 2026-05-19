@@ -103,6 +103,14 @@ public class GriffonEnvironment {
         return getSettings().getSlf4jVersion();
     }
 
+    public static String getSlf4jReload4jVersion() {
+        return getSettings().getSlf4jReload4jVersion();
+    }
+
+    public static String getReload4jVersion() {
+        return getSettings().getReload4jVersion();
+    }
+
     public static String getSpringVersion() {
         return getSettings().getSpringVersion();
     }

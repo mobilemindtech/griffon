@@ -119,6 +119,8 @@ public class GriffonCoreDependencies {
                         String log4jVersion = buildSettings.getLog4jVersion();
                         String groovyVersion = buildSettings.getGroovyVersion();
                         String junitVersion = buildSettings.getJunitVersion();
+                        String slf4jReload4jVersion = buildSettings.getSlf4jReload4jVersion();
+                        String reload4jVersion = buildSettings.getReload4jVersion();
 
 
                         ModuleRevisionId[] buildDependencies = {
@@ -154,7 +156,8 @@ public class GriffonCoreDependencies {
                         ModuleRevisionId[] loggingDependencies = {
                                 ModuleRevisionId.newInstance("log4j", "log4j", log4jVersion),
                                 ModuleRevisionId.newInstance("org.slf4j", "slf4j-api", slf4jVersion),
-                                ModuleRevisionId.newInstance("org.slf4j", "slf4j-log4j12", slf4jVersion),
+                                ModuleRevisionId.newInstance("org.slf4j", "slf4j-reload4j", slf4jReload4jVersion),
+                                ModuleRevisionId.newInstance("ch.qos.reload4j", "reload4j", reload4jVersion),
                                 ModuleRevisionId.newInstance("org.slf4j", "jcl-over-slf4j", slf4jVersion),
                                 ModuleRevisionId.newInstance("org.slf4j", "jul-to-slf4j", slf4jVersion)
                         };

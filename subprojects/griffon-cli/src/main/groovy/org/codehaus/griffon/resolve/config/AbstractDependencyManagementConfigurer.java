@@ -50,6 +50,14 @@ abstract class AbstractDependencyManagementConfigurer extends GroovyObjectSuppor
         return getDependencyManager().getBuildSettings().getSlf4jVersion();
     }
 
+    public String getSlf4jReload4jVersion(){
+        return getDependencyManager().getBuildSettings().getSlf4jReload4jVersion();
+    }
+
+    public String getReload4jVersion(){
+        return getDependencyManager().getBuildSettings().getReload4jVersion();
+    }
+
     public String getSpringVersion() {
         return getDependencyManager().getBuildSettings().getSpringVersion();
     }

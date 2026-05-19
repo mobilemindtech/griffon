@@ -109,6 +109,8 @@ subprojects { subproj ->
             groovyVersion: groovyVersion,
             antVersion: antVersion,
             slf4jVersion: slf4jVersion,
+            slf4jReload4jVersion: slf4jReload4jVersion,
+            reload4jVersion: reload4jVersion,
             log4jVersion: log4jVersion,
             springVersion: springVersion,
             junitVersion: junitVersion,
@@ -119,7 +121,7 @@ subprojects { subproj ->
         if (name == "compileTestGroovy") {
             groovyOptions.forkOptions.jvmArgs += [
                 "--add-opens", "java.base/java.lang=ALL-UNNAMED",
-                "-Dgroovy.target.bytecode=17"
+                "-Dgroovy.target.bytecode=25"
             ]
             groovyOptions.fork = true
             groovyClasspath = configurations.detachedConfiguration(

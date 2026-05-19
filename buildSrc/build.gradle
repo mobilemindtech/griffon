@@ -35,7 +35,8 @@ dependencies {
     implementation 'org.xhtmlrenderer:core-renderer:R8'
     implementation "log4j:log4j:${log4jVersion}"
     implementation "org.slf4j:slf4j-api:$slf4jVersion"
-    implementation "org.slf4j:slf4j-log4j12:$slf4jVersion"
+    implementation "org.slf4j:slf4j-reload4j:$slf4jReload4jVersion"
+    implementation "ch.qos.reload4j:reload4j:$reload4jVersion"
     implementation "org.slf4j:jcl-over-slf4j:$slf4jVersion"
 }
 
