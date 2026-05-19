@@ -31,9 +31,9 @@ case "$1" in
 		echo "Usage:"
 		echo "	./dev [options]"
 		echo "Options:"
-		echo "	install 	      Install package local"
-		echo "	clean		        Clean project"
-		echo "	run-test  [-i]  Run test app in ./test/app. Use -i to install new version before run test app."
-		echo "	clean-test      Run clean app in ./test/app"
+		echo "	install 	        Install package local"
+		echo "	clean		          Clean project"
+		echo "	run-test  [-i]    Run test app in ./test/app. Use -i to install new version before run test app."
+		echo "	clean-test        Run clean app in ./test/app"
 esac
 

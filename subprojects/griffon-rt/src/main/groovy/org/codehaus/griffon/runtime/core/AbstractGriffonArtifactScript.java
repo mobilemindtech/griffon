@@ -63,7 +63,6 @@ public abstract class AbstractGriffonArtifactScript extends Script implements Gr
     }
 
     public Object newInstance(Class clazz, String type) {
-        log.error("!! new instance for script " + clazz.getName() + ", type = " + type + ", app = " +app);
         return GriffonApplicationHelper.newInstance(app, clazz, type);
     }
 

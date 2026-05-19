@@ -163,7 +163,7 @@ target(name: 'package_jar', description: "Creates a single jar distribution and 
     if (!destFile.isAbsolute()) destFile = new File("${targetDistDir}/${destFile}")
     def libjars = ant.fileset(dir: jardir, includes: '*.jar')
     File mergeDir = new File("${projectWorkDir}/merge")
-    String signaturesPattern = 'META-INF/*.MF,META-INF/*.SF,META-INF/*.RSA,META-INF/*.DSA'
+    String signaturesPattern = 'META-INF/*.MF,META-INF/*.SF,META-INF/*.RSA,META-INF/*.DSA,META-INF/groovy/org.codehaus.groovy.runtime.ExtensionModule'
 
 // XXX -- NATIVE
     File platformDir = new File("${jardir}/${targetPlatform}")
@@ -185,6 +185,67 @@ target(name: 'package_jar', description: "Creates a single jar distribution and 
     ant.fileMerge(dir: mergeDir, applicationName: griffonAppName, jarfileAggregator)
 
     mergeManifest()
+
+    // --- INÍCIO DA CORREÇÃO DE EXTENSÕES INTELIGENTE ---
+    File extensionMergeDir = new File("${projectWorkDir}/groovy-extensions-merge")
+    ant.delete(dir: extensionMergeDir, quiet: true, failOnError: false)
+    ant.mkdir(dir: extensionMergeDir)
+
+    def allExtensionClasses = []
+    def allStaticExtensionClasses = []
+
+    // Converte o FileSet do Ant para um array de caminhos de arquivos válidos
+    def directoryScanner = libjars.getDirectoryScanner(ant.project)
+    String[] includedFiles = directoryScanner.getIncludedFiles()
+    String baseDir = directoryScanner.getBasedir().toString()
+
+    // Coleta também os Jars da plataforma nativa, se existirem
+    def jarFilesToScan = []
+    includedFiles.each { String relPath ->
+        jarFilesToScan << new File(baseDir, relPath).absolutePath
+    }
+    if (platformDir.exists()) {
+        platformDir.eachFileMatch(~/.*\.jar/) { File f ->
+            jarFilesToScan << f.absolutePath
+        }
+    }
+
+    // Varre de fato os arquivos físicos extraindo as propriedades das extensões
+    jarFilesToScan.each { String jarPath ->
+        ant.unzip(src: jarPath, dest: extensionMergeDir) {
+            patternset {
+                include(name: 'META-INF/groovy/org.codehaus.groovy.runtime.ExtensionModule')
+            }
+        }
+
+        File extractedProps = new File(extensionMergeDir, "META-INF/groovy/org.codehaus.groovy.runtime.ExtensionModule")
+
+        if (extractedProps.exists()) {
+            Properties props = new Properties()
+            extractedProps.withInputStream { props.load(it) }
+
+            if (props.getProperty('extensionClasses')) {
+                props.getProperty('extensionClasses').split(',').each { if (it.trim()) allExtensionClasses << it.trim() }
+            }
+            if (props.getProperty('staticExtensionClasses')) {
+                props.getProperty('staticExtensionClasses').split(',').each { if (it.trim()) allStaticExtensionClasses << it.trim() }
+            }
+
+            ant.delete(file: extractedProps)
+        }
+    }
+    ant.delete(dir: new File(extensionMergeDir, "META-INF"), quiet: true, failOnError: false)
+
+    // Monta o arquivo consolidado de chave única respeitando o contrato exigido pelo Groovy 6
+    File combinedExtensionFile = new File(extensionMergeDir, "org.codehaus.groovy.runtime.ExtensionModule")
+    combinedExtensionFile.withWriter('UTF-8') { writer ->
+        writer.writeLine("moduleName=griffon-uber-module")
+        writer.writeLine("moduleVersion=${griffonAppName}")
+        writer.writeLine("extensionClasses=${allExtensionClasses.join(',')}")
+        writer.writeLine("staticExtensionClasses=${allStaticExtensionClasses.join(',')}")
+    }
+    // --- FIM DA CORREÇÃO DE EXTENSÕES INTELIGENTE ---
+
     ant.jar(destfile: destFile, duplicate: 'preserve') {
         manifest {
             manifestMap.each { k, v ->
@@ -193,12 +254,19 @@ target(name: 'package_jar', description: "Creates a single jar distribution and 
         }
         fileset(dir: mergeDir)
         jarfileAggregator()
+
+        // 2. Injeta o arquivo unificado e consolidado sem propriedades duplicadas no local correto do JAR final
+        zipfileset(file: combinedExtensionFile.absolutePath, prefix: "META-INF/groovy")
+
 // XXX -- NATIVE
         File nativeLibDir = new File(platformDir.canonicalPath + File.separator + 'native')
         if (nativeLibDir.exists()) fileset(dir: nativeLibDir)
 // XXX -- NATIVE
     }
+
+    // Limpeza dos diretórios de trabalho temporários
     ant.delete(dir: mergeDir)
+    ant.delete(dir: extensionMergeDir)
     //maybePackAndSign(destFile)
 
     _copySharedFiles(targetDistDir)
