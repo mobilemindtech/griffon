@@ -150,7 +150,7 @@ dependencies {
         exclude group: 'org.bouncycastle',   module: 'bcpg-jdk14'
         exclude group: 'org.bouncycastle',   module: 'bcprov-jdk14'
     }
-    implementation('org.codehaus.gant:gant:2.0.0') {
+    implementation('org.codehaus.gant:gant:2.1.0-groovy5') {
         exclude group: 'org.apache.ant', module: 'ant'
         exclude group: 'org.apache.ivy', module: 'ivy'
         exclude group: 'org.apache.groovy', module: 'groovy-all'

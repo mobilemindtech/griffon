@@ -110,6 +110,7 @@ fi
 if [ -z "$GROOVY_CONF" ]; then
     GROOVY_CONF="$GRIFFON_HOME/conf/groovy-starter.conf"
 fi
+
 STARTER_CLASSPATH=""
 
 for f in `ls $GRIFFON_HOME/lib/*.jar`; do
