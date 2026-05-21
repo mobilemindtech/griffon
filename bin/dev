@@ -6,6 +6,8 @@ case "$1" in
 	"install")
 	  echo "::> Compile and install griffon on $GRIFFON_HOME"
 		./gradlew installBinary
+		echo "::> Publish artefacts to maven local.."
+		./gradlew publishToMavenLocal
 		;;
   "clean")
     echo "Clean gradle project"

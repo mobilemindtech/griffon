@@ -14,14 +14,18 @@
  * limitations under the License.
  */
 
-apply plugin: 'maven-publish'
-apply plugin: 'groovy'
-apply plugin: 'java'
+apply plugin: 'checkstyle'
+apply plugin: 'codenarc'
 
-publishing {
-    publications {
-        mavenGroovy(MavenPublication) {
-            from components.java
-       }
-    }
+def configDir = new File(buildscript.sourceFile.parentFile.parentFile, 'config')
+ext.checkstyleConfigDir = "$configDir/checkstyle"
+
+checkstyle {
+    configFile = new File(checkstyleConfigDir, "checkstyle.xml")
+    configProperties.checkstyleConfigDir = checkstyleConfigDir
+}
+
+codenarc {
+	ignoreFailures = true
+    configFile = file("$configDir/codenarc/codenarc.groovy")
 }
