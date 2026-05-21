@@ -6,6 +6,7 @@ include 'griffon-wrapper'
 include 'griffon-guide'
 include 'griffon-shell'
 
+
 rootProject.name = 'griffon'
 rootProject.children.each {project ->
     String fileBaseName = project.name
@@ -15,3 +16,5 @@ rootProject.children.each {project ->
     assert project.projectDir.isDirectory()
     assert project.buildFile.isFile()
 }
+
+include 'griffon-gradle-plugin'

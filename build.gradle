@@ -55,15 +55,17 @@ evaluationDependsOn(':griffon-scripts')
 evaluationDependsOn(':griffon-shell')
 evaluationDependsOn(':griffon-wrapper')
 //evaluationDependsOn(':griffon-guide')
+evaluationDependsOn(':griffon-gradle-plugin')
 
 // dependsOnChildren()
 
 subprojects { subproj ->
 
-    if(subproj.name == 'griffon-guide')
+    if(subproj.name in ['griffon-guide', 'griffon-gradle-plugin'])
         return
 
     apply plugin: 'idea'
+
     if(plugins.hasPlugin('java') || plugins.hasPlugin('groovy')){
 
         java {
@@ -103,19 +105,21 @@ subprojects { subproj ->
         }
     }
 
+
     processResources {
         filter(ReplaceTokens, tokens: [
-            version: version,
-            groovyVersion: groovyVersion,
-            antVersion: antVersion,
-            slf4jVersion: slf4jVersion,
+            version             : version,
+            groovyVersion       : groovyVersion,
+            antVersion          : antVersion,
+            slf4jVersion        : slf4jVersion,
             slf4jReload4jVersion: slf4jReload4jVersion,
-            reload4jVersion: reload4jVersion,
-            log4jVersion: log4jVersion,
-            springVersion: springVersion,
-            junitVersion: junitVersion,
+            reload4jVersion     : reload4jVersion,
+            log4jVersion        : log4jVersion,
+            springVersion       : springVersion,
+            junitVersion        : junitVersion,
         ])
     }
+
     // resolve conflict with gradle groovy 3 and project groogy 4
     tasks.withType(GroovyCompile).configureEach {
         if (name == "compileTestGroovy") {

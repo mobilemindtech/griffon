@@ -1,0 +1,453 @@
+mvn install:install-file \
+-Dfile=C:/Users/dev/.griffon/1.5.0/projects/Cobaia/plugins/miglayout-1.0.0/dist/griffon-miglayout-1.0.0-sources.jar \
+-DgroupId=org.codehaus.griffon.plugins \
+-DartifactId=griffon-miglayout \
+-Dversion=1.0.0 \
+-Dpackaging=jar \
+-DgeneratePom=true \
+-DlocalRepositoryPath=C:/Users/dev/.m2/repository \
+-Dclassifier=sources
+
+mvn install:install-file \
+-Dfile=C:/Users/dev/.griffon/1.5.0/projects/Cobaia/plugins/miglayout-1.0.0/dist/griffon-miglayout-runtime-1.0.0.jar \
+-DgroupId=org.codehaus.griffon.plugins \
+-DartifactId=griffon-miglayout-runtime \
+-Dversion=1.0.0 \
+-Dpackaging=jar \
+-DgeneratePom=true \
+-DlocalRepositoryPath=C:/Users/dev/.m2/repository
+
+mvn install:install-file \
+-Dfile=C:/Users/dev/.griffon/1.5.0/projects/Cobaia/plugins/swing-1.4.0/dist/griffon-swing-compile-1.4.0.jar \
+-DgroupId=org.codehaus.griffon.plugins \
+-DartifactId=griffon-swing-compile \
+-Dversion=1.4.0 \
+-Dpackaging=jar \
+-DgeneratePom=true \
+-DlocalRepositoryPath=C:/Users/dev/.m2/repository
+
+mvn install:install-file \
+-Dfile=C:/Users/dev/.griffon/1.5.0/projects/Cobaia/plugins/swing-1.4.0/dist/griffon-swing-runtime-1.4.0.jar \
+-DgroupId=org.codehaus.griffon.plugins \
+-DartifactId=griffon-swing-runtime \
+-Dversion=1.4.0 \
+-Dpackaging=jar \
+-DgeneratePom=true \
+-DlocalRepositoryPath=C:/Users/dev/.m2/repository
+
+mvn install:install-file \
+-Dfile=C:/Users/dev/.griffon/1.5.0/projects/Cobaia/plugins/swing-1.4.0/docs/griffon-swing-runtime-1.4.0-javadoc.jar \
+-DgroupId=org.codehaus.griffon.plugins \
+-DartifactId=griffon-swing-runtime \
+-Dversion=1.4.0 \
+-Dpackaging=jar \
+-DgeneratePom=true \
+-DlocalRepositoryPath=C:/Users/dev/.m2/repository \
+-Dclassifier=javadoc
+
+mvn install:install-file \
+-Dfile=C:/Users/dev/.griffon/1.5.0/projects/Cobaia/plugins/swing-1.4.0/docs/griffon-swing-runtime-1.4.0-sources.jar \
+-DgroupId=org.codehaus.griffon.plugins \
+-DartifactId=griffon-swing-runtime \
+-Dversion=1.4.0 \
+-Dpackaging=jar \
+-DgeneratePom=true \
+-DlocalRepositoryPath=C:/Users/dev/.m2/repository \
+-Dclassifier=sources
+
+mvn install:install-file \
+-Dfile=C:/Users/dev/.griffon/1.5.0/projects/gym-desktop/plugins/coverflow-1.0.0/dist/griffon-coverflow-1.0.0-javadoc.jar \
+-DgroupId=org.codehaus.griffon.plugins \
+-DartifactId=griffon-coverflow \
+-Dversion=1.0.0 \
+-Dpackaging=jar \
+-DgeneratePom=true \
+-DlocalRepositoryPath=C:/Users/dev/.m2/repository \
+-Dclassifier=javadoc
+
+mvn install:install-file \
+-Dfile=C:/Users/dev/.griffon/1.5.0/projects/gym-desktop/plugins/coverflow-1.0.0/dist/griffon-coverflow-1.0.0-sources.jar \
+-DgroupId=org.codehaus.griffon.plugins \
+-DartifactId=griffon-coverflow \
+-Dversion=1.0.0 \
+-Dpackaging=jar \
+-DgeneratePom=true \
+-DlocalRepositoryPath=C:/Users/dev/.m2/repository \
+-Dclassifier=sources
+
+mvn install:install-file \
+-Dfile=C:/Users/dev/.griffon/1.5.0/projects/gym-desktop/plugins/coverflow-1.0.0/dist/griffon-coverflow-runtime-1.0.0.jar \
+-DgroupId=org.codehaus.griffon.plugins \
+-DartifactId=griffon-coverflow-runtime \
+-Dversion=1.0.0 \
+-Dpackaging=jar \
+-DgeneratePom=true \
+-DlocalRepositoryPath=C:/Users/dev/.m2/repository
+
+mvn install:install-file \
+-Dfile=C:/Users/dev/.griffon/1.5.0/projects/gym-desktop/plugins/datasource-1.3.0/dist/griffon-datasource-compile-1.3.0.jar \
+-DgroupId=org.codehaus.griffon.plugins \
+-DartifactId=griffon-datasource-compile \
+-Dversion=1.3.0 \
+-Dpackaging=jar \
+-DgeneratePom=true \
+-DlocalRepositoryPath=C:/Users/dev/.m2/repository
+
+mvn install:install-file \
+-Dfile=C:/Users/dev/.griffon/1.5.0/projects/gym-desktop/plugins/datasource-1.3.0/dist/griffon-datasource-runtime-1.3.0.jar \
+-DgroupId=org.codehaus.griffon.plugins \
+-DartifactId=griffon-datasource-runtime \
+-Dversion=1.3.0 \
+-Dpackaging=jar \
+-DgeneratePom=true \
+-DlocalRepositoryPath=C:/Users/dev/.m2/repository
+
+mvn install:install-file \
+-Dfile=C:/Users/dev/.griffon/1.5.0/projects/gym-desktop/plugins/datasource-1.3.0/docs/griffon-datasource-compile-1.3.0-javadoc.jar \
+-DgroupId=org.codehaus.griffon.plugins \
+-DartifactId=griffon-datasource-compile \
+-Dversion=1.3.0 \
+-Dpackaging=jar \
+-DgeneratePom=true \
+-DlocalRepositoryPath=C:/Users/dev/.m2/repository \
+-Dclassifier=javadoc
+
+mvn install:install-file \
+-Dfile=C:/Users/dev/.griffon/1.5.0/projects/gym-desktop/plugins/datasource-1.3.0/docs/griffon-datasource-compile-1.3.0-sources.jar \
+-DgroupId=org.codehaus.griffon.plugins \
+-DartifactId=griffon-datasource-compile \
+-Dversion=1.3.0 \
+-Dpackaging=jar \
+-DgeneratePom=true \
+-DlocalRepositoryPath=C:/Users/dev/.m2/repository \
+-Dclassifier=sources
+
+mvn install:install-file \
+-Dfile=C:/Users/dev/.griffon/1.5.0/projects/gym-desktop/plugins/datasource-1.3.0/docs/griffon-datasource-runtime-1.3.0-javadoc.jar \
+-DgroupId=org.codehaus.griffon.plugins \
+-DartifactId=griffon-datasource-runtime \
+-Dversion=1.3.0 \
+-Dpackaging=jar \
+-DgeneratePom=true \
+-DlocalRepositoryPath=C:/Users/dev/.m2/repository \
+-Dclassifier=javadoc
+
+mvn install:install-file \
+-Dfile=C:/Users/dev/.griffon/1.5.0/projects/gym-desktop/plugins/datasource-1.3.0/docs/griffon-datasource-runtime-1.3.0-sources.jar \
+-DgroupId=org.codehaus.griffon.plugins \
+-DartifactId=griffon-datasource-runtime \
+-Dversion=1.3.0 \
+-Dpackaging=jar \
+-DgeneratePom=true \
+-DlocalRepositoryPath=C:/Users/dev/.m2/repository \
+-Dclassifier=sources
+
+mvn install:install-file \
+-Dfile=C:/Users/dev/.griffon/1.5.0/projects/gym-desktop/plugins/glazedlists-2.0.0/dist/griffon-glazedlists-runtime-2.0.0.jar \
+-DgroupId=org.codehaus.griffon.plugins \
+-DartifactId=griffon-glazedlists-runtime \
+-Dversion=2.0.0 \
+-Dpackaging=jar \
+-DgeneratePom=true \
+-DlocalRepositoryPath=C:/Users/dev/.m2/repository
+
+mvn install:install-file \
+-Dfile=C:/Users/dev/.griffon/1.5.0/projects/gym-desktop/plugins/glazedlists-2.0.0/docs/griffon-glazedlists-runtime-2.0.0-javadoc.jar \
+-DgroupId=org.codehaus.griffon.plugins \
+-DartifactId=griffon-glazedlists-runtime \
+-Dversion=2.0.0 \
+-Dpackaging=jar \
+-DgeneratePom=true \
+-DlocalRepositoryPath=C:/Users/dev/.m2/repository \
+-Dclassifier=javadoc
+
+mvn install:install-file \
+-Dfile=C:/Users/dev/.griffon/1.5.0/projects/gym-desktop/plugins/glazedlists-2.0.0/docs/griffon-glazedlists-runtime-2.0.0-sources.jar \
+-DgroupId=org.codehaus.griffon.plugins \
+-DartifactId=griffon-glazedlists-runtime \
+-Dversion=2.0.0 \
+-Dpackaging=jar \
+-DgeneratePom=true \
+-DlocalRepositoryPath=C:/Users/dev/.m2/repository \
+-Dclassifier=sources
+
+mvn install:install-file \
+-Dfile=C:/Users/dev/.griffon/1.5.0/projects/gym-desktop/plugins/gsql-1.2.1/dist/griffon-gsql-runtime-1.2.1.jar \
+-DgroupId=org.codehaus.griffon.plugins \
+-DartifactId=griffon-gsql-runtime \
+-Dversion=1.2.1 \
+-Dpackaging=jar \
+-DgeneratePom=true \
+-DlocalRepositoryPath=C:/Users/dev/.m2/repository
+
+mvn install:install-file \
+-Dfile=C:/Users/dev/.griffon/1.5.0/projects/gym-desktop/plugins/gsql-1.2.1/docs/griffon-gsql-runtime-1.2.1-javadoc.jar \
+-DgroupId=org.codehaus.griffon.plugins \
+-DartifactId=griffon-gsql-runtime \
+-Dversion=1.2.1 \
+-Dpackaging=jar \
+-DgeneratePom=true \
+-DlocalRepositoryPath=C:/Users/dev/.m2/repository \
+-Dclassifier=javadoc
+
+mvn install:install-file \
+-Dfile=C:/Users/dev/.griffon/1.5.0/projects/gym-desktop/plugins/gsql-1.2.1/docs/griffon-gsql-runtime-1.2.1-sources.jar \
+-DgroupId=org.codehaus.griffon.plugins \
+-DartifactId=griffon-gsql-runtime \
+-Dversion=1.2.1 \
+-Dpackaging=jar \
+-DgeneratePom=true \
+-DlocalRepositoryPath=C:/Users/dev/.m2/repository \
+-Dclassifier=sources
+
+mvn install:install-file \
+-Dfile=C:/Users/dev/.griffon/1.5.0/projects/gym-desktop/plugins/lombok-0.5.0/dist/griffon-lombok-compile-0.5.0.jar \
+-DgroupId=org.codehaus.griffon.plugins \
+-DartifactId=griffon-lombok-compile \
+-Dversion=0.5.0 \
+-Dpackaging=jar \
+-DgeneratePom=true \
+-DlocalRepositoryPath=C:/Users/dev/.m2/repository
+
+mvn install:install-file \
+-Dfile=C:/Users/dev/.griffon/1.5.0/projects/gym-desktop/plugins/lombok-0.5.0/docs/griffon-lombok-compile-0.5.0-javadoc.jar \
+-DgroupId=org.codehaus.griffon.plugins \
+-DartifactId=griffon-lombok-compile \
+-Dversion=0.5.0 \
+-Dpackaging=jar \
+-DgeneratePom=true \
+-DlocalRepositoryPath=C:/Users/dev/.m2/repository \
+-Dclassifier=javadoc
+
+mvn install:install-file \
+-Dfile=C:/Users/dev/.griffon/1.5.0/projects/gym-desktop/plugins/lombok-0.5.0/docs/griffon-lombok-compile-0.5.0-sources.jar \
+-DgroupId=org.codehaus.griffon.plugins \
+-DartifactId=griffon-lombok-compile \
+-Dversion=0.5.0 \
+-Dpackaging=jar \
+-DgeneratePom=true \
+-DlocalRepositoryPath=C:/Users/dev/.m2/repository \
+-Dclassifier=sources
+
+mvn install:install-file \
+-Dfile=C:/Users/dev/.griffon/1.5.0/projects/gym-desktop/plugins/lookandfeel-1.0.0/dist/griffon-lookandfeel-1.0.0-javadoc.jar \
+-DgroupId=org.codehaus.griffon.plugins \
+-DartifactId=griffon-lookandfeel \
+-Dversion=1.0.0 \
+-Dpackaging=jar \
+-DgeneratePom=true \
+-DlocalRepositoryPath=C:/Users/dev/.m2/repository \
+-Dclassifier=javadoc
+
+mvn install:install-file \
+-Dfile=C:/Users/dev/.griffon/1.5.0/projects/gym-desktop/plugins/lookandfeel-1.0.0/dist/griffon-lookandfeel-1.0.0-sources.jar \
+-DgroupId=org.codehaus.griffon.plugins \
+-DartifactId=griffon-lookandfeel \
+-Dversion=1.0.0 \
+-Dpackaging=jar \
+-DgeneratePom=true \
+-DlocalRepositoryPath=C:/Users/dev/.m2/repository \
+-Dclassifier=sources
+
+mvn install:install-file \
+-Dfile=C:/Users/dev/.griffon/1.5.0/projects/gym-desktop/plugins/lookandfeel-1.0.0/dist/griffon-lookandfeel-runtime-1.0.0.jar \
+-DgroupId=org.codehaus.griffon.plugins \
+-DartifactId=griffon-lookandfeel-runtime \
+-Dversion=1.0.0 \
+-Dpackaging=jar \
+-DgeneratePom=true \
+-DlocalRepositoryPath=C:/Users/dev/.m2/repository
+
+mvn install:install-file \
+-Dfile=C:/Users/dev/.griffon/1.5.0/projects/gym-desktop/plugins/lookandfeel-1.0.0/dist/griffon-lookandfeel-test-1.0.0.jar \
+-DgroupId=org.codehaus.griffon.plugins \
+-DartifactId=griffon-lookandfeel-test \
+-Dversion=1.0.0 \
+-Dpackaging=jar \
+-DgeneratePom=true \
+-DlocalRepositoryPath=C:/Users/dev/.m2/repository
+
+mvn install:install-file \
+-Dfile=C:/Users/dev/.griffon/1.5.0/projects/gym-desktop/plugins/rest-1.1.1/dist/griffon-rest-compile-1.1.1.jar \
+-DgroupId=org.codehaus.griffon.plugins \
+-DartifactId=griffon-rest-compile \
+-Dversion=1.1.1 \
+-Dpackaging=jar \
+-DgeneratePom=true \
+-DlocalRepositoryPath=C:/Users/dev/.m2/repository
+
+mvn install:install-file \
+-Dfile=C:/Users/dev/.griffon/1.5.0/projects/gym-desktop/plugins/rest-1.1.1/dist/griffon-rest-runtime-1.1.1.jar \
+-DgroupId=org.codehaus.griffon.plugins \
+-DartifactId=griffon-rest-runtime \
+-Dversion=1.1.1 \
+-Dpackaging=jar \
+-DgeneratePom=true \
+-DlocalRepositoryPath=C:/Users/dev/.m2/repository
+
+mvn install:install-file \
+-Dfile=C:/Users/dev/.griffon/1.5.0/projects/gym-desktop/plugins/rest-1.1.1/docs/griffon-rest-compile-1.1.1-javadoc.jar \
+-DgroupId=org.codehaus.griffon.plugins \
+-DartifactId=griffon-rest-compile \
+-Dversion=1.1.1 \
+-Dpackaging=jar \
+-DgeneratePom=true \
+-DlocalRepositoryPath=C:/Users/dev/.m2/repository \
+-Dclassifier=javadoc
+
+mvn install:install-file \
+-Dfile=C:/Users/dev/.griffon/1.5.0/projects/gym-desktop/plugins/rest-1.1.1/docs/griffon-rest-compile-1.1.1-sources.jar \
+-DgroupId=org.codehaus.griffon.plugins \
+-DartifactId=griffon-rest-compile \
+-Dversion=1.1.1 \
+-Dpackaging=jar \
+-DgeneratePom=true \
+-DlocalRepositoryPath=C:/Users/dev/.m2/repository \
+-Dclassifier=sources
+
+mvn install:install-file \
+-Dfile=C:/Users/dev/.griffon/1.5.0/projects/gym-desktop/plugins/rest-1.1.1/docs/griffon-rest-runtime-1.1.1-javadoc.jar \
+-DgroupId=org.codehaus.griffon.plugins \
+-DartifactId=griffon-rest-runtime \
+-Dversion=1.1.1 \
+-Dpackaging=jar \
+-DgeneratePom=true \
+-DlocalRepositoryPath=C:/Users/dev/.m2/repository \
+-Dclassifier=javadoc
+
+mvn install:install-file \
+-Dfile=C:/Users/dev/.griffon/1.5.0/projects/gym-desktop/plugins/rest-1.1.1/docs/griffon-rest-runtime-1.1.1-sources.jar \
+-DgroupId=org.codehaus.griffon.plugins \
+-DartifactId=griffon-rest-runtime \
+-Dversion=1.1.1 \
+-Dpackaging=jar \
+-DgeneratePom=true \
+-DlocalRepositoryPath=C:/Users/dev/.m2/repository \
+-Dclassifier=sources
+
+mvn install:install-file \
+-Dfile=C:/Users/dev/.griffon/1.5.0/projects/gym-desktop/plugins/splash-1.0.0/dist/griffon-splash-1.0.0-javadoc.jar \
+-DgroupId=org.codehaus.griffon.plugins \
+-DartifactId=griffon-splash \
+-Dversion=1.0.0 \
+-Dpackaging=jar \
+-DgeneratePom=true \
+-DlocalRepositoryPath=C:/Users/dev/.m2/repository \
+-Dclassifier=javadoc
+
+mvn install:install-file \
+-Dfile=C:/Users/dev/.griffon/1.5.0/projects/gym-desktop/plugins/splash-1.0.0/dist/griffon-splash-1.0.0-sources.jar \
+-DgroupId=org.codehaus.griffon.plugins \
+-DartifactId=griffon-splash \
+-Dversion=1.0.0 \
+-Dpackaging=jar \
+-DgeneratePom=true \
+-DlocalRepositoryPath=C:/Users/dev/.m2/repository \
+-Dclassifier=sources
+
+mvn install:install-file \
+-Dfile=C:/Users/dev/.griffon/1.5.0/projects/gym-desktop/plugins/splash-1.0.0/dist/griffon-splash-runtime-1.0.0.jar \
+-DgroupId=org.codehaus.griffon.plugins \
+-DartifactId=griffon-splash-runtime \
+-Dversion=1.0.0 \
+-Dpackaging=jar \
+-DgeneratePom=true \
+-DlocalRepositoryPath=C:/Users/dev/.m2/repository
+
+mvn install:install-file \
+-Dfile=C:/Users/dev/.griffon/1.5.0/projects/gym-desktop/plugins/swing-1.3.0/dist/griffon-swing-compile-1.3.0.jar \
+-DgroupId=org.codehaus.griffon.plugins \
+-DartifactId=griffon-swing-compile \
+-Dversion=1.3.0 \
+-Dpackaging=jar \
+-DgeneratePom=true \
+-DlocalRepositoryPath=C:/Users/dev/.m2/repository
+
+mvn install:install-file \
+-Dfile=C:/Users/dev/.griffon/1.5.0/projects/gym-desktop/plugins/swing-1.3.0/dist/griffon-swing-runtime-1.3.0.jar \
+-DgroupId=org.codehaus.griffon.plugins \
+-DartifactId=griffon-swing-runtime \
+-Dversion=1.3.0 \
+-Dpackaging=jar \
+-DgeneratePom=true \
+-DlocalRepositoryPath=C:/Users/dev/.m2/repository
+
+mvn install:install-file \
+-Dfile=C:/Users/dev/.griffon/1.5.0/projects/gym-desktop/plugins/swing-1.3.0/docs/griffon-swing-runtime-1.3.0-javadoc.jar \
+-DgroupId=org.codehaus.griffon.plugins \
+-DartifactId=griffon-swing-runtime \
+-Dversion=1.3.0 \
+-Dpackaging=jar \
+-DgeneratePom=true \
+-DlocalRepositoryPath=C:/Users/dev/.m2/repository \
+-Dclassifier=javadoc
+
+mvn install:install-file \
+-Dfile=C:/Users/dev/.griffon/1.5.0/projects/gym-desktop/plugins/swing-1.3.0/docs/griffon-swing-runtime-1.3.0-sources.jar \
+-DgroupId=org.codehaus.griffon.plugins \
+-DartifactId=griffon-swing-runtime \
+-Dversion=1.3.0 \
+-Dpackaging=jar \
+-DgeneratePom=true \
+-DlocalRepositoryPath=C:/Users/dev/.m2/repository \
+-Dclassifier=sources
+
+mvn install:install-file \
+-Dfile=C:/Users/dev/.griffon/1.5.0/projects/gym-desktop/plugins/wsclient-1.1.1/dist/griffon-wsclient-compile-1.1.1.jar \
+-DgroupId=org.codehaus.griffon.plugins \
+-DartifactId=griffon-wsclient-compile \
+-Dversion=1.1.1 \
+-Dpackaging=jar \
+-DgeneratePom=true \
+-DlocalRepositoryPath=C:/Users/dev/.m2/repository
+
+mvn install:install-file \
+-Dfile=C:/Users/dev/.griffon/1.5.0/projects/gym-desktop/plugins/wsclient-1.1.1/dist/griffon-wsclient-runtime-1.1.1.jar \
+-DgroupId=org.codehaus.griffon.plugins \
+-DartifactId=griffon-wsclient-runtime \
+-Dversion=1.1.1 \
+-Dpackaging=jar \
+-DgeneratePom=true \
+-DlocalRepositoryPath=C:/Users/dev/.m2/repository
+
+mvn install:install-file \
+-Dfile=C:/Users/dev/.griffon/1.5.0/projects/gym-desktop/plugins/wsclient-1.1.1/docs/griffon-wsclient-compile-1.1.1-javadoc.jar \
+-DgroupId=org.codehaus.griffon.plugins \
+-DartifactId=griffon-wsclient-compile \
+-Dversion=1.1.1 \
+-Dpackaging=jar \
+-DgeneratePom=true \
+-DlocalRepositoryPath=C:/Users/dev/.m2/repository \
+-Dclassifier=javadoc
+
+mvn install:install-file \
+-Dfile=C:/Users/dev/.griffon/1.5.0/projects/gym-desktop/plugins/wsclient-1.1.1/docs/griffon-wsclient-compile-1.1.1-sources.jar \
+-DgroupId=org.codehaus.griffon.plugins \
+-DartifactId=griffon-wsclient-compile \
+-Dversion=1.1.1 \
+-Dpackaging=jar \
+-DgeneratePom=true \
+-DlocalRepositoryPath=C:/Users/dev/.m2/repository \
+-Dclassifier=sources
+
+mvn install:install-file \
+-Dfile=C:/Users/dev/.griffon/1.5.0/projects/gym-desktop/plugins/wsclient-1.1.1/docs/griffon-wsclient-runtime-1.1.1-javadoc.jar \
+-DgroupId=org.codehaus.griffon.plugins \
+-DartifactId=griffon-wsclient-runtime \
+-Dversion=1.1.1 \
+-Dpackaging=jar \
+-DgeneratePom=true \
+-DlocalRepositoryPath=C:/Users/dev/.m2/repository \
+-Dclassifier=javadoc
+
+mvn install:install-file \
+-Dfile=C:/Users/dev/.griffon/1.5.0/projects/gym-desktop/plugins/wsclient-1.1.1/docs/griffon-wsclient-runtime-1.1.1-sources.jar \
+-DgroupId=org.codehaus.griffon.plugins \
+-DartifactId=griffon-wsclient-runtime \
+-Dversion=1.1.1 \
+-Dpackaging=jar \
+-DgeneratePom=true \
+-DlocalRepositoryPath=C:/Users/dev/.m2/repository \
+-Dclassifier=sources
+
+

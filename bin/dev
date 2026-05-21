@@ -9,6 +9,10 @@ case "$1" in
 		echo "::> Publish artefacts to maven local.."
 		./gradlew publishToMavenLocal
 		;;
+  "maven-publish")
+    echo "::> Publish artefacts to maven local.."
+    ./gradlew publishToMavenLocal
+    ;;
   "clean")
     echo "Clean gradle project"
     ./gradlew clean
@@ -37,5 +41,6 @@ case "$1" in
 		echo "	clean		          Clean project"
 		echo "	run-test  [-i]    Run test app in ./test/app. Use -i to install new version before run test app."
 		echo "	clean-test        Run clean app in ./test/app"
+		echo "  maven-publish     Publis to maven local"
 esac
 
