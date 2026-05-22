@@ -27,10 +27,8 @@ dependencies {
     implementation 'asm:asm:3.3.1'
     implementation 'commons-lang:commons-lang:2.6'
     implementation "log4j:log4j:${log4jVersion}"
-    implementation("org.slf4j:slf4j-log4j12:$slf4jVersion") {
-        exclude group: 'org.slf4j', module: 'slf4j-api'
-        exclude group: 'log4j',     module: 'log4j'
-    }
+    implementation("org.slf4j:slf4j-reload4j:$slf4jReload4jVersion")
+    implementation("ch.qos.reload4j:reload4j:$reload4jVersion")
     implementation("org.slf4j:slf4j-api:$slf4jVersion")
     implementation("org.slf4j:jcl-over-slf4j:$slf4jVersion")  {
         exclude group: 'org.slf4j', module: 'slf4j-api'

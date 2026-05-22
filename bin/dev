@@ -1,0 +1,46 @@
+#!/bin/bash
+
+echo "::> GRIFFON_HOME: $GRIFFON_HOME"
+
+case "$1" in
+	"install")
+	  echo "::> Compile and install griffon on $GRIFFON_HOME"
+		./gradlew installBinary
+		echo "::> Publish artefacts to maven local.."
+		./gradlew publishToMavenLocal
+		;;
+  "maven-publish")
+    echo "::> Publish artefacts to maven local.."
+    ./gradlew publishToMavenLocal
+    ;;
+  "clean")
+    echo "Clean gradle project"
+    ./gradlew clean
+    ;;
+	"run-test")
+		if [ "$2" == "-i" ]; then
+		  echo "::> Remove griffon current version on $GRIFFON_HOME"
+      rm -rf $GRIFFON_HOME/*
+      echo "::> Compile and install griffon on $GRIFFON_HOME"
+      ./gradlew installBinary
+		fi
+    echo "::> Run griffon app test on ./test/app"
+		cd test/app
+		griffon run-app
+		;;
+	"clean-test")
+	echo "::> Clean griffon app test on ./test/app"
+		cd test/app
+		griffon clean
+		;;
+	*)
+		echo "Usage:"
+		echo "	./dev [options]"
+		echo "Options:"
+		echo "	install 	        Install package local"
+		echo "	clean		          Clean project"
+		echo "	run-test  [-i]    Run test app in ./test/app. Use -i to install new version before run test app."
+		echo "	clean-test        Run clean app in ./test/app"
+		echo "  maven-publish     Publis to maven local"
+esac
+

@@ -176,6 +176,8 @@ class BuildSettings extends AbstractBuildSettings {
     final String log4jVersion
     final String springVersion
     final String junitVersion
+    final String slf4jReload4jVersion
+    final String reload4jVersion
 
     /** The environment for the current script. */
     String griffonEnv
@@ -522,6 +524,8 @@ class BuildSettings extends AbstractBuildSettings {
             log4jVersion = buildProps.'log4j.version'
             springVersion = buildProps.'spring.version'
             junitVersion = buildProps.'junit.version'
+            slf4jReload4jVersion = buildProps.'slf4j.reload4j.version'
+            reload4jVersion = buildProps.'reload4j.version'
         }
         catch (IOException ex) {
             sanitize(ex).printStackTrace()
@@ -920,7 +924,9 @@ class BuildSettings extends AbstractBuildSettings {
                                 antVersion: this.antVersion,
                                 slf4jVersion: this.slf4jVersion,
                                 log4jVersion: this.log4jVersion,
-                                junitVersion: this.junitVersion
+                                junitVersion: this.junitVersion,
+                                slf4jReload4jVersion: this.slf4jReload4jVersion,
+                                reload4jVersion: this.reload4jVersion,
                             ]
                             def pluginConfig = pluginSlurper.parse(script)
                             def pluginDependencyConfig = pluginConfig.griffon.project.dependency.resolution

@@ -28,7 +28,6 @@ KNOWN_DEPENDENCIES = [
     'groovy-all':     [APACHE_LICENSE],
     'griffon-rt':     [APACHE_LICENSE],
     'slf4j-api':      [MIT_LICENSE],
-    'slf4j-log4j12':  [MIT_LICENSE],
     'jcl-over-slf4j': [MIT_LICENSE],
     'jul-to-slf4j':   [MIT_LICENSE],
     'log4j':          [APACHE_LICENSE],

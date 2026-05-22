@@ -49,6 +49,16 @@ public class GriffonCompilerContext {
     private static final String[] ARTIFACT_EXCLUDES = {"conf", "i18n", "resources"};
     private static final boolean isWindows = System.getProperty("os.name").matches("Windows.*");
 
+    static {
+        if("true".equals(System.getProperty("griffon.compiler.gradle"))){
+            IO.println("GriffonCompilerContext initialize for gradle compatibility");
+            projectName = System.getProperty("griffon.compiler.project.name");
+            basedir = System.getProperty("griffon.compiler.basedir");
+            verbose = "true".equals(System.getProperty("griffon.compiler.verbose"));
+            setup();
+        }
+    }
+
     private static Pattern normalizePattern(String regex) {
         if (isWindows) {
             StringBuilder b = new StringBuilder();

@@ -1,0 +1,7 @@
+pluginManagement {
+    repositories {
+        mavenLocal()
+        maven { url 'https://raw.githubusercontent.com/mobilemindtech/m2/master' }
+        gradlePluginPortal()
+    }
+}

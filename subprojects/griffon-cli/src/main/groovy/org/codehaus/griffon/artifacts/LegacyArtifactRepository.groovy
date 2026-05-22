@@ -49,7 +49,7 @@ class LegacyArtifactRepository extends AbstractArtifactRepository {
 
     LegacyArtifactRepository() {
         http = new HttpURLClient(url: url)
-        http.parsers.'application/zip' = { response ->
+        http.parsers['application/zip'] = { response ->
             response.entity.content
         }
     }

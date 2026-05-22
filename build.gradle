@@ -28,6 +28,9 @@ buildscript {
         mavenCentral()
         mavenLocal()
         gradlePluginPortal()
+        maven {
+            url 'https://raw.githubusercontent.com/mobilemindtech/m2/master'
+        }
     }
     dependencies {
         classpath 'com.bmuschko:gradle-izpack-plugin:3.2'
@@ -52,15 +55,17 @@ evaluationDependsOn(':griffon-scripts')
 evaluationDependsOn(':griffon-shell')
 evaluationDependsOn(':griffon-wrapper')
 //evaluationDependsOn(':griffon-guide')
+evaluationDependsOn(':griffon-gradle-plugin')
 
 // dependsOnChildren()
 
 subprojects { subproj ->
 
-    if(subproj.name == 'griffon-guide')
+    if(subproj.name in ['griffon-guide', 'griffon-gradle-plugin'])
         return
 
     apply plugin: 'idea'
+
     if(plugins.hasPlugin('java') || plugins.hasPlugin('groovy')){
 
         java {
@@ -95,25 +100,32 @@ subprojects { subproj ->
         mavenCentral()
         mavenLocal()
         maven { url 'https://central.sonatype.com/repository/maven-snapshots/' }
+        maven {
+            url 'https://raw.githubusercontent.com/mobilemindtech/m2/master'
+        }
     }
+
 
     processResources {
         filter(ReplaceTokens, tokens: [
-            version: version,
-            groovyVersion: groovyVersion,
-            antVersion: antVersion,
-            slf4jVersion: slf4jVersion,
-            log4jVersion: log4jVersion,
-            springVersion: springVersion,
-            junitVersion: junitVersion,
+            version             : version,
+            groovyVersion       : groovyVersion,
+            antVersion          : antVersion,
+            slf4jVersion        : slf4jVersion,
+            slf4jReload4jVersion: slf4jReload4jVersion,
+            reload4jVersion     : reload4jVersion,
+            log4jVersion        : log4jVersion,
+            springVersion       : springVersion,
+            junitVersion        : junitVersion,
         ])
     }
+
     // resolve conflict with gradle groovy 3 and project groogy 4
     tasks.withType(GroovyCompile).configureEach {
         if (name == "compileTestGroovy") {
             groovyOptions.forkOptions.jvmArgs += [
                 "--add-opens", "java.base/java.lang=ALL-UNNAMED",
-                "-Dgroovy.target.bytecode=17"
+                "-Dgroovy.target.bytecode=25"
             ]
             groovyOptions.fork = true
             groovyClasspath = configurations.detachedConfiguration(

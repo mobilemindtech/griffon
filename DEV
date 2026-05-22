@@ -1,0 +1,10 @@
+
+# Requirements
+
+* direnv
+* java 25
+* groovy 6
+
+# To run the project, use
+
+    $ dev help

@@ -1,0 +1,18 @@
+
+plugins {
+    // Aplica o seu plugin utilizando o ID definido
+    id 'org.codehaus.griffon.gradle.plugin' version '1.6.0-SNAPSHOT'
+}
+
+
+group = 'br.com.mobilemind'
+version = '1.0-SNAPSHOT'
+
+griffonConfig {
+    //javaVersion = 21           // Altera a compilação e o release do Java para 21 dinamicamente!
+    //groovyVersion = '6.0.0-alpha-1'
+    //griffonVersion = '1.6.0-SNAPSHOT'
+}
+
+dependencies {
+}

@@ -1,0 +1,54 @@
+Welcome to Griffon 1.6.0-SNAPSHOT - http://griffon-framework.org/
+Licensed under Apache Standard License 2.0
+Griffon home is set to: D:/dev/griffon-1.6.1
+
+Base Directory: C:\Users\dev\sources\griffon\griffon\test\app
+Running script D:\dev\griffon-1.6.1\scripts\DependencyReport.groovy
+Resolving dependencies...
+Dependencies resolved in 2618ms.
+Environment set to development
+Resolving framework plugin dependencies ...
+Framework plugin dependencies resolved in 3240 ms.
+Resolving plugin dependencies ...
+Plugin dependencies resolved in 2211 ms.
+    [mkdir] Created dir: C:\Users\dev\sources\griffon\griffon\test\app\target\dependency-report
+Obtaining dependency data...
+   [report] :: Ivy 2.2.0 - 20100923230623 :: http://ant.apache.org/ivy/ ::
+   [report] :: loading settings :: url = jar:file:/D:/dev/griffon-1.6.1/lib/ivy-2.2.0.jar!/org/apache/ivy/core/settings/ivysettings.xml
+   [report] Processing C:\Users\dev\.ivy2\cache\org.codehaus.griffon.internal-app-runtime.xml to C:\Users\dev\sources\griffon\griffon\test\app\target\dependency-report\org.codehaus.griffon.internal-app-runtime.html
+   [report] Processing C:\Users\dev\.ivy2\cache\org.codehaus.griffon.internal-app-runtime.xml to C:\Users\dev\sources\griffon\griffon\test\app\target\dependency-report\org.codehaus.griffon.internal-app-runtime.graphml
+     [copy] Copying 1 file to C:\Users\dev\sources\griffon\griffon\test\app\target\dependency-report
+
+[1;32mruntime[33m - Dependencies needed at runtime but not for compilation (total: 30)[39;22m
+[1;33m+--- [39morg.apache.groovy:groovy:6.0.0-alpha-1[39;22m
+[1;33m+--- [39morg.apache.groovy:groovy-ant:6.0.0-alpha-1[39;22m
+[1;33m+--- [39morg.apache.groovy:groovy-cli-picocli:6.0.0-alpha-1[39;22m
+[1;33m+--- [39morg.apache.groovy:groovy-console:6.0.0-alpha-1[39;22m
+[1;33m+--- [39morg.apache.groovy:groovy-datetime:6.0.0-alpha-1[39;22m
+[1;33m+--- [39morg.apache.groovy:groovy-dateutil:6.0.0-alpha-1[39;22m
+[1;33m+--- [39morg.apache.groovy:groovy-docgenerator:6.0.0-alpha-1[39;22m
+[1;33m+--- [39morg.apache.groovy:groovy-groovydoc:6.0.0-alpha-1[39;22m
+[1;33m+--- [39morg.apache.groovy:groovy-groovysh:6.0.0-alpha-1[39;22m
+[1;33m+--- [39morg.apache.groovy:groovy-jmx:6.0.0-alpha-1[39;22m
+[1;33m+--- [39morg.apache.groovy:groovy-json:6.0.0-alpha-1[39;22m
+[1;33m+--- [39morg.apache.groovy:groovy-jsr223:6.0.0-alpha-1[39;22m
+[1;33m+--- [39morg.apache.groovy:groovy-macro:6.0.0-alpha-1[39;22m
+[1;33m+--- [39morg.apache.groovy:groovy-nio:6.0.0-alpha-1[39;22m
+[1;33m+--- [39morg.apache.groovy:groovy-servlet:6.0.0-alpha-1[39;22m
+[1;33m+--- [39morg.apache.groovy:groovy-sql:6.0.0-alpha-1[39;22m
+[1;33m+--- [39morg.apache.groovy:groovy-swing:6.0.0-alpha-1[39;22m
+[1;33m+--- [39morg.apache.groovy:groovy-templates:6.0.0-alpha-1[39;22m
+[1;33m+--- [39morg.apache.groovy:groovy-test:6.0.0-alpha-1[39;22m
+[1;33m+--- [39morg.apache.groovy:groovy-test-junit6:6.0.0-alpha-1[39;22m
+[1;33m+--- [39morg.apache.groovy:groovy-xml:6.0.0-alpha-1[39;22m
+[1;33m+--- [39morg.apache.groovy:groovy-yaml:6.0.0-alpha-1[39;22m
+[1;33m+--- [39morg.codehaus.griffon:griffon-rt:1.6.0-SNAPSHOT[39;22m
+[1;33m+--- [39morg.slf4j:slf4j-api:1.7.5[39;22m
+[1;33m+--- [39morg.codehaus.griffon.plugins:griffon-swing-runtime:1.4.0[39;22m
+[1;33m+--- [39mlog4j:log4j:1.2.17[39;22m
+[1;33m+--- [39morg.slf4j:slf4j-reload4j:2.0.18[39;22m
+[1;33m+--- [39mch.qos.reload4j:reload4j:1.2.26[39;22m
+[1;33m+--- [39morg.slf4j:jcl-over-slf4j:1.7.5[39;22m
+[1;33m+--- [39morg.slf4j:jul-to-slf4j:1.7.5[39;22m
+[22;39m
+Dependency report output to [C:\Users\dev\sources\griffon\griffon\test\app\target/dependency-report/index.html

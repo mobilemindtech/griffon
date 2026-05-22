@@ -1,0 +1,51 @@
+// build.gradle
+plugins {
+    id 'groovy'
+    id 'java-gradle-plugin'
+    id 'maven-publish'
+    // O PULO DO GATO: Carregamos o shadow aqui usando o escopo do Gradle
+    // Isso resolve o conflito de versões do Groovy e deixa as classes disponíveis para o seu plugin
+    id 'com.gradleup.shadow' version '9.4.1'
+}
+
+group = 'org.codehaus.griffon'
+version = rootProject.version
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    gradlePluginPortal() // Necessário para herdar o Shadow em tempo de compilação do plugin
+}
+
+dependencies {
+    // Injeta as classes do plugin Shadow para podermos configurá-lo programaticamente
+    //implementation localGroovy()
+    implementation 'com.gradleup.shadow:shadow-gradle-plugin:9.4.1'
+}
+
+gradlePlugin {
+    plugins {
+        griffonPlugin {
+            id = 'org.codehaus.griffon.gradle.plugin'
+            implementationClass = 'org.codehaus.griffon.gradle.plugin.GriffonPlugin'
+            displayName = 'Griffon Gradle Plugin'
+            description = 'Run griffon 1.x apps using java 25+, groovy 6+ and gradle'
+        }
+    }
+}
+
+processResources {
+    def tokens = [
+        'griffonVersion': project.findProperty('griffonVersion') ?: rootProject.version.toString(),
+        'groovyVersion' : project.findProperty('groovyVersion'),
+        'log4jVersion'  : project.findProperty('log4jVersion'),
+        'slf4jVersion'  : project.findProperty('slf4jVersion'),
+        'slf4jReload4jVersion': project.findProperty('slf4jReload4jVersion'),
+        'reload4jVersion': project.findProperty('reload4jVersion')
+    ]
+
+    inputs.properties(tokens)
+
+    // Procura por arquivos na pasta src/main/resources e substitui as variáveis
+    expand(tokens)
+}
