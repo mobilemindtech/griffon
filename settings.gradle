@@ -7,6 +7,7 @@ include 'griffon-guide'
 include 'griffon-shell'
 
 
+
 rootProject.name = 'griffon'
 rootProject.children.each {project ->
     String fileBaseName = project.name
@@ -18,3 +19,4 @@ rootProject.children.each {project ->
 }
 
 include 'griffon-gradle-plugin'
+include 'griffon-plugins/griffon-swing-runtime'

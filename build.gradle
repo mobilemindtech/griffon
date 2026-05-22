@@ -61,7 +61,7 @@ evaluationDependsOn(':griffon-gradle-plugin')
 
 subprojects { subproj ->
 
-    if(subproj.name in ['griffon-guide', 'griffon-gradle-plugin'])
+    if(subproj.name in ['griffon-guide', 'griffon-gradle-plugin', 'griffon-swing-runtime'])
         return
 
     apply plugin: 'idea'
