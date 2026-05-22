@@ -1,5 +1,6 @@
 package org.codehaus.griffon.gradle.plugin
 
+import com.github.jengelman.gradle.plugins.shadow.transformers.GroovyExtensionModuleTransformer
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.tasks.compile.JavaCompile
@@ -335,12 +336,16 @@ class GriffonPlugin implements Plugin<Project> {
                 ]
             }
 
-            // 11. Ajustes do ShadowJar para extensões do Groovy 6
+            // 11. Ajustes do ShadowJar para extensões do Groovy (CORRIGIDO)
             project.tasks.named('shadowJar').configure { task ->
                 task.archiveClassifier.set('dist')
-                task.mergeServiceFiles {
-                    it.include 'META-INF/groovy/org.codehaus.groovy.runtime.ExtensionModule'
-                }
+
+                // 1. Mescla os arquivos normais de serviços do Java (SPI)
+                task.mergeServiceFiles()
+
+                // 2. CORREÇÃO: Passamos apenas a classe do Transformer.
+                // O Shadow Plugin já sabe o caminho do ExtensionModule internamente e fará o merge automático!
+                task.transform(GroovyExtensionModuleTransformer)
             }
         }
     }
