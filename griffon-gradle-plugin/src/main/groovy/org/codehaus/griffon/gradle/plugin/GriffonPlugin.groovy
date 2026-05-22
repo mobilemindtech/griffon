@@ -1,11 +1,16 @@
 package org.codehaus.griffon.gradle.plugin
 
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import com.github.jengelman.gradle.plugins.shadow.transformers.GroovyExtensionModuleTransformer
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.file.FileTreeElement
 import org.gradle.api.tasks.compile.JavaCompile
 import org.gradle.api.tasks.compile.GroovyCompile
 import org.gradle.api.plugins.JavaApplication
+
+import java.nio.file.FileSystems
+import java.nio.file.Files
 
 class GriffonPlugin implements Plugin<Project> {
 
@@ -336,16 +341,71 @@ class GriffonPlugin implements Plugin<Project> {
                 ]
             }
 
-            // 11. Ajustes do ShadowJar para extensões do Groovy (CORRIGIDO)
-            project.tasks.named('shadowJar').configure { task ->
+            // 11. Ajustes do ShadowJar para extensões do Groovy (100% Compatível com Configuration Cache)
+            project.tasks.withType(ShadowJar).configureEach { task ->
                 task.archiveClassifier.set('dist')
 
                 // 1. Mescla os arquivos normais de serviços do Java (SPI)
                 task.mergeServiceFiles()
 
-                // 2. CORREÇÃO: Passamos apenas a classe do Transformer.
-                // O Shadow Plugin já sabe o caminho do ExtensionModule internamente e fará o merge automático!
-                task.transform(GroovyExtensionModuleTransformer)
+                // Mapas locais para acumular as extensões durante a cópia (Fase de Configuração)
+                def extensionClasses = new LinkedHashMap<String, Boolean>()
+                def staticExtensionClasses = new LinkedHashMap<String, Boolean>()
+
+                // 2. Intercepta o arquivo ExtensionModule durante o pipeline de arquivos
+                task.filesMatching("META-INF/groovy/org.codehaus.groovy.runtime.ExtensionModule") { fileDetails ->
+                    def props = new Properties()
+                    fileDetails.file.withInputStream { props.load(it) }
+
+                    props.getProperty("extensionClasses")?.split(",")?.each { extensionClasses[it.trim()] = true }
+                    props.getProperty("staticExtensionClasses")?.split(",")?.each { staticExtensionClasses[it.trim()] = true }
+
+                    // Exclui o arquivo individual para evitar duplicidade
+                    fileDetails.exclude()
+                }
+
+                // 3. Execução: Injeta o arquivo mesclado usando Java puro (Sem usar o objeto 'project')
+                task.doLast {
+                    if (!extensionClasses.isEmpty() || !staticExtensionClasses.isEmpty()) {
+                        // Obtém o arquivo JAR final gerado pelo Shadow
+                        def jarFile = task.archiveFile.get().asFile
+                        if (!jarFile.exists()) return
+
+                        // Cria o conteúdo do ExtensionModule em memória
+                        def output = new ByteArrayOutputStream()
+                        output.withPrintWriter { writer ->
+                            writer.println("moduleName=griffon-merged-module")
+                            writer.println("moduleVersion=1.0.0")
+                            if (!extensionClasses.isEmpty()) {
+                                writer.println("extensionClasses=${extensionClasses.keySet().join(',')}")
+                            }
+                            if (!staticExtensionClasses.isEmpty()) {
+                                writer.println("staticExtensionClasses=${staticExtensionClasses.keySet().join(',')}")
+                            }
+                        }
+                        def fileBytes = output.toByteArray()
+
+                        // Injeta o arquivo cirurgicamente dentro do ZIP/JAR usando o FileSystem do Java
+                        def jarUri = URI.create("jar:" + jarFile.toURI().toString())
+                        def env = [create: "false"]
+
+                        try {
+                            FileSystems.newFileSystem(jarUri, env).withCloseable { fs ->
+                                def internalPath = fs.getPath("META-INF/groovy/org.codehaus.groovy.runtime.ExtensionModule")
+
+                                // Garante que as pastas pai existam dentro do JAR
+                                Files.createDirectories(internalPath.getParent())
+
+                                // Escreve os bytes do arquivo unificado na raiz do JAR
+                                Files.write(internalPath, fileBytes)
+                            }
+                            println "[GriffonGradlePlugin] 'ExtensionModule' injected to jar with successfully"
+                        } catch (Exception e) {
+                            println "[GriffonGradlePlugin] Error to inject ExtensionModule to JAR: ${e.message}"
+                            throw e
+                        }
+                    }
+                }
             }
         }
     }
