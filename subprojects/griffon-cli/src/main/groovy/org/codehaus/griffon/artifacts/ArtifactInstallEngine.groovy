@@ -87,7 +87,7 @@ class ArtifactInstallEngine {
             GroovyClassLoader gcl = new GroovyClassLoader(getClass().classLoader)
             gcl.addURL(settings.baseDir.toURI().toURL())
             String artifactClassName = pluginDescriptor.name[0..-8]
-            def plugin = gcl.loadClass(artifactClassName).newInstance()
+            def plugin = gcl.loadClass(artifactClassName).getConstructor().newInstance()
             plugin.dependsOn.each { name, version ->
                 registeredPlugins[name] = version.toString()
             }
