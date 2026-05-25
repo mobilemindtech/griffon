@@ -27,6 +27,10 @@ import griffon.util.GriffonExceptionHandler
 import org.codehaus.griffon.runtime.builder.factory.MetaComponentFactory
 import org.codehaus.griffon.runtime.builder.factory.RootFactory
 
+import javax.swing.AbstractAction
+import java.awt.Window
+import java.awt.event.ActionEvent
+
 /**
  * @author Danno.Ferrin
  * Date: Nov 7, 2007
@@ -88,6 +92,11 @@ class UberBuilder extends FactoryBuilderSupport {
     }
 
     protected uberInit(Object prefix, FactoryBuilderSupport fbs) {
+
+        if (fbs.class.name.contains("SwingBuilder")) {
+            addDefaultsToSwingBuilder(fbs)
+        }
+
         builderRegistration.add(new UberBuilderRegistration(prefix, fbs))
         getVariables().putAll(fbs.variables)
         fbs.variables.clear()
@@ -228,5 +237,18 @@ class UberBuilder extends FactoryBuilderSupport {
             }
         }
         super.dispose()
+    }
+
+    private void addDefaultsToSwingBuilder(FactoryBuilderSupport fbs) {
+        fbs.variables.hideAction = new AbstractAction("Hide") {
+            @Override
+            void actionPerformed(ActionEvent e) {
+                // Busca dinamicamente qual janela ativa na JVM deve ser ocultada
+                def currentWindow = Window.windows.find { it.showing && it.active } ?: Window.windows.find { it.showing }
+                if (currentWindow != null) {
+                    currentWindow.visible = false
+                }
+            }
+        }
     }
 }
