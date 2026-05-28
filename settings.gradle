@@ -19,3 +19,6 @@ rootProject.children.each {project ->
 }
 
 include 'griffon-gradle-plugin'
+include 'plugins/griffon-swing-runtime'
+
+project(':plugins/griffon-swing-runtime').name = 'griffon-swing-runtime'

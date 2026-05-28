@@ -1,0 +1,47 @@
+
+
+plugins {
+    id 'java'
+    id 'groovy'
+    id 'maven-publish'
+    id 'idea'
+}
+
+group = 'org.codehaus.griffon.plugins'
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+dependencies {
+    implementation "org.apache.groovy:groovy:$groovyVersion"
+    implementation "org.apache.groovy:groovy-swing:$groovyVersion"
+    implementation "org.slf4j:slf4j-api:$slf4jVersion"
+    implementation 'commons-lang:commons-lang:2.6'
+    implementation project(':griffon-rt')
+}
+
+publishing {
+    publications {
+        mavenGroovy(MavenPublication) {
+            from components.java
+        }
+    }
+}
+
+// 1. Remove qualquer "dependsOn" que adicionamos antes para evitar o loop.
+
+// 2. Configura a Compilação Conjunta (Joint Compilation)
+sourceSets {
+    main {
+        groovy {
+            // Diz ao Groovy para olhar tanto as pastas de fontes Groovy quanto Java
+            srcDirs = ['src/main/groovy', 'src/main/java']
+        }
+        java {
+            // Esvazia as pastas do compilador Java puro para ele não tentar compilar sozinho
+            srcDirs = []
+        }
+    }
+}
