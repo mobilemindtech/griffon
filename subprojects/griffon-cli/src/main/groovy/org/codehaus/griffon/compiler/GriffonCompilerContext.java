@@ -51,7 +51,7 @@ public class GriffonCompilerContext {
 
     static {
         if("true".equals(System.getProperty("griffon.compiler.gradle"))){
-            IO.println("GriffonCompilerContext initialize for gradle compatibility");
+            System.out.println("GriffonCompilerContext initialize for gradle compatibility");
             projectName = System.getProperty("griffon.compiler.project.name");
             basedir = System.getProperty("griffon.compiler.basedir");
             verbose = "true".equals(System.getProperty("griffon.compiler.verbose"));

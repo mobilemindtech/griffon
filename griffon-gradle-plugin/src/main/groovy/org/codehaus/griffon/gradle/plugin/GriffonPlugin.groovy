@@ -52,7 +52,7 @@ class GriffonPlugin implements Plugin<Project> {
         extension.slf4jVersion.convention(propslf4jVersion)
         extension.slf4jReload4jVersion.convention(propslf4jReload4jVersion)
         extension.reload4jVersion.convention(propreload4jVersion)
-        extension.javaVersion.convention(26)
+        extension.javaVersion.convention(17)
 
 
         // Aplica os plugins bases necessários no projeto destino
