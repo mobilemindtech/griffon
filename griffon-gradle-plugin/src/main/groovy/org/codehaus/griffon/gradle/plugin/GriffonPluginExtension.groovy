@@ -19,4 +19,10 @@ interface GriffonPluginExtension {
 
     /** Executa métodos/closures de controller fora da UI thread (comportamento da CLI). Padrão: false. */
     Property<Boolean> getThreadingInjection()
+
+    /**
+     * Plugins Griffon incorporados (griffon-plugins) usados pelo app, na ordem de inicialização:
+     * miglayout, coverflow, datasource, glazedlists, gsql, splash e jidebuilder.
+     */
+    org.gradle.api.provider.ListProperty<String> getAddons()
 }

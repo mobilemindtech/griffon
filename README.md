@@ -42,6 +42,9 @@ griffonConfig {
     //loggingInjection = true         // log.debug(x) -> if (log.debugEnabled) log.debug(x)
     //threadingInjection = false      // injeção de threading da CLI em métodos de controller
     //groovyVersion = '6.0.0'
+
+    // plugins Griffon incorporados (griffon-plugins), na ordem de inicialização dos addons
+    addons = ['miglayout', 'coverflow', 'datasource', 'glazedlists', 'gsql', 'splash', 'jidebuilder']
 }
 ```
 
@@ -49,9 +52,11 @@ O plugin:
 
 * injeta `griffon-rt`, Groovy, slf4j + reload4j e, para testes, `griffon-test`;
 * configura o layout `griffon-app/*`, `src/main/*` e `test/unit`, `test/integration`;
-* substitui as coordenadas antigas dos plugins (`org.codehaus.griffon.plugins:griffon-*-runtime`,
-  `org.codehaus.griffon:jidebuilder`) por `griffon-plugins`, e usa essas declarações para gerar
-  `META-INF/griffon-addons.properties` na mesma ordem;
+* com `addons`, adiciona `griffon-plugins` + as bibliotecas que cada addon precisa em runtime e gera
+  `META-INF/griffon-addons.properties` nessa ordem (`jidebuilder` só traz jide-oss/svg-salamander,
+  pois o JideBuilder é registrado via `Builder.groovy`);
+* por compatibilidade, ainda substitui as coordenadas antigas dos plugins (`org.codehaus.griffon.plugins:griffon-*-runtime`,
+  `org.codehaus.griffon:jidebuilder`) por `griffon-plugins`, com aviso no build;
 * exclui artefatos que não devem mais aparecer no classpath (`griffon-swing-runtime`, `griffon-cli`,
   `log4j:log4j`...);
 * gera `application.properties`, `griffon-artifacts.properties` e o fat jar (`shadowJar`).

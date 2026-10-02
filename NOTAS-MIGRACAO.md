@@ -44,10 +44,12 @@ Branch `griffon-mini` (fork) + branch `griffon-mini` no gym-desktop-next. Versã
 * `SourceUnitCollector` continua vazio no Gradle (só a CLI o alimentava). Efeito: quando um artefato
   estende outra classe do mesmo projeto, a injeção vai para a subclasse — igual ao build atual.
   Dá para trocar por `ClassNode.isPrimaryClassNode()` se um dia quiser o comportamento da CLI.
-* App: mudanças mínimas — versão do plugin, remoção das linhas `griffon-swing-runtime`/
+* App: os plugins Griffon passaram a ser declarados em `griffonConfig.addons` (as coordenadas
+  antigas, jidebuilder, svg-salamander e commons-dbcp/pool saíram do build.gradle do app).
+* App: demais mudanças — versão do plugin, remoção das linhas `griffon-swing-runtime`/
   `*-compile`, `app.griffon.version`, `@TestFor(<Classe>)` nos stubs de teste e remoção do
   `InnerServiceTests` (a classe foi apagada em `0bd3689c`). O resto das coordenadas de plugin
-  continua declarado e é substituído pelo plugin Gradle.
+  ainda é aceito e substituído pelo plugin Gradle (com aviso).
 
 ## Verificação feita
 

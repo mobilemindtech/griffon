@@ -28,10 +28,22 @@ class GriffonPlugin implements Plugin<Project> {
         'org.codehaus.griffon:jidebuilder'                        : null,
     ].asImmutable()
 
-    /** Dependências que antes vinham transitivamente pelos artefatos substituídos. */
-    static final Map<String, List<String>> MERGED_PLUGINS_EXTRA_DEPS = [
-        'org.codehaus.griffon:jidebuilder': ['com.jidesoft:jide-oss:3.4.7'],
+    /**
+     * Valores aceitos em griffonConfig.addons -> bibliotecas de terceiros que o addon precisa
+     * em runtime (griffon-plugins as declara só como compileOnly). 'jidebuilder' não é um
+     * addon Griffon (é registrado via Builder.groovy): só adiciona as dependências.
+     */
+    static final Map<String, List<String>> GRIFFON_PLUGINS = [
+        'miglayout'  : ['com.miglayout:miglayout-swing:4.2'],
+        'coverflow'  : [],
+        'datasource' : ['commons-dbcp:commons-dbcp:1.4', 'commons-pool:commons-pool:1.6'],
+        'glazedlists': ['net.java.dev.glazedlists:glazedlists_java15:1.9.0'],
+        'gsql'       : [],
+        'splash'     : [],
+        'jidebuilder': ['com.jidesoft:jide-oss:3.4.7', 'com.kitfox.svg:svg-salamander:1.1.0'],
     ].asImmutable()
+
+    static final Set<String> NOT_ADDONS = ['jidebuilder'].toSet().asImmutable()
 
     @Override
     void apply(Project project) {
@@ -70,6 +82,7 @@ class GriffonPlugin implements Plugin<Project> {
         // a CLI antiga injetava threading em todo método/closure de controller; o build
         // Gradle nunca fez isso, então fica desligado por padrão para manter o comportamento
         extension.threadingInjection.convention(false)
+        extension.addons.convention([])
 
 
         // Aplica os plugins bases necessários no projeto destino
@@ -112,28 +125,40 @@ class GriffonPlugin implements Plugin<Project> {
             }
 
             // Plugins Griffon 1.x incorporados ao griffon-plugins (recompilados com Groovy 6;
-            // os binários antigos usam call sites removidos no Groovy 6.0.0). O app continua
-            // declarando as coordenadas antigas: elas são substituídas por griffon-plugins e
-            // determinam quais addons são registrados em griffon-addons.properties.
+            // os binários antigos usam call sites removidos no Groovy 6.0.0). O app lista os
+            // que usa em griffonConfig.addons, na ordem de inicialização dos addons.
             String pluginsModule = "org.codehaus.griffon:griffon-plugins:${griffonVersion}"
+            List<String> requested = extension.addons.get().collect { it.toString().trim() }.findAll { it }
+            List<String> unknown = requested.findAll { !GRIFFON_PLUGINS.containsKey(it) }
+            if (unknown) {
+                throw new org.gradle.api.GradleException("griffonConfig.addons: valores desconhecidos ${unknown}. " +
+                    "Aceitos: ${GRIFFON_PLUGINS.keySet()}")
+            }
             Map<String, String> declaredAddons = [:]
-            Set<String> extraDeps = new LinkedHashSet<>()
-            boolean usesMergedPlugins = false
+            requested.findAll { !NOT_ADDONS.contains(it) }.each { declaredAddons[it] = griffonVersion }
+
+            // Compatibilidade: coordenadas antigas ainda declaradas no app continuam funcionando
+            // (são substituídas por griffon-plugins abaixo), mas o certo é usar griffonConfig.addons.
             ['api', 'implementation', 'runtimeOnly', 'compileOnly'].each { confName ->
                 project.configurations.findByName(confName)?.dependencies?.toList()?.each { dep ->
                     String key = "${dep.group}:${dep.name}".toString()
                     if (MERGED_PLUGINS.containsKey(key)) {
-                        usesMergedPlugins = true
-                        String addon = MERGED_PLUGINS[key]
-                        if (addon) declaredAddons[addon] = dep.version
-                        extraDeps.addAll(MERGED_PLUGINS_EXTRA_DEPS[key] ?: [])
+                        project.logger.warn("[GriffonGradlePlugin] '${key}' foi incorporado ao griffon-plugins: " +
+                            "remova a dependência e use griffonConfig.addons")
+                        String addon = MERGED_PLUGINS[key] ?: (key.endsWith(':jidebuilder') ? 'jidebuilder' : null)
+                        if (addon && !requested.contains(addon)) requested << addon
+                        if (addon && !NOT_ADDONS.contains(addon) && !declaredAddons.containsKey(addon)) {
+                            declaredAddons[addon] = dep.version
+                        }
                     }
                 }
             }
-            if (usesMergedPlugins) {
+            if (requested) {
                 project.dependencies.add('implementation', pluginsModule)
+                requested.collectMany { GRIFFON_PLUGINS[it] }.unique().each {
+                    project.dependencies.add('implementation', it)
+                }
             }
-            extraDeps.each { project.dependencies.add('implementation', it) }
 
             // Artefatos que foram incorporados ao griffon-rt ou que deixaram de existir.
             // Excluídos globalmente para não voltarem por declaração direta ou transitiva
