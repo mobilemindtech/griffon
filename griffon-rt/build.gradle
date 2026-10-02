@@ -4,12 +4,15 @@ dependencies {
     api "org.apache.groovy:groovy:$groovyVersion"
     api "org.apache.groovy:groovy-swing:$groovyVersion"
     api "org.apache.groovy:groovy-xml:$groovyVersion"
+    // extensões Date.format/parse etc.; o groovy-all 6 não inclui mais o groovy-dateutil
+    api "org.apache.groovy:groovy-dateutil:$groovyVersion"
     api "org.slf4j:slf4j-api:$slf4jVersion"
 
     // log4j 1.x API (Log4jConfig / Config.groovy) via reload4j, que é o fork mantido do log4j 1.2
     implementation "ch.qos.reload4j:reload4j:$reload4jVersion"
     runtimeOnly "org.slf4j:slf4j-reload4j:$slf4jVersion"
     runtimeOnly "org.slf4j:jcl-over-slf4j:$slf4jVersion"
+    runtimeOnly "org.slf4j:jul-to-slf4j:$slf4jVersion"
 
     testImplementation "junit:junit:$junitVersion"
     testImplementation "org.apache.groovy:groovy-test:$groovyVersion"

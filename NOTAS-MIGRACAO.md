@@ -20,6 +20,8 @@ Branch `griffon-mini` (fork) + branch `griffon-mini` no gym-desktop-next. Versã
   `org.codehaus.groovy.binding` → `org.apache.groovy.swing.binding` (jidebuilder); o
   `springbeans.groovy` do datasource foi descartado (só servia ao plugin spring).
 * `griffon-test`: `@TestFor`, `GriffonUnitTestCase`, `GriffonMock`, mocks.
+* `groovy-dateutil` (extensões `Date.format`/`Date.parse`) é dependência explícita do griffon-rt: o
+  `groovy-all` 6.0.0 não o inclui mais, e antes ele só chegava ao app pelo POM antigo do griffon-rt.
 * Dependências: Groovy 6.0.0, slf4j 2.0.20 (antes misturava 1.7.5 e 2.0.18), reload4j 1.2.26
   (`log4j:log4j:1.2.17` removido e excluído globalmente), sem commons-lang no runtime.
 * Corrigido: os pools estáticos de `UIThreadManager`/`AbstractUIThreadHandler` morriam no primeiro
