@@ -1,18 +1,37 @@
 package org.codehaus.griffon.gradle.plugin
 
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
-import com.github.jengelman.gradle.plugins.shadow.transformers.GroovyExtensionModuleTransformer
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.file.FileTreeElement
 import org.gradle.api.tasks.compile.JavaCompile
 import org.gradle.api.tasks.compile.GroovyCompile
 import org.gradle.api.plugins.JavaApplication
+import org.gradle.jvm.toolchain.JavaLanguageVersion
+import org.gradle.jvm.toolchain.JavaToolchainService
 
 import java.nio.file.FileSystems
 import java.nio.file.Files
 
 class GriffonPlugin implements Plugin<Project> {
+
+    /** Coordenadas antigas incorporadas ao griffon-plugins -> nome do addon (null = sem addon). */
+    static final Map<String, String> MERGED_PLUGINS = [
+        'org.codehaus.griffon.plugins:griffon-miglayout-runtime'  : 'miglayout',
+        'org.codehaus.griffon.plugins:griffon-miglayout'          : null,
+        'org.codehaus.griffon.plugins:griffon-coverflow-runtime'  : 'coverflow',
+        'org.codehaus.griffon.plugins:griffon-coverflow'          : null,
+        'org.codehaus.griffon.plugins:griffon-datasource-runtime' : 'datasource',
+        'org.codehaus.griffon.plugins:griffon-glazedlists-runtime': 'glazedlists',
+        'org.codehaus.griffon.plugins:griffon-gsql-runtime'       : 'gsql',
+        'org.codehaus.griffon.plugins:griffon-splash-runtime'     : 'splash',
+        'org.codehaus.griffon.plugins:griffon-splash'             : null,
+        'org.codehaus.griffon:jidebuilder'                        : null,
+    ].asImmutable()
+
+    /** Dependências que antes vinham transitivamente pelos artefatos substituídos. */
+    static final Map<String, List<String>> MERGED_PLUGINS_EXTRA_DEPS = [
+        'org.codehaus.griffon:jidebuilder': ['com.jidesoft:jide-oss:3.4.7'],
+    ].asImmutable()
 
     @Override
     void apply(Project project) {
@@ -31,28 +50,26 @@ class GriffonPlugin implements Plugin<Project> {
             .orElse(defaultProps.getProperty('griffonVersion', '1.6.0-SNAPSHOT')).get()
 
         def propgroovyVersion = project.providers.gradleProperty('groovyVersion')
-            .orElse(defaultProps.getProperty('groovyVersion', '6.0.0-alpha-1')).get()
-
-        def proplog4jVersion = project.providers.gradleProperty('log4jVersion')
-            .orElse(defaultProps.getProperty('log4jVersion', '1.2.17')).get()
+            .orElse(defaultProps.getProperty('groovyVersion', '6.0.0')).get()
 
         def propslf4jVersion = project.providers.gradleProperty('slf4jVersion')
-            .orElse(defaultProps.getProperty('slf4jVersion', '2.0.13')).get()
-
-        def propslf4jReload4jVersion = project.providers.gradleProperty('slf4jReload4jVersion')
-            .orElse(defaultProps.getProperty('slf4jReload4jVersion', '2.0.13')).get()
+            .orElse(defaultProps.getProperty('slf4jVersion', '2.0.20')).get()
 
         def propreload4jVersion = project.providers.gradleProperty('reload4jVersion')
-            .orElse(defaultProps.getProperty('reload4jVersion', '1.2.25')).get()
+            .orElse(defaultProps.getProperty('reload4jVersion', '1.2.26')).get()
 
         // Define as convenções na extensão
         extension.groovyVersion.convention(propgroovyVersion)
         extension.griffonVersion.convention(propgriffonVersion)
-        extension.log4jVersion.convention(proplog4jVersion)
         extension.slf4jVersion.convention(propslf4jVersion)
-        extension.slf4jReload4jVersion.convention(propslf4jReload4jVersion)
         extension.reload4jVersion.convention(propreload4jVersion)
+        // bytecode gerado; 17 mantém compatibilidade com a JVM 32 bits (Zulu 17 x86)
         extension.javaVersion.convention(17)
+        // injeção de log.isXxxEnabled() em volta de log.xxx(...) (como na CLI antiga)
+        extension.loggingInjection.convention(true)
+        // a CLI antiga injetava threading em todo método/closure de controller; o build
+        // Gradle nunca fez isso, então fica desligado por padrão para manter o comportamento
+        extension.threadingInjection.convention(false)
 
 
         // Aplica os plugins bases necessários no projeto destino
@@ -66,11 +83,10 @@ class GriffonPlugin implements Plugin<Project> {
 
             def groovyVersion = extension.groovyVersion.get()
             def griffonVersion = extension.griffonVersion.get()
-            def log4jVersion = extension.log4jVersion.get()
             def slf4jVersion = extension.slf4jVersion.get()
-            def slf4jReload4jVersion = extension.slf4jReload4jVersion.get()
             def reload4jVersion = extension.reload4jVersion.get()
             def javaTargetVersion = extension.javaVersion.get()
+            Integer compilerToolchain = extension.compilerToolchainVersion.getOrNull()
 
             // 2. Configura Repositórios do projeto destino
             project.repositories {
@@ -80,31 +96,70 @@ class GriffonPlugin implements Plugin<Project> {
                 maven { url 'https://repo1.maven.org/maven2' }
             }
 
-            // 3. Injeta dependências padrões fixas do ecossistema
+            // 3. Injeta dependências padrões fixas do ecossistema.
+            // griffon-rt agora inclui o toolkit Swing e as AST transformations
+            // (antes: griffon-swing-runtime + griffon-cli/griffon-swing-compile como compileOnly).
             project.dependencies {
                 implementation "org.apache.groovy:groovy-all:${groovyVersion}"
                 implementation "org.codehaus.griffon:griffon-rt:${griffonVersion}"
 
-                compileOnly "org.codehaus.griffon:griffon-cli:${griffonVersion}"
-
-                implementation "log4j:log4j:${log4jVersion}"
                 implementation "org.slf4j:slf4j-api:${slf4jVersion}"
-                implementation "org.slf4j:slf4j-reload4j:${slf4jReload4jVersion}"
-                implementation "ch.qos.reload4j:reload4j:${reload4jVersion}"
+                implementation "org.slf4j:slf4j-reload4j:${slf4jVersion}"
                 implementation "org.slf4j:jcl-over-slf4j:${slf4jVersion}"
+                implementation "ch.qos.reload4j:reload4j:${reload4jVersion}"
 
-                implementation 'commons-lang:commons-lang:2.6'
-
-                implementation 'org.codehaus.griffon.plugins:griffon-swing-runtime:1.4.0'
-
-                compileOnly 'org.codehaus.griffon.plugins:griffon-swing-compile:1.4.0'
-                compileOnly 'org.ow2.asm:asm:9.7'
+                testImplementation "org.codehaus.griffon:griffon-test:${griffonVersion}"
             }
 
-            // 4. Configura compilação Java (Release 25)
+            // Plugins Griffon 1.x incorporados ao griffon-plugins (recompilados com Groovy 6;
+            // os binários antigos usam call sites removidos no Groovy 6.0.0). O app continua
+            // declarando as coordenadas antigas: elas são substituídas por griffon-plugins e
+            // determinam quais addons são registrados em griffon-addons.properties.
+            String pluginsModule = "org.codehaus.griffon:griffon-plugins:${griffonVersion}"
+            Map<String, String> declaredAddons = [:]
+            Set<String> extraDeps = new LinkedHashSet<>()
+            boolean usesMergedPlugins = false
+            ['api', 'implementation', 'runtimeOnly', 'compileOnly'].each { confName ->
+                project.configurations.findByName(confName)?.dependencies?.toList()?.each { dep ->
+                    String key = "${dep.group}:${dep.name}".toString()
+                    if (MERGED_PLUGINS.containsKey(key)) {
+                        usesMergedPlugins = true
+                        String addon = MERGED_PLUGINS[key]
+                        if (addon) declaredAddons[addon] = dep.version
+                        extraDeps.addAll(MERGED_PLUGINS_EXTRA_DEPS[key] ?: [])
+                    }
+                }
+            }
+            if (usesMergedPlugins) {
+                project.dependencies.add('implementation', pluginsModule)
+            }
+            extraDeps.each { project.dependencies.add('implementation', it) }
+
+            // Artefatos que foram incorporados ao griffon-rt ou que deixaram de existir.
+            // Excluídos globalmente para não voltarem por declaração direta ou transitiva
+            // (classes duplicadas/antigas no classpath).
+            project.configurations.configureEach { conf ->
+                conf.resolutionStrategy.dependencySubstitution { subs ->
+                    MERGED_PLUGINS.keySet().each { String coordinates ->
+                        subs.substitute(subs.module(coordinates))
+                            .using(subs.module(pluginsModule))
+                            .because('incorporado ao griffon-mini (griffon-plugins)')
+                    }
+                }
+                conf.exclude group: 'org.codehaus.griffon.plugins', module: 'griffon-datasource-compile'
+                conf.exclude group: 'org.codehaus.griffon.plugins', module: 'griffon-swing-runtime'
+                conf.exclude group: 'org.codehaus.griffon.plugins', module: 'griffon-swing-compile'
+                conf.exclude group: 'org.codehaus.griffon', module: 'griffon-cli'
+                conf.exclude group: 'org.codehaus.griffon', module: 'griffon-resources'
+                // reload4j já fornece as classes org.apache.log4j.* (log4j 1.2.17 tem CVEs sem correção)
+                conf.exclude group: 'log4j', module: 'log4j'
+                conf.exclude group: 'org.slf4j', module: 'slf4j-log4j12'
+            }
+
+            // 4. Configura compilação: bytecode em javaVersion (padrão 17)
             project.tasks.withType(JavaCompile).configureEach { task ->
                 task.options.release.set(javaTargetVersion)
-                task.options.compilerArgs << '--add-opens=java.base/java.lang=ALL-UNNAMED'
+                task.options.encoding = 'UTF-8'
             }
 
             // 5. Configura Estrutura de Pastas do Griffon (SourceSets)
@@ -135,22 +190,51 @@ class GriffonPlugin implements Plugin<Project> {
                         ]
                     }
                 }
+                // Layout de testes do Griffon 1 (test/unit, test/integration)
+                test {
+                    groovy {
+                        srcDirs = ['test/unit', 'test/integration', 'src/test/groovy', 'src/test/java']
+                    }
+                    java {
+                        srcDirs = []
+                    }
+                }
             }
+
+            // Toolchain opcional só para compilar (ex.: 27). A task 'run' continua na JVM
+            // do Gradle, que no gym-desktop precisa ser 32 bits por causa das DLLs nativas.
+            def compilerLauncher = compilerToolchain == null ? null :
+                project.extensions.getByType(JavaToolchainService).launcherFor {
+                    it.languageVersion.set(JavaLanguageVersion.of(compilerToolchain))
+                }
+            // (JavaCompile não tem fontes: Java e Groovy são compilados juntos pelo GroovyCompile)
 
             // 6. Configura Opções do Groovy Compiler
             project.tasks.withType(GroovyCompile).configureEach { task ->
                 task.options.incremental = true
+                task.options.encoding = 'UTF-8'
+                task.options.release.set(javaTargetVersion)
+                task.sourceCompatibility = javaTargetVersion.toString()
+                task.targetCompatibility = javaTargetVersion.toString()
+                if (compilerLauncher != null) {
+                    task.javaLauncher.set(compilerLauncher)
+                }
+                task.groovyOptions.encoding = 'UTF-8'
                 task.groovyOptions.optimizationOptions.indy = true
                 task.groovyOptions.fork = true
+                // JVM 32 bits (ex.: Zulu 17 x86) não reserva heap de 2g
+                boolean compiler32bits = compilerLauncher == null && System.getProperty('sun.arch.data.model') == '32'
                 task.groovyOptions.forkOptions.with {
                     memoryInitialSize = '512m'
-                    memoryMaximumSize = '2g'
+                    memoryMaximumSize = compiler32bits ? '1024m' : '2g'
                     jvmArgs << '--add-opens=java.base/java.lang=ALL-UNNAMED'
                     jvmArgs << '--add-opens=java.base/java.util=ALL-UNNAMED'
                     jvmArgs << "-Dgriffon.compiler.project.name=${project.name}".toString()
                     jvmArgs << "-Dgriffon.compiler.basedir=${project.projectDir.absolutePath}".toString()
-                    jvmArgs << "-Dgriffon.compiler.verbose=false"
-                    jvmArgs << "-Dgriffon.compiler.gradle=true"
+                    jvmArgs << '-Dgriffon.compiler.verbose=false'
+                    jvmArgs << '-Dgriffon.compiler.gradle=true'
+                    jvmArgs << "-Dgriffon.disable.logging.injection=${!extension.loggingInjection.get()}".toString()
+                    jvmArgs << "-Dgriffon.disable.threading.injection=${!extension.threadingInjection.get()}".toString()
                 }
             }
 
@@ -258,9 +342,14 @@ class GriffonPlugin implements Plugin<Project> {
 
                 task.inputs.property("runtimeArtifacts", runtimeArtifactsSignal)
                 task.inputs.property("compileArtifacts", compileArtifactsSignal)
+                task.inputs.property("griffonVersion", griffonVersion)
+                task.inputs.property("declaredAddons", declaredAddons)
 
                 task.doLast {
                     Map addons = [:]
+
+                    // Addons incorporados ao griffon-plugins, na ordem em que o app os declara
+                    addons.putAll(declaredAddons)
 
                     // Tradução da lógica antiga de detecção de JARs para o padrão de artefatos do Maven
                     def processArtifact = { artifact ->
@@ -282,6 +371,10 @@ class GriffonPlugin implements Plugin<Project> {
                     // Alimenta o mapa processando ambos os classpaths
                     compileArtifactsSignal.get().each { processArtifact(it) }
                     runtimeArtifactsSignal.get().each { processArtifact(it) }
+
+                    // O addon Swing (SwingGriffonAddon) agora vive dentro do griffon-rt,
+                    // então não é mais detectado pelo nome griffon-swing-runtime.
+                    addons['swing'] = griffonVersion
 
                     if (addons) {
                         // toolkit plugin always goes first (Igual ao código original)

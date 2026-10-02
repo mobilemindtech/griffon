@@ -1,46 +1,33 @@
 #!/bin/bash
 
-echo "::> GRIFFON_HOME: $GRIFFON_HOME"
-
 case "$1" in
-	"install")
-	  echo "::> Compile and install griffon on $GRIFFON_HOME"
-		./gradlew installBinary
-		echo "::> Publish artefacts to maven local.."
-		./gradlew publishToMavenLocal
-		;;
+  "install")
+    echo "::> Build, test and publish griffon-mini to maven local"
+    ./gradlew build publishToMavenLocal
+    ;;
   "maven-publish")
     echo "::> Publish artefacts to maven local.."
     ./gradlew publishToMavenLocal
     ;;
   "clean")
-    echo "Clean gradle project"
+    echo "::> Clean gradle project"
     ./gradlew clean
     ;;
-	"run-test")
-		if [ "$2" == "-i" ]; then
-		  echo "::> Remove griffon current version on $GRIFFON_HOME"
-      rm -rf $GRIFFON_HOME/*
-      echo "::> Compile and install griffon on $GRIFFON_HOME"
-      ./gradlew installBinary
-		fi
-    echo "::> Run griffon app test on ./test/app"
-		cd test/app
-		griffon run-app
-		;;
-	"clean-test")
-	echo "::> Clean griffon app test on ./test/app"
-		cd test/app
-		griffon clean
-		;;
-	*)
-		echo "Usage:"
-		echo "	./dev [options]"
-		echo "Options:"
-		echo "	install 	        Install package local"
-		echo "	clean		          Clean project"
-		echo "	run-test  [-i]    Run test app in ./test/app. Use -i to install new version before run test app."
-		echo "	clean-test        Run clean app in ./test/app"
-		echo "  maven-publish     Publis to maven local"
+  "run-test")
+    echo "::> Run smoke test app in ./test/app"
+    (cd test/app && ../../gradlew -p . run -Dgriffon.smoke=true)
+    ;;
+  "run-app")
+    echo "::> Run test app in ./test/app"
+    (cd test/app && ../../gradlew -p . run)
+    ;;
+  *)
+    echo "Usage:"
+    echo "  dev [option]"
+    echo "Options:"
+    echo "  install        Build, test and publish to maven local"
+    echo "  maven-publish  Publish to maven local"
+    echo "  clean          Clean project"
+    echo "  run-test       Run ./test/app smoke test (starts and exits)"
+    echo "  run-app        Run ./test/app"
 esac
-

@@ -1,77 +1,62 @@
-![Griffon][logo]
-===============================
+griffon-mini
+============
 
-[Griffon][1] is dekstop application development platform for the JVM. Inspired
-by [Grails][2], Griffon leverages the use of of the [Groovy][3] language and
-concepts like Convention over Configuration. The Swing toolkit is the default
-UI toolkit of choice however others may be used, principaly SWT and JavaFX.
+Fork enxuto do [Griffon](https://github.com/griffon/griffon) 1.x mantido pela mobilemind para
+rodar apps Griffon 1 (Swing) em Java moderno, Groovy 6 e Gradle — sem a CLI, os scripts Gant,
+o shell, o wrapper, o guia e as dependências de build (Spring, Ivy, Ant, Grails docs...).
 
-Griffon also allows developers to use a combination of the Groovy and Java
-languages to write their applications. If this were not enough, Griffon allows
-the usage of other JVM languages such as Scala, Clojure, Mirah and Jython too.
+Módulos
+-------
 
-The capabilities of the platform can be extended by installing plugins; there
-are many options to choose from as appreciated at the [Griffon Central Repository][4]
+| Módulo                  | Artefato                                   | Conteúdo |
+|-------------------------|--------------------------------------------|----------|
+| `griffon-rt`            | `org.codehaus.griffon:griffon-rt`          | runtime, toolkit Swing (antigo `griffon-swing-runtime`) e AST transformations de compilação (antes no `griffon-cli`) |
+| `plugins`               | `org.codehaus.griffon:griffon-plugins`     | plugins Griffon 1.x recompilados com Groovy 6: coverflow, datasource, glazedlists, gsql, miglayout, splash e jidebuilder |
+| `griffon-test`          | `org.codehaus.griffon:griffon-test`        | suporte mínimo a testes: `@TestFor`, `GriffonUnitTestCase`, mocks |
+| `griffon-gradle-plugin` | `org.codehaus.griffon.gradle.plugin`       | plugin Gradle que configura um app Griffon 1 |
 
-Griffon encourages the use of the MVC pattern. Griffon also follows in
-the spirit of the Swing Application Framework (JSR 296), it defines a simple 
-yet powerful application life cycle and event publishing mechanism. Another 
-interesting feature comes from the Groovy language itself: automatic property 
-support and property binding (inspired by BeansBinding (JSR 295)), which makes 
-creating observable beans and binding to their properties a snap! As if 
-property binding was not enough Groovy's SwingBuilder also simplifies building 
-multi-threaded applications, say goodbye to the ugly gray rectangle (the bane 
-of Swing apps)!
+Java
+----
 
-Grails developers should feel right at home when trying out Griffon. Many of 
-Grails' conventions and commands are shared with Griffon. Granted, Swing is not
-the same as HTML/GSP but Builders simplify the task of creating the UI.
+O fork é compilado com o toolchain **Zulu JDK 27** (`javaToolchainVersion`), mas gera bytecode
+**Java 17** (`javaRelease`). O gym-desktop precisa de JVM 32 bits por causa dos SDKs nativos e o
+port Windows x86 foi removido no JDK 24 (JEP 479), então o runtime continua sendo a Zulu 17 x86.
 
-Seasoned Java developers will also be able to pick up the pace quickly, as the
-framework relieves you of the burden of maintaining an application structure,
-allowing you to concentrate on getting the code right.
-
-Directory Structure
--------------------
-
-The Griffon installation structure is defined as follows
-
-   * INSTALL - install instructions
-   * LICENSE - project license (Apache Software License 2.0)
-   * README.md - this file
-   * bash - griffon command autocompletion script
-   * bin - griffon launchers
-   * conf - griffon command classloading configuration
-   * dist - current griffon buildtime and runtime distribution
-   * doc - miscellaneous documentation
-   * guide - the Griffon Guide
-      * api - framework javadocs
-   * lib - buildtime dependencies
-   * media - griffon images and icons
-   * samples
-      * FileViewer - simple file contents visualizer
-      * FontPicker - displays available system fonts and preview
-      * Greet - the 1st Griffon application ever: a Twitter client
-      * GroovyEdit - simple multi-tabbed file editor
-      * SwingPad - visual editor for View scripts
-      * Weatherwidget - showcases animations and network calls
-   * scripts - minimal set of griffon commands
-
-Links
+Build
 -----
 
-* [Home][1]
-* [Documentation][5]
-* [Issue Tracker][6]
-* [Source][7]
-* [Mailing Lists][1]
+    ./gradlew build publishToMavenLocal     # ou: dev install
+    dev run-test                            # smoke test com test/app
 
+Usando no app
+-------------
 
-[logo]: http://media.xircles.codehaus.org/_projects/griffon/_logos/medium.png
-[1]: http://griffon-framework.org
-[2]: http://grails.org
-[3]: http://groovy.codehaus.org
-[4]: http://artifacts.griffon-framework.org
-[5]: http://griffon.codehaus.org/Documentation
-[6]: http://jira.codehaus.org/browse/griffon
-[7]: https://github.com/griffon/griffon
+```groovy
+plugins {
+    id 'org.codehaus.griffon.gradle.plugin' version '1.7.0-SNAPSHOT'
+}
+
+griffonConfig {
+    //javaVersion = 17                // bytecode gerado (padrão 17)
+    //compilerToolchainVersion = 27   // JDK só para compilar; 'run' continua na JVM do Gradle
+    //loggingInjection = true         // log.debug(x) -> if (log.debugEnabled) log.debug(x)
+    //threadingInjection = false      // injeção de threading da CLI em métodos de controller
+    //groovyVersion = '6.0.0'
+}
+```
+
+O plugin:
+
+* injeta `griffon-rt`, Groovy, slf4j + reload4j e, para testes, `griffon-test`;
+* configura o layout `griffon-app/*`, `src/main/*` e `test/unit`, `test/integration`;
+* substitui as coordenadas antigas dos plugins (`org.codehaus.griffon.plugins:griffon-*-runtime`,
+  `org.codehaus.griffon:jidebuilder`) por `griffon-plugins`, e usa essas declarações para gerar
+  `META-INF/griffon-addons.properties` na mesma ordem;
+* exclui artefatos que não devem mais aparecer no classpath (`griffon-swing-runtime`, `griffon-cli`,
+  `log4j:log4j`...);
+* gera `application.properties`, `griffon-artifacts.properties` e o fat jar (`shadowJar`).
+
+Veja [NOTAS-MIGRACAO.md](NOTAS-MIGRACAO.md) para decisões de compatibilidade, pontos de
+desempenho/segurança e pendências.
+
+Licença: Apache 2.0 (ver [LICENSE](LICENSE)).

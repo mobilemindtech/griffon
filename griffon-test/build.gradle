@@ -1,0 +1,7 @@
+description = 'Griffon test support (@TestFor, GriffonUnitTestCase, mocks)'
+
+dependencies {
+    api project(':griffon-rt')
+    api "junit:junit:$junitVersion"
+    api "org.apache.groovy:groovy-test:$groovyVersion"
+}

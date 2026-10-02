@@ -1,7 +1,7 @@
 
 plugins {
     // Aplica o seu plugin utilizando o ID definido
-    id 'org.codehaus.griffon.gradle.plugin' version '1.6.0-SNAPSHOT'
+    id 'org.codehaus.griffon.gradle.plugin' version '1.7.0-SNAPSHOT'
 }
 
 
@@ -15,4 +15,7 @@ griffonConfig {
 }
 
 dependencies {
+}
+tasks.named('run') {
+    systemProperty 'griffon.smoke', System.getProperty('griffon.smoke', 'false')
 }

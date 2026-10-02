@@ -1,0 +1,27 @@
+description = 'Griffon plugins incorporated into griffon-mini: coverflow, datasource, glazedlists, gsql, jidebuilder, miglayout, splash'
+
+dependencies {
+    api project(':griffon-rt')
+
+    // Bibliotecas de terceiros ficam a cargo do app (o plugin Gradle adiciona as do
+    // jidebuilder, que antes vinham transitivamente)
+    compileOnly "org.apache.groovy:groovy-sql:$groovyVersion"
+    compileOnly 'net.java.dev.glazedlists:glazedlists_java15:1.9.0'
+    compileOnly 'org.swinglabs:swingx:1.6.1'
+    compileOnly 'commons-dbcp:commons-dbcp:1.4'
+    compileOnly 'commons-pool:commons-pool:1.6'
+    compileOnly 'com.miglayout:miglayout-swing:4.2'
+    compileOnly 'com.jidesoft:jide-oss:3.4.7'
+    compileOnly 'com.kitfox.svg:svg-salamander:1.1.0'
+}
+
+// Os addons (*GriffonAddon) dependem das AST transformations do griffon-rt para
+// estender AbstractGriffonAddon, como acontecia quando eram compilados pela CLI.
+tasks.named('compileGroovy', GroovyCompile) {
+    groovyOptions.fork = true
+    groovyOptions.forkOptions.jvmArgs += [
+        '-Dgriffon.compiler.gradle=true',
+        "-Dgriffon.compiler.project.name=${project.name}".toString(),
+        "-Dgriffon.compiler.basedir=${projectDir.absolutePath}".toString()
+    ]
+}

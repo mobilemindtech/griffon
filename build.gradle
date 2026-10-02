@@ -1,222 +1,68 @@
 /*
- * Copyright 2010-2014 the original author or authors.
+ * griffon-mini: fork enxuto do Griffon 1.x.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ *  - griffon-rt            runtime + toolkit Swing + AST transformations de compilação
+ *  - griffon-test          suporte mínimo a testes (@TestFor, GriffonUnitTestCase, mocks)
+ *  - griffon-gradle-plugin plugin Gradle que configura apps Griffon 1.x
  */
 
-
-import org.apache.tools.ant.filters.ReplaceTokens
-
-import java.text.SimpleDateFormat
-
-apply plugin: 'base'
-apply plugin: 'idea'
-apply plugin: 'eclipse'
-
-buildscript {
-    repositories {
-        mavenCentral()
-        mavenLocal()
-        gradlePluginPortal()
-        maven {
-            url 'https://raw.githubusercontent.com/mobilemindtech/m2/master'
-        }
-    }
-    dependencies {
-        classpath 'com.bmuschko:gradle-izpack-plugin:3.2'
-        //classpath 'com.bmuschko:gradle-java2html-plugin:2.0.1'
-    }
-}
-
-mavenizedProjects().each { proj ->
-    proj.apply from: "${rootDir}/gradle/maven.gradle"
-}
-
-project('::griffon-guide') {
-    tasks.configureEach {
-        enabled = false
-    }
-}
-
-evaluationDependsOn(':griffon-rt')
-evaluationDependsOn(':griffon-cli')
-evaluationDependsOn(':griffon-resources')
-evaluationDependsOn(':griffon-scripts')
-evaluationDependsOn(':griffon-shell')
-evaluationDependsOn(':griffon-wrapper')
-//evaluationDependsOn(':griffon-guide')
-evaluationDependsOn(':griffon-gradle-plugin')
-evaluationDependsOn(':griffon-swing-runtime')
-
-// dependsOnChildren()
-
-subprojects { subproj ->
-
-    if(subproj.name in ['griffon-guide', 'griffon-gradle-plugin', 'griffon-swing-runtime'])
-        return
-
-    apply plugin: 'idea'
-
-    if(plugins.hasPlugin('java') || plugins.hasPlugin('groovy')){
-
-        java {
-            toolchain {
-                languageVersion.set(JavaLanguageVersion.of(17))
-            }
-        }
-
-        group = 'org.codehaus.griffon'
-
-        //apply from: "${rootDir}/gradle/coverage.gradle"
-        //apply from: "${rootDir}/gradle/codeQuality.gradle"
-    }
-
-    if(plugins.hasPlugin("groovy")){
-        dependencies {
-            implementation("org.apache.groovy:groovy-all:$groovyVersion"){
-                exclude group: 'org.apache.ant', module: 'ant'
-                exclude group: 'org.apache.ivy', module: 'ivy'
-                exclude group: 'junit', module: 'junit'
-            }
-            implementation("org.apache.groovy:groovy-dateutil:$groovyVersion")
-
-        }
-
-        tasks.withType(GroovyCompile).configureEach {
-            groovyOptions.forkOptions.jvmArgs += ['--add-exports', 'java.base/java.io=ALL-UNNAMED']
-        }
-    }
+subprojects {
+    group = 'org.codehaus.griffon'
+    version = rootProject.version
 
     repositories {
         mavenCentral()
         mavenLocal()
-        maven { url 'https://central.sonatype.com/repository/maven-snapshots/' }
-        maven {
-            url 'https://raw.githubusercontent.com/mobilemindtech/m2/master'
+    }
+
+    if (name == 'griffon-gradle-plugin') return
+
+    apply plugin: 'java-library'
+    apply plugin: 'groovy'
+    apply plugin: 'maven-publish'
+
+    java {
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(javaToolchainVersion as int)
+            vendor = JvmVendorSpec.AZUL
         }
+        withSourcesJar()
     }
 
+    // Compilação conjunta: Java e Groovy ficam em src/main/groovy
+    sourceSets.main.java.srcDirs = []
 
-    processResources {
-        filter(ReplaceTokens, tokens: [
-            version             : version,
-            groovyVersion       : groovyVersion,
-            antVersion          : antVersion,
-            slf4jVersion        : slf4jVersion,
-            slf4jReload4jVersion: slf4jReload4jVersion,
-            reload4jVersion     : reload4jVersion,
-            log4jVersion        : log4jVersion,
-            springVersion       : springVersion,
-            junitVersion        : junitVersion,
-        ])
-    }
-
-    // resolve conflict with gradle groovy 3 and project groogy 4
     tasks.withType(GroovyCompile).configureEach {
-        if (name == "compileTestGroovy") {
-            groovyOptions.forkOptions.jvmArgs += [
-                "--add-opens", "java.base/java.lang=ALL-UNNAMED",
-                "-Dgroovy.target.bytecode=25"
-            ]
-            groovyOptions.fork = true
-            groovyClasspath = configurations.detachedConfiguration(
-                dependencies.create("org.apache.groovy:groovy:$groovyVersion")
+        sourceCompatibility = javaRelease
+        targetCompatibility = javaRelease
+        options.release = javaRelease as int
+        options.encoding = 'UTF-8'
+        groovyOptions.encoding = 'UTF-8'
+        groovyOptions.optimizationOptions.indy = true
+    }
+
+    tasks.withType(JavaCompile).configureEach {
+        options.release = javaRelease as int
+        options.encoding = 'UTF-8'
+    }
+
+    tasks.withType(Jar).configureEach {
+        manifest {
+            attributes(
+                'Implementation-Title': project.name,
+                'Implementation-Version': project.version,
+                'Implementation-Vendor': 'mobilemind',
+                'Specification-Title': project.name,
+                'Specification-Version': project.version
             )
         }
     }
 
-}
-
-Date buildTimeAndDate = new Date()
-ext {
-    buildTime = new SimpleDateFormat('dd-MMM-yyyy').format(buildTimeAndDate)
-    buildDate = new SimpleDateFormat('hh:mm aa').format(buildTimeAndDate)
-}
-
-configure(mavenizedProjects()) { proj ->
-    proj.task('checkManifest') {
-        dependsOn proj.classes
-        doLast {
-            proj.tasks.withType(Jar).each { jarfile ->
-                jarfile.manifest {
-                    attributes(
-                        'Built-By': System.properties['user.name'],
-                        'Created-By': System.properties['java.version'] + " (" + System.properties['java.vendor'] + " " + System.getProperty("java.vm.version") + ")",
-                        'Build-Date': buildTime,
-                        'Build-Time': buildDate,
-                        'Specification-Title': proj.name,
-                        'Specification-Version': project.version,
-                        'Specification-Vendor': 'griffon-framework.org',
-                        'Implementation-Title': proj.name,
-                        'Implementation-Version': project.version,
-                        'Implementation-Vendor': 'griffon-framework.org'
-                    )
-                }
-            }
-        }
-    }
-    proj.jar.dependsOn proj.checkManifest
-}
-
-// @todo move apply statements to the top of the build script
-apply from: "${rootDir}/gradle/package.gradle"
-apply from: "${rootDir}/gradle/installer.gradle"
-
-tasks.register('allTests') {
-    dependsOn("clean", ':griffon-rt:test', ':griffon-cli:test')
-    description = "Runs all tests."
-}
-
-tasks.register('fullDist') {
-    dependsOn('zipBinary', 'zipSource', 'tarBinary', 'tarSource', 'izPackCreateInstaller', 'deb')
-    description = "Assembles all packages."
-}
-
-tasks.register('bambooStage1') {
-    dependsOn('allTests')
-    description = "Makes a full test run and assembles all packages."
-}
-
-tasks.register('bambooStage2') {
-    dependsOn('bambooStage1', 'fullDist', 'rpm')
-    description = "Makes a full test run and assembles all packages."
-}
-
-tasks.register('allDependencies') {
-    doLast {
-        rootProject.allprojects.each { p ->
-            println "\n=== ${p.path} ==="
-            p.configurations.findAll { it.canBeResolved }.each { conf ->
-                println "Configuration: ${conf.name}"
-                try {
-                    conf.resolvedConfiguration.resolvedArtifacts.each { a ->
-                        println "  ${a.moduleVersion.id.group}:${a.name}:${a.moduleVersion.id.version}"
-                    }
-                } catch (ignore) {
-                    println "  (could not resolve)"
-                }
+    publishing {
+        publications {
+            maven(MavenPublication) {
+                from components.java
             }
         }
     }
 }
-
-def mavenizedProjects() {
-    [
-        project(':griffon-rt'),
-        project(':griffon-cli'),
-        project(':griffon-resources'),
-        project(':griffon-scripts'),
-        project(':griffon-shell')
-    ]
-}
-

@@ -1,10 +1,12 @@
-
 # Requirements
 
-* direnv
-* java 25
-* groovy 6
+* direnv + sdkman
+* JDK 26 (roda o Gradle) e Zulu JDK 27 (toolchain de compilação)
 
-# To run the project, use
+# To build and publish to maven local
 
-    $ dev help
+    $ dev install
+
+# Smoke test with the sample app (test/app)
+
+    $ dev run-test
