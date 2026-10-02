@@ -94,13 +94,13 @@ Branch `griffon-mini` (fork) + branch `griffon-mini` no gym-desktop-next. Versã
 2. **Jetty 6.1.26** (2010, EOL, vários CVEs) → Jetty 12 (requer Java 17, ok).
 3. **H2 1.4.191**: CVE-2021-42392 / CVE-2022-23221 (RCE via JNDI/console) e outros. A 2.x muda o
    formato do arquivo: migrar com export/`SCRIPT` + import, usando o `BackupService`.
-4. **http-builder 0.8.0-SNAPSHOT** puxa json-lib 2.4, commons-beanutils 1.8.0 (CVE-2014-0114,
+4. **http-builder 0.8.0-SNAPSHOT** — **app migrado** (branch griffon-mini do gym-desktop: helper `br.com.mobilemind.gym.http.Http` sobre `groovy.http`/`java.net.http`; o jar antigo ficou `runtimeOnly` só para os scripts remotos). Antes: puxa json-lib 2.4, commons-beanutils 1.8.0 (CVE-2014-0114,
    CVE-2019-10086), commons-collections 3.2.1 (gadget de desserialização, CVE-2015-6420),
    xercesImpl 2.11.0, httpmime 4.1.2. Migrar para `groovy.http.HttpBuilder` (Groovy 6, baseado em
    `java.net.http`; `getAsync/postAsync` substituem o `AsyncHTTPBuilder`) remove tudo isso.
    Escopo: 11 arquivos em `griffon-app` + ~25 em `scripts/comandos-remotos`. Os scripts remotos
    rodam no classpath do app nos clientes: manter o jar antigo até todos os scripts migrarem.
-5. **OkHttp 3.11 / logging-interceptor 3.9.1** → 4.12+/5.x (ex.: CVE-2021-0341, verificação de hostname).
+5. **OkHttp 3.11 / logging-interceptor 3.9.1** — **removido** (HttpService, ControlIdService e FirebaseWatcher migrados para o mesmo helper). Antes era recomendado → 4.12+/5.x (ex.: CVE-2021-0341, verificação de hostname).
 6. **Execução remota de Groovy** (`scripts/comandos-remotos`, `GroovyShell`/`evaluate` em
    `DirectoryService` e `DeveloperToolsController`): é RCE por design — garantir origem
    autenticada (TLS + assinatura do script) antes de executar.
