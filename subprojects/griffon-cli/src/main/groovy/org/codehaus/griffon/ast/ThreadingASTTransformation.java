@@ -213,10 +213,55 @@ public class ThreadingASTTransformation extends AbstractASTTransformation {
             for (Parameter param : method.getParameters()) {
                 param.setClosureSharedVariable(true);
             }
+            passOuterInstanceToInnerClasses(declaringClass, (BlockStatement) wrappedCode);
             if (LOG.isDebugEnabled()) {
                 LOG.debug("Modified " + declaringClass.getName() + "." + method.getName() + "() - code wrapped with UIThreadManager.getInstance()." + threadingMethod + "{}");
             }
         }
+    }
+
+    private static final String OUTER_INSTANCE = "$griffonOuterInstance";
+
+    /**
+     * Inner classes (e.g. {@code new TimerTask() {...}}) created in the method body were set up during
+     * semantic analysis with the controller as their outer instance ({@code this$0}), and their constructor
+     * call receives {@code this}. Inside the injected closure {@code this} would be the closure itself
+     * (GroovyCastException at runtime), so the controller is captured in a local variable before the
+     * closure and passed instead.
+     */
+    private static void passOuterInstanceToInnerClasses(final ClassNode declaringClass, BlockStatement block) {
+        MethodCallExpression call = (MethodCallExpression) ((ExpressionStatement) block.getStatements().get(0)).getExpression();
+        final ClosureExpression closure = (ClosureExpression) ((ArgumentListExpression) call.getArguments()).getExpression(0);
+        final VariableExpression outer = new VariableExpression(OUTER_INSTANCE, declaringClass);
+        final boolean[] used = {false};
+
+        closure.getCode().visit(new CodeVisitorSupport() {
+            @Override
+            public void visitClosureExpression(ClosureExpression expression) {
+                // closures from the source already have their own (Closure typed) outer instance
+            }
+
+            @Override
+            public void visitConstructorCallExpression(ConstructorCallExpression expression) {
+                super.visitConstructorCallExpression(expression);
+                if (!(expression.getType() instanceof InnerClassNode)) return;
+                if (!(expression.getArguments() instanceof TupleExpression)) return;
+                List<Expression> args = ((TupleExpression) expression.getArguments()).getExpressions();
+                if (args.isEmpty() || !(args.get(0) instanceof VariableExpression)) return;
+                if (!((VariableExpression) args.get(0)).isThisExpression()) return;
+                VariableExpression ref = new VariableExpression(outer);
+                ref.setClosureSharedVariable(true);
+                args.set(0, ref);
+                used[0] = true;
+            }
+        });
+        if (!used[0]) return;
+
+        outer.setClosureSharedVariable(true);
+        closure.getVariableScope().putReferencedLocalVariable(outer);
+        block.getStatements().add(0, stmnt(new DeclarationExpression(outer,
+            org.codehaus.groovy.syntax.Token.newSymbol(org.codehaus.groovy.syntax.Types.ASSIGN, -1, -1),
+            new VariableExpression("this"))));
     }
 
     private static void wrapStatements(ClassNode declaringClass, PropertyNode property, String threadingMethod) {
