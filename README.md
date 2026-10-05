@@ -40,7 +40,7 @@ griffonConfig {
     //javaVersion = 17                // bytecode gerado (padrão 17)
     //compilerToolchainVersion = 27   // JDK só para compilar; 'run' continua na JVM do Gradle
     //loggingInjection = true         // log.debug(x) -> if (log.debugEnabled) log.debug(x)
-    //threadingInjection = false      // injeção de threading da CLI em métodos de controller
+    //threadingInjection = true       // métodos/closures de controller fora da EDT (como na CLI)
     //groovyVersion = '6.0.0'
 
     // plugins Griffon incorporados (griffon-plugins), na ordem de inicialização dos addons

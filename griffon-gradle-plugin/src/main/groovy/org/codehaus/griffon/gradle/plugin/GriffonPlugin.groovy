@@ -79,9 +79,9 @@ class GriffonPlugin implements Plugin<Project> {
         extension.javaVersion.convention(17)
         // injeção de log.isXxxEnabled() em volta de log.xxx(...) (como na CLI antiga)
         extension.loggingInjection.convention(true)
-        // a CLI antiga injetava threading em todo método/closure de controller; o build
-        // Gradle nunca fez isso, então fica desligado por padrão para manter o comportamento
-        extension.threadingInjection.convention(false)
+        // como a CLI antiga: métodos/closures de controller (void/def) rodam fora da EDT
+        // (o build Gradle da v6 perdeu isso e passou a travar a UI; ver NOTAS-MIGRACAO.md)
+        extension.threadingInjection.convention(true)
         extension.addons.convention([])
 
 

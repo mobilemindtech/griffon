@@ -31,12 +31,14 @@ Branch `griffon-mini` (fork) + branch `griffon-mini` no gym-desktop-next. Versã
 ## Decisões de compatibilidade (para o gym-desktop continuar igual)
 
 * **Bytecode 17**, compilado com JDK 27. Sem JDK ≥ 24 para Windows x86.
-* **Injeção de threading desligada por padrão** (`threadingInjection = false`). A CLI antiga envolvia
-  todo método/closure de controller em `execOutsideUI`; o build Gradle nunca fez isso, e é o
-  bytecode que está em produção hoje. Actions disparadas pelo Griffon (`controller.action`) já
-  rodam fora da EDT pela política do `GriffonControllerActionManager` em runtime; a diferença é só
-  para chamadas diretas a métodos de controller. Ligue com `griffonConfig.threadingInjection = true`
-  depois de revisar o código que mexe em Swing a partir de controllers.
+* **Injeção de threading ligada por padrão** (`threadingInjection = true`), como na CLI antiga
+  (v5): métodos `void`/`def` e closures de controller rodam via `UIThreadManager.executeOutside`.
+  Os builds Gradle da v6 (1.6.0) perderam isso e as actions passaram a rodar na EDT — causa do
+  timeout em `listObjects(users)` do Control iD (o cadastro na EDT esperava o aparelho, e o
+  callback `new_user_identified` do aparelho esperava a EDT). Corrigido também na linha 1.6.x
+  (versão 1.6.1). Métodos com tipo de retorno (ex.: `Boolean`) não são envolvidos; o retorno de
+  métodos `def` envolvidos se perde (nenhum chamador do gym-desktop usa). Desligue com
+  `griffonConfig.threadingInjection = false`.
 * **Injeção de logging ligada** (padrão da CLI): `log.debug("... $x")` só monta a string se o nível
   estiver habilitado. Semântica idêntica.
 * **Imports automáticos** (`griffon-default-imports.properties`/`DefaultImportCompilerCustomizer`)
