@@ -87,42 +87,47 @@ Branch `griffon-mini` (fork) + branch `griffon-mini` no gym-desktop-next. Versã
 
 ### App (gym-desktop)
 
-1. **Crítico — liberação de catraca sem autenticação.** `JettyService` faz `new Server(port)`
-   (todas as interfaces) e `httpScripts/catraca.groovy?liberarGiroEntrada=1` libera o giro para
-   qualquer máquina da rede. Mínimo: bind em `127.0.0.1` (ou allowlist de IPs da LAN) + token/HMAC
-   compartilhado; idealmente POST.
-2. **Jetty 6.1.26** (2010, EOL, vários CVEs) → Jetty 12 (requer Java 17, ok).
+1. **Crítico — liberação de catraca sem autenticação.** O servidor de Groovlets (`JettyService` →
+   `GroovletServer`) escuta em todas as interfaces e `httpScripts/catraca.groovy?liberarGiroEntrada=1`
+   libera o giro para qualquer máquina da rede. Mínimo: bind em `127.0.0.1` (ou allowlist de IPs da
+   LAN) + token/HMAC compartilhado; idealmente POST. **Pendente.**
+2. **Jetty 6.1.26** (2010, EOL, vários CVEs) — **removido**. Além dos CVEs, ele não funcionava mais: o
+   `groovy-servlet` do Groovy 4+ exige Jakarta Servlet e o Jetty 6 só tem `javax.servlet` 2.5
+   (`NoClassDefFoundError: jakarta/servlet/http/HttpServlet`, já com o Groovy 6.0.0-alpha-1). Os
+   Groovlets agora rodam no `GroovletServer` (HttpServer do JDK + GroovyScriptEngine), com os mesmos
+   endpoints, porta e configs.
 3. **H2 1.4.191**: CVE-2021-42392 / CVE-2022-23221 (RCE via JNDI/console) e outros. A 2.x muda o
    formato do arquivo: migrar com export/`SCRIPT` + import, usando o `BackupService`.
-4. **http-builder 0.8.0-SNAPSHOT** — **app migrado** (branch griffon-mini do gym-desktop: helper `br.com.mobilemind.gym.http.Http` sobre `groovy.http`/`java.net.http`; o jar antigo ficou `runtimeOnly` só para os scripts remotos). Antes: puxa json-lib 2.4, commons-beanutils 1.8.0 (CVE-2014-0114,
-   CVE-2019-10086), commons-collections 3.2.1 (gadget de desserialização, CVE-2015-6420),
-   xercesImpl 2.11.0, httpmime 4.1.2. Migrar para `groovy.http.HttpBuilder` (Groovy 6, baseado em
-   `java.net.http`; `getAsync/postAsync` substituem o `AsyncHTTPBuilder`) remove tudo isso.
-   Escopo: 11 arquivos em `griffon-app` + ~25 em `scripts/comandos-remotos`. Os scripts remotos
-   rodam no classpath do app nos clientes: manter o jar antigo até todos os scripts migrarem.
-5. **OkHttp 3.11 / logging-interceptor 3.9.1** — **removido** (HttpService, ControlIdService e FirebaseWatcher migrados para o mesmo helper). Antes era recomendado → 4.12+/5.x (ex.: CVE-2021-0341, verificação de hostname).
-6. **Execução remota de Groovy** (`scripts/comandos-remotos`, `GroovyShell`/`evaluate` em
+4. **http-builder 0.8.0-SNAPSHOT** — **removido**. O app usa o helper `br.com.mobilemind.gym.http.Http`
+   (`groovy.http` / `java.net.http`) e os comandos remotos usam `syncService.enviarEmail(...)`. Com
+   ele saíram json-lib 2.4, commons-beanutils 1.8.0 (CVE-2014-0114, CVE-2019-10086),
+   commons-collections 3.2.1 (gadget de desserialização, CVE-2015-6420), xercesImpl 2.11.0, nekohtml
+   e httpmime 4.1.2. Comandos remotos antigos guardados no backend (com `import groovyx...` ou
+   `prepareAndBuildEmailRequest`) não compilam mais: usar as versões de `scripts/comandos-remotos`.
+5. **OkHttp 3.11 / logging-interceptor 3.9.1** — **removido** (HttpService, ControlIdService e
+   FirebaseWatcher migrados para o mesmo helper).
+6. **Execução remota de Groovy** (`scripts/comandos-remotos` via campo `eval`, `GroovyShell`/`Eval` em
    `DirectoryService` e `DeveloperToolsController`): é RCE por design — garantir origem
    autenticada (TLS + assinatura do script) antes de executar.
 7. **Repositórios**: `mavenLocal()` primeiro e o m2 em `raw.githubusercontent.com` sem filtro de
    conteúdo permitem dependency confusion. Usar `content { includeGroup 'br.com.mobilemind.api' ... }`
    e `mavenCentral()` antes. Evitar dependências `-SNAPSHOT` em release (builds não reprodutíveis).
 8. Já resolvido nesta migração: `log4j 1.2.17` (CVE-2019-17571, CVE-2021-4104, CVE-2022-23302/
-   23305/23307) substituído por reload4j em todo o classpath.
+   23305/23307) substituído por reload4j em todo o classpath; login com TLS validado, sem senha no
+   log nem na URL (Basic auth + `username` na query, como o endpoint exige).
 
 ### Fork
 
 * Saíram do classpath de compilação do app: Spring 3.2.7, Ivy 2.2, Ant, jsch 0.1.48, xerces 2.9,
   itext 2.0.8, Karaf, commons-collections 3.2.1 (vinham via `compileOnly griffon-cli`).
 * As AST transformations globais agora estão no jar de runtime. São inertes fora do build porque
-  dependem de `griffon.compiler.project.name`, mas isso também vale para os Groovlets do Jetty.
+  dependem de `griffon.compiler.project.name`, o que também vale para os Groovlets e comandos remotos.
 
 ## Pendências
 
-* Testes do app: os 19 testes são stubs do template (`fail('Not implemented!')`); 4 deles falham
-  antes, no init real do serviço (precisam de mocks de `withSql`/config). `./gradlew build` falha na
-  task `test` por causa disso. Decidir: apagar, `@Ignore` ou implementar.
+* Proteger o servidor de Groovlets (item 1 de segurança).
 * Publicar `1.7.0-SNAPSHOT` (rt, plugins, test, gradle plugin) no m2 da mobilemind; hoje só existe
   no mavenLocal desta máquina.
+* Atualizar no backend os comandos remotos guardados para as versões de `scripts/comandos-remotos`.
+* H2 1.4 → 2.x (item 3).
 * `admin run-app` (CLI Griffon) deixa de fazer sentido; usar `admin run`.
-* Plano de migração do HTTPBuilder (item 4 de segurança).
