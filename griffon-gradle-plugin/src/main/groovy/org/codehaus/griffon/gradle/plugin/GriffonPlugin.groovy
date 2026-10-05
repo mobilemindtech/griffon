@@ -53,6 +53,9 @@ class GriffonPlugin implements Plugin<Project> {
         extension.slf4jReload4jVersion.convention(propslf4jReload4jVersion)
         extension.reload4jVersion.convention(propreload4jVersion)
         extension.javaVersion.convention(17)
+        // mesmo comportamento dos apps compilados pela CLI do Griffon (GriffonCompiler)
+        extension.loggingInjection.convention(true)
+        extension.threadingInjection.convention(true)
 
 
         // Aplica os plugins bases necessários no projeto destino
@@ -151,6 +154,8 @@ class GriffonPlugin implements Plugin<Project> {
                     jvmArgs << "-Dgriffon.compiler.basedir=${project.projectDir.absolutePath}".toString()
                     jvmArgs << "-Dgriffon.compiler.verbose=false"
                     jvmArgs << "-Dgriffon.compiler.gradle=true"
+                    jvmArgs << "-Dgriffon.disable.logging.injection=${!extension.loggingInjection.get()}".toString()
+                    jvmArgs << "-Dgriffon.disable.threading.injection=${!extension.threadingInjection.get()}".toString()
                 }
             }
 

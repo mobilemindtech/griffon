@@ -9,6 +9,13 @@ plugins {
 
 group = 'org.codehaus.griffon.plugins'
 
+// o app roda no JDK 17 (x86): publicado para JVM 17 como os demais módulos
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(17))
+    }
+}
+
 repositories {
     mavenLocal()
     mavenCentral()

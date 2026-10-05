@@ -11,6 +11,13 @@ plugins {
 group = 'org.codehaus.griffon'
 version = rootProject.version
 
+// o build do app roda o Gradle no JDK 17 (x86): o plugin precisa ser publicado para JVM 17
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(17))
+    }
+}
+
 repositories {
     mavenLocal()
     mavenCentral()

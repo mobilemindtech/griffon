@@ -10,4 +10,10 @@ interface GriffonPluginExtension {
     Property<String> getReload4jVersion()
     Property<String> getSlf4jVersion()
     Property<Integer> getJavaVersion()
+
+    /** log.xxx(..) envolvido em if (log.isXxxEnabled()), como a CLI do Griffon. Padrão: true. */
+    Property<Boolean> getLoggingInjection()
+
+    /** Métodos/closures de controller executados fora da UI thread, como a CLI do Griffon. Padrão: true. */
+    Property<Boolean> getThreadingInjection()
 }
