@@ -17,7 +17,7 @@ interface GriffonPluginExtension {
     /** Envolve log.xxx(..) em if (log.isXxxEnabled()). Padrão: true. */
     Property<Boolean> getLoggingInjection()
 
-    /** Executa métodos/closures de controller fora da UI thread (comportamento da CLI). Padrão: false. */
+    /** Executa métodos/closures de controller fora da UI thread (comportamento da CLI). Padrão: true. */
     Property<Boolean> getThreadingInjection()
 
     /**
@@ -25,4 +25,12 @@ interface GriffonPluginExtension {
      * miglayout, coverflow, datasource, glazedlists, gsql, splash e jidebuilder.
      */
     org.gradle.api.provider.ListProperty<String> getAddons()
+
+    /**
+     * Módulos do Groovy no classpath do app (artifactIds de org.apache.groovy, na versão groovyVersion).
+     * Padrão: o necessário para um app Griffon Swing (core, swing, xml, json, sql, templates, nio,
+     * datetime, dateutil) — sem Ant, Grape/Ivy/Maven, groovysh, console, test, groovydoc...
+     * Para acrescentar: groovyModules.add('groovy-yaml'). Para o comportamento antigo: ['groovy-all'].
+     */
+    org.gradle.api.provider.ListProperty<String> getGroovyModules()
 }

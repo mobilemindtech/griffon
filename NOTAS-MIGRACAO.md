@@ -71,7 +71,10 @@ Branch `griffon-mini` (fork) + branch `griffon-mini` no gym-desktop-next. Versã
    jackson, javaparser, groovysh/console... para o fat jar (63 MB). Trocar por módulos explícitos
    (`groovy`, `-swing`, `-sql`, `-json`, `-xml`, `-servlet`, `-templates`, `-datetime`, `-dateutil`,
    `-nio`, `-http-builder`) reduz jar, tempo de carga de classes e o arquivo de CDS.
-   Sugestão: opção `griffonConfig.groovyModules` no plugin.
+   **Feito**: `griffonConfig.groovyModules` (padrão sem groovy-all, + `org.ow2.asm:asm` em runtime): o fat jar
+   do gym-desktop caiu de 58,7 para 32,9 MB. Conferido com `jdeps --missing-deps` (só faltam opcionais:
+   GUI do ANTLR, task Ant do svg-salamander, OAuth2 do RabbitMQ, cores do groovysh) e com `Eval.me`,
+   `GroovyClassLoader.parseClass` e `GroovyScriptEngine` rodando do jar (comandos remotos e httpScripts).
 2. **Compilação**: com `compilerToolchainVersion = 27` (x64) o compilador sai da JVM 32 bits e do
    teto de 1 GB (o plugin agora detecta JVM 32 bits e usa 1 GB automaticamente; o bloco
    "fix to jvm x86" do app ficou redundante).

@@ -41,6 +41,7 @@ griffonConfig {
     //compilerToolchainVersion = 27   // JDK só para compilar; 'run' continua na JVM do Gradle
     //loggingInjection = true         // log.debug(x) -> if (log.debugEnabled) log.debug(x)
     //threadingInjection = true       // métodos/closures de controller fora da EDT (como na CLI)
+    //groovyModules.add('groovy-yaml')  // padrão: groovy, -swing, -xml, -json, -sql, -templates, -nio, -datetime, -dateutil
     //groovyVersion = '6.0.0'
 
     // plugins Griffon incorporados (griffon-plugins), na ordem de inicialização dos addons

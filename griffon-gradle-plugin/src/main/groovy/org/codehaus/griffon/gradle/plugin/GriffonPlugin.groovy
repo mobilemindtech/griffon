@@ -83,6 +83,9 @@ class GriffonPlugin implements Plugin<Project> {
         // (o build Gradle da v6 perdeu isso e passou a travar a UI; ver NOTAS-MIGRACAO.md)
         extension.threadingInjection.convention(true)
         extension.addons.convention([])
+        // groovy-all traz ~15 MB que um app Swing não usa (Ant, Grape, groovysh/JLine, console, JUnit...)
+        extension.groovyModules.convention(['groovy', 'groovy-swing', 'groovy-xml', 'groovy-json', 'groovy-sql',
+                                            'groovy-templates', 'groovy-nio', 'groovy-datetime', 'groovy-dateutil'])
 
 
         // Aplica os plugins bases necessários no projeto destino
@@ -112,8 +115,14 @@ class GriffonPlugin implements Plugin<Project> {
             // 3. Injeta dependências padrões fixas do ecossistema.
             // griffon-rt agora inclui o toolkit Swing e as AST transformations
             // (antes: griffon-swing-runtime + griffon-cli/griffon-swing-compile como compileOnly).
+            List<String> groovyModules = extension.groovyModules.get().collect { it.toString().trim() }.findAll { it }
             project.dependencies {
-                implementation "org.apache.groovy:groovy-all:${groovyVersion}"
+                groovyModules.each { String m -> implementation "org.apache.groovy:${m}:${groovyVersion}" }
+                if (!groovyModules.contains('groovy-all')) {
+                    // o groovy 6.0.0 embute o ASM (groovyjarjarasm), mas algumas classes ainda referenciam
+                    // org.objectweb.asm (stubs de compilação conjunta...); antes vinha pelo groovy-all
+                    runtimeOnly 'org.ow2.asm:asm:9.10.1'
+                }
                 implementation "org.codehaus.griffon:griffon-rt:${griffonVersion}"
 
                 implementation "org.slf4j:slf4j-api:${slf4jVersion}"
