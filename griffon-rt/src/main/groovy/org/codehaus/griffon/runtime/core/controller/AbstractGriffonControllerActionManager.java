@@ -19,7 +19,6 @@ import griffon.core.GriffonApplication;
 import griffon.core.GriffonController;
 import griffon.core.GriffonControllerClass;
 import griffon.core.controller.*;
-import griffon.core.i18n.NoSuchMessageException;
 import griffon.transform.Threading;
 import griffon.util.GriffonClassUtils;
 import groovy.lang.Closure;
@@ -391,12 +390,16 @@ public abstract class AbstractGriffonControllerActionManager implements GriffonC
         return uncapitalize(actionName);
     }
 
+    /** devolvido por getMessage quando a chave falta (comparado por identidade) */
+    @SuppressWarnings("StringOperationCanBeSimplified")
+    private static final String NAO_ENCONTRADA = new String("\u0000");
+
     protected String msg(String key, String actionName, String subkey, String defaultValue) {
-        try {
-            return app.getMessage(key + actionName + "." + subkey);
-        } catch (NoSuchMessageException nsme) {
-            return app.getMessage("application.action." + actionName + "." + subkey, defaultValue);
-        }
+        // getMessage com padrão não lança exceção: antes cada chave opcional ausente (~10 por action)
+        // custava NoSuchMessageException + MissingResourceException com stack trace
+        String value = app.getMessage(key + actionName + "." + subkey, NAO_ENCONTRADA);
+        if (value != NAO_ENCONTRADA) return value;
+        return app.getMessage("application.action." + actionName + "." + subkey, defaultValue);
     }
 
     private boolean toBoolean(Object value) {

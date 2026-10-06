@@ -56,4 +56,22 @@ public class CompositeMessageSource extends AbstractMessageSource {
         }
         throw new NoSuchMessageException(key, locale);
     }
+
+    @Override
+    protected Object doFindMessageValue(String key, Locale locale) {
+        if (null == locale) locale = Locale.getDefault();
+        for (MessageSource messageSource : messageSources) {
+            if (messageSource instanceof AbstractMessageSource) {
+                Object value = ((AbstractMessageSource) messageSource).findMessageValue(key, locale);
+                if (value != null) return value;
+            } else {
+                try {
+                    return messageSource.resolveMessageValue(key, locale);
+                } catch (NoSuchMessageException nsme) {
+                    // ignore
+                }
+            }
+        }
+        return null;
+    }
 }

@@ -65,11 +65,13 @@ public abstract class AbstractMessageSource implements MessageSource {
     }
 
     public String getMessage(String key, Object[] args, String defaultMessage, Locale locale) {
-        try {
-            return getMessage(key, args, locale);
-        } catch (NoSuchMessageException nsme) {
-            return null == defaultMessage ? key : defaultMessage;
-        }
+        // sem exceção quando a chave não existe: a criação de actions consulta ~10 chaves opcionais
+        // por action e cada falha custava 4 throwables com stack trace
+        if (null == args) args = EMPTY_OBJECT_ARGS;
+        if (null == locale) locale = Locale.getDefault();
+        Object result = evalMessageWithArguments(findMessageValue(key, locale), args);
+        if (result != null) return result.toString();
+        return null == defaultMessage ? key : defaultMessage;
     }
 
     public String getMessage(String key, Map<String, Object> args) throws NoSuchMessageException {
@@ -81,11 +83,11 @@ public abstract class AbstractMessageSource implements MessageSource {
     }
 
     public String getMessage(String key, Map<String, Object> args, String defaultMessage, Locale locale) {
-        try {
-            return getMessage(key, args, locale);
-        } catch (NoSuchMessageException nsme) {
-            return null == defaultMessage ? key : defaultMessage;
-        }
+        if (null == args) args = Collections.emptyMap();
+        if (null == locale) locale = Locale.getDefault();
+        Object result = evalMessageWithArguments(findMessageValue(key, locale), args);
+        if (result != null) return result.toString();
+        return null == defaultMessage ? key : defaultMessage;
     }
 
     public String getMessage(String key, Map<String, Object> args, Locale locale) throws NoSuchMessageException {
@@ -131,6 +133,31 @@ public abstract class AbstractMessageSource implements MessageSource {
     }
 
     protected abstract Object doResolveMessageValue(String key, Locale locale) throws NoSuchMessageException;
+
+    /**
+     * Como {@link #resolveMessageValue}, mas devolve {@code null} quando a chave (ou a referência
+     * {@code @[outra.chave]}) não existe, sem lançar exceção.
+     */
+    public Object findMessageValue(String key, Locale locale) {
+        if (null == locale) locale = Locale.getDefault();
+        Object message = doFindMessageValue(key, locale);
+        if (message instanceof CharSequence) {
+            String msg = message.toString();
+            if (msg.length() >= 4 && msg.startsWith(REF_KEY_START) && msg.endsWith(REF_KEY_END)) {
+                message = findMessageValue(msg.substring(2, msg.length() - 1), locale);
+            }
+        }
+        return message;
+    }
+
+    /** Busca sem exceção; o padrão usa {@link #doResolveMessageValue} — sobrescreva para evitar o custo. */
+    protected Object doFindMessageValue(String key, Locale locale) {
+        try {
+            return doResolveMessageValue(key, locale);
+        } catch (NoSuchMessageException | MissingResourceException e) {
+            return null;
+        }
+    }
 
     protected Object evalMessageWithArguments(Object message, Object[] args) {
         if (message instanceof Closure) {

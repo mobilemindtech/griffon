@@ -62,6 +62,8 @@ public class CompositeResourceBundle extends ResourceBundle {
             LOG.trace("Searching key=" + key);
         }
         for (ResourceBundle bundle : bundles) {
+            // containsKey antes: getObject lança MissingResourceException em cada bundle sem a chave
+            if (!bundle.containsKey(key)) continue;
             try {
                 Object value = bundle.getObject(key);
                 if (LOG.isTraceEnabled()) {

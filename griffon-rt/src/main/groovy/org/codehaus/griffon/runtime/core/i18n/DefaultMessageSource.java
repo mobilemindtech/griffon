@@ -44,6 +44,12 @@ public class DefaultMessageSource extends AbstractMessageSource {
         return getBundle(locale).getObject(key);
     }
 
+    @Override
+    protected Object doFindMessageValue(String key, Locale locale) {
+        ResourceBundle rb = getBundle(locale);
+        return rb.containsKey(key) ? rb.getObject(key) : null;
+    }
+
     protected ResourceBundle getBundle(Locale locale) {
         if (null == locale) locale = Locale.getDefault();
         ResourceBundle rb = bundles.get(locale);
